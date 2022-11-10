@@ -5,9 +5,6 @@ import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.repository.SupplierCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Objects;
@@ -31,7 +28,7 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService{
     @Override
     public SupplierCategory fetchBySupplierCategoryName(String supplierCategoryName) throws NotFoundException {
         Optional<SupplierCategory> supplierCategory=
-                supplierCategoryRepository.findBySupplierCategoryNameIgnoreCase(supplierCategoryName);
+                supplierCategoryRepository.findBySupplierCategoryNameContaining(supplierCategoryName);
 
         if (!supplierCategory.isPresent()){
             throw new NotFoundException("Category with such name does not exists");

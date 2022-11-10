@@ -28,25 +28,25 @@ public class SupplierCategoryController {
     }
 
 
-    @GetMapping("/{supplierCategoryName}")
+    @GetMapping("/search/{supplierCategoryName}")
     public SupplierCategory fetchBySupplierCategoryName(@PathVariable("supplierCategoryName") String supplierCategoryName) throws NotFoundException {
         return supplierCategoryService.fetchBySupplierCategoryName(supplierCategoryName);
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{supplierCategoryId}")
     public SupplierCategory fetchBySupplierCategoryId(@PathVariable("supplierCategoryId") Long supplierCategoryId) throws NotFoundException {
         return supplierCategoryService.fetchBySupplierCategoryId(supplierCategoryId);
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteSupplierCategoryById(@PathVariable("id") Long supplierCategoryId) throws NotFoundException {
+    @DeleteMapping("/{supplierCategoryId}")
+    public String deleteSupplierCategoryById(@PathVariable("supplierCategoryId") Long supplierCategoryId) throws NotFoundException {
         supplierCategoryService.deleteSupplierCategoryById(supplierCategoryId);
         return "Deleted Successfully";
     }
 
 
-    @PutMapping("/{id}")
-    public SupplierCategory updateSupplierCategory(@PathVariable("id") Long supplierCategoryId,
+    @PutMapping("/{supplierCategoryId}")
+    public SupplierCategory updateSupplierCategory(@PathVariable("supplierCategoryId") Long supplierCategoryId,
                                                    @RequestBody SupplierCategory supplierCategory){
         return supplierCategoryService.updateSupplierCategory(supplierCategoryId,supplierCategory);
     }
