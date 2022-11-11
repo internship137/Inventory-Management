@@ -7,7 +7,7 @@ import com.inventory_management.Inventory.Management.error.NotFoundException;
 import java.util.List;
 
 public interface SupplierStocksService {
-    SupplierStocks saveSupplierStocks(SupplierStocks supplierStocks, Long supplierCategoryId);
+    SupplierStocks saveSupplierStocks(SupplierStocks supplierStocks, Long supplierCategoryId) throws NotFoundException;
 
 
     List<SupplierCategorySupplierStockDTO> getAllProducts();
@@ -20,8 +20,8 @@ public interface SupplierStocksService {
 
     void deleteSupplierProduct(Long supplierStocksId) throws NotFoundException;
 
-    List<SupplierCategorySupplierStockDTO> getProductsById(Long supplierStocksId);
+    List<SupplierCategorySupplierStockDTO> getProductsById(Long supplierStocksId) throws NotFoundException;
 
 
-    String updateSupplierProduct(Long supplierCategoryId, Long supplierStocksId, SupplierStocks supplierStocks);
+    String updateSupplierProduct(Long supplierCategoryId, Long supplierStocksId, SupplierStocks supplierStocks) throws NotFoundException;
 }

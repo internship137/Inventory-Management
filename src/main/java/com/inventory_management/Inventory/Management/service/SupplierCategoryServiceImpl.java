@@ -11,10 +11,11 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class SupplierCategoryServiceImpl implements SupplierCategoryService{
+public class SupplierCategoryServiceImpl implements SupplierCategoryService {
 
     @Autowired
     private SupplierCategoryRepository supplierCategoryRepository;
+
     @Override
     public SupplierCategory saveCategory(SupplierCategory supplierCategory) {
         return supplierCategoryRepository.save(supplierCategory);
@@ -27,10 +28,10 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService{
 
     @Override
     public SupplierCategory fetchBySupplierCategoryName(String supplierCategoryName) throws NotFoundException {
-        Optional<SupplierCategory> supplierCategory=
+        Optional<SupplierCategory> supplierCategory =
                 supplierCategoryRepository.findBySupplierCategoryNameContaining(supplierCategoryName);
 
-        if (!supplierCategory.isPresent()){
+        if (!supplierCategory.isPresent()) {
             throw new NotFoundException("Category with such name does not exists");
         }
         return supplierCategory.get();
@@ -38,10 +39,10 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService{
 
     @Override
     public SupplierCategory fetchBySupplierCategoryId(Long supplierCategoryId) throws NotFoundException {
-        Optional<SupplierCategory> supplierCategory=
+        Optional<SupplierCategory> supplierCategory =
                 supplierCategoryRepository.findById(supplierCategoryId);
 
-        if (!supplierCategory.isPresent()){
+        if (!supplierCategory.isPresent()) {
             throw new NotFoundException("Category with this ID does not exists");
         }
         return supplierCategory.get();
@@ -49,7 +50,7 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService{
 
     @Override
     public void deleteSupplierCategoryById(Long supplierCategoryId) throws NotFoundException {
-        if (!supplierCategoryRepository.existsById(supplierCategoryId)){
+        if (!supplierCategoryRepository.existsById(supplierCategoryId)) {
             throw new NotFoundException("Invalid Id provided");
         }
 
@@ -57,14 +58,18 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService{
     }
 
     @Override
-    public SupplierCategory updateSupplierCategory(Long supplierCategoryId, SupplierCategory supplierCategory) {
-        SupplierCategory supplierCat=supplierCategoryRepository.findById(supplierCategoryId).get();
+    public SupplierCategory updateSupplierCategory(Long supplierCategoryId, SupplierCategory supplierCategory) throws NotFoundException {
+        if (!supplierCategoryRepository.existsById(supplierCategoryId)) {
+            throw new NotFoundException("Category with this id does not exist");
+        }
+        SupplierCategory supplierCat = supplierCategoryRepository.findById(supplierCategoryId).get();
 
         if (Objects.nonNull(supplierCategory.getSupplierCategoryName()) &&
-                !"".equalsIgnoreCase(supplierCategory.getSupplierCategoryName())){
+                !"".equalsIgnoreCase(supplierCategory.getSupplierCategoryName())) {
             supplierCat.setSupplierCategoryName(supplierCategory.getSupplierCategoryName());
         }
         return supplierCategoryRepository.save(supplierCat);
+
     }
 
 }

@@ -23,7 +23,10 @@ public class SupplierStocksServiceImpl implements SupplierStocksService {
     private SupplierCategoryRepository supplierCategoryRepository;
 
     @Override
-    public SupplierStocks saveSupplierStocks(SupplierStocks supplierStocks, Long supplierCategoryId) {
+    public SupplierStocks saveSupplierStocks(SupplierStocks supplierStocks, Long supplierCategoryId) throws NotFoundException {
+        if (!supplierCategoryRepository.existsById(supplierCategoryId)) {
+            throw new NotFoundException("Invalid category id provided");
+        }
         SupplierCategory supplierCategory = supplierCategoryRepository.findById(supplierCategoryId).get();
         supplierStocks.setSupplierCategory(supplierCategory);
         return supplierStocksRepository.save(supplierStocks);
@@ -96,7 +99,11 @@ public class SupplierStocksServiceImpl implements SupplierStocksService {
     }
 
     @Override
-    public List<SupplierCategorySupplierStockDTO> getProductsById(Long supplierStocksId) {
+    public List<SupplierCategorySupplierStockDTO> getProductsById(Long supplierStocksId) throws NotFoundException {
+
+        if (!supplierStocksRepository.existsById(supplierStocksId)) {
+            throw new NotFoundException("Invalid product id provided");
+        }
         return supplierStocksRepository.findById(supplierStocksId)
                 .stream()
                 .map(this::convertEntityToDto)
@@ -104,22 +111,25 @@ public class SupplierStocksServiceImpl implements SupplierStocksService {
     }
 
     @Override
-    public String updateSupplierProduct(Long supplierCategoryId, Long supplierStocksId, SupplierStocks supplierStocks) {
-        SupplierStocks supplierStocks1=supplierStocksRepository.findByCategoryAndSupplierId
+    public String updateSupplierProduct(Long supplierCategoryId, Long supplierStocksId, SupplierStocks supplierStocks) throws NotFoundException {
+        if (!supplierStocksRepository.existsById(supplierStocksId)) {
+            throw new NotFoundException("Product id or category id does not exist");
+        }
+        SupplierStocks supplierStocks1 = supplierStocksRepository.findByCategoryAndSupplierId
                 (supplierCategoryId, supplierStocksId);
-        
-        if (Objects.nonNull(supplierStocks.getSupplierProductName())&&
-        !"".equalsIgnoreCase(supplierStocks.getSupplierProductName())){
+
+        if (Objects.nonNull(supplierStocks.getSupplierProductName()) &&
+                !"".equalsIgnoreCase(supplierStocks.getSupplierProductName())) {
             supplierStocks1.setSupplierProductName(supplierStocks.getSupplierProductName());
         }
 
-        if (Objects.nonNull(supplierStocks.getSupplierProductPrice())&&
-                !"".equalsIgnoreCase(String.valueOf(supplierStocks.getSupplierProductPrice()))){
+        if (Objects.nonNull(supplierStocks.getSupplierProductPrice()) &&
+                !"".equalsIgnoreCase(String.valueOf(supplierStocks.getSupplierProductPrice()))) {
             supplierStocks1.setSupplierProductPrice(supplierStocks.getSupplierProductPrice());
         }
 
-        if (Objects.nonNull(supplierStocks.getSupplierProductQuantity())&&
-                !"".equalsIgnoreCase(String.valueOf(supplierStocks.getSupplierProductQuantity()))){
+        if (Objects.nonNull(supplierStocks.getSupplierProductQuantity()) &&
+                !"".equalsIgnoreCase(String.valueOf(supplierStocks.getSupplierProductQuantity()))) {
             supplierStocks1.setSupplierProductQuantity(supplierStocks.getSupplierProductQuantity());
         }
         supplierStocksRepository.save(supplierStocks1);

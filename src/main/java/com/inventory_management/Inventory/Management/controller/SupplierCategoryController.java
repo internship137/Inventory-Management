@@ -47,7 +47,7 @@ public class SupplierCategoryController {
 
     @PutMapping("/{supplierCategoryId}")
     public SupplierCategory updateSupplierCategory(@PathVariable("supplierCategoryId") Long supplierCategoryId,
-                                                   @RequestBody SupplierCategory supplierCategory){
+                                                   @RequestBody SupplierCategory supplierCategory) throws NotFoundException {
         return supplierCategoryService.updateSupplierCategory(supplierCategoryId,supplierCategory);
     }
 

@@ -18,7 +18,7 @@ public class SupplierStocksController {
     // save
     @PostMapping("/category/{supplierCategoryId}/product")
     public SupplierStocks saveSupplierStocks(@RequestBody SupplierStocks supplierStocks,
-                                             @PathVariable Long supplierCategoryId) {
+                                             @PathVariable Long supplierCategoryId) throws NotFoundException {
         return supplierStocksService.saveSupplierStocks(supplierStocks, supplierCategoryId);
     }
 
@@ -67,7 +67,7 @@ public class SupplierStocksController {
     @PutMapping("/category/{supplierCategoryId}/product/{supplierStocksId}")
     public String updateSupplierProduct(@PathVariable Long supplierCategoryId,
                                         @PathVariable Long supplierStocksId,
-                                        @RequestBody SupplierStocks supplierStocks){
+                                        @RequestBody SupplierStocks supplierStocks) throws NotFoundException {
         return supplierStocksService.updateSupplierProduct(supplierCategoryId,supplierStocksId,supplierStocks);
     }
 
