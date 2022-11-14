@@ -1,10 +1,8 @@
-package com.inventory_management.Inventory.Management.controller;
+package com.inventory_management.Inventory.Management.supplierCategory;
 
 import com.inventory_management.Inventory.Management.entity.SupplierCategory;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
-import com.inventory_management.Inventory.Management.service.SupplierCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

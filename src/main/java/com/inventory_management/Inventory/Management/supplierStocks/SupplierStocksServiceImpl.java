@@ -1,11 +1,12 @@
-package com.inventory_management.Inventory.Management.service;
+package com.inventory_management.Inventory.Management.supplierStocks;
 
 import com.inventory_management.Inventory.Management.dto.SupplierCategorySupplierStockDTO;
 import com.inventory_management.Inventory.Management.entity.SupplierCategory;
 import com.inventory_management.Inventory.Management.entity.SupplierStocks;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
-import com.inventory_management.Inventory.Management.repository.SupplierCategoryRepository;
-import com.inventory_management.Inventory.Management.repository.SupplierStocksRepository;
+import com.inventory_management.Inventory.Management.supplierCategory.SupplierCategoryRepository;
+import com.inventory_management.Inventory.Management.supplierStocks.SupplierStocksRepository;
+import com.inventory_management.Inventory.Management.supplierStocks.SupplierStocksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

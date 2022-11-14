@@ -20,7 +20,7 @@ public class SupplierStocks {
     @Column(name = "supplier_product_name")
     private String supplierProductName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "supplierCategoryId")
     private SupplierCategory supplierCategory;
 

@@ -1,9 +1,8 @@
-package com.inventory_management.Inventory.Management.controller;
+package com.inventory_management.Inventory.Management.supplierStocks;
 
 import com.inventory_management.Inventory.Management.dto.SupplierCategorySupplierStockDTO;
 import com.inventory_management.Inventory.Management.entity.SupplierStocks;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
-import com.inventory_management.Inventory.Management.service.SupplierStocksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

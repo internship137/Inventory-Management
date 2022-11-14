@@ -1,4 +1,4 @@
-package com.inventory_management.Inventory.Management.service;
+package com.inventory_management.Inventory.Management.supplierCategory;
 
 import com.inventory_management.Inventory.Management.entity.SupplierCategory;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
