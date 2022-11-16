@@ -1,15 +1,17 @@
 package com.inventory_management.Inventory.Management.placeOrder;
 
+import com.inventory_management.Inventory.Management.dto.PlaceOrderSupplierStocksDTO;
 import com.inventory_management.Inventory.Management.email.OrderSuccessfulEmail;
 import com.inventory_management.Inventory.Management.entity.PlaceOrder;
 import com.inventory_management.Inventory.Management.entity.SupplierStocks;
+import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.supplierStocks.SupplierStocksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -25,7 +27,11 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public String saveOrder(PlaceOrder placeOrder, Long supplierStocksId) {
+    public String saveOrder(PlaceOrder placeOrder, Long supplierStocksId) throws NotFoundException {
+        if (!supplierStocksRepository.existsById(supplierStocksId)){
+            throw new NotFoundException("Product with this ID does not exist");
+        }
+
         SupplierStocks supplierStocks = supplierStocksRepository.findById(supplierStocksId).get();
         Long supplierQty = supplierStocks.getSupplierProductQuantity();
         Long orderQty = placeOrder.getOrderQuantity();
@@ -36,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
 
         placeOrder.setSupplierStocks(supplierStocks);
         orderRepository.save(placeOrder);
-        supplierQty=supplierQty-orderQty;
+        supplierQty = supplierQty - orderQty;
         supplierStocks.setSupplierProductQuantity(supplierQty);
         supplierStocksRepository.save(supplierStocks);
 
@@ -50,7 +56,57 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<PlaceOrder> getAllOrders() {
-        return orderRepository.findAll();
+    public List<PlaceOrderSupplierStocksDTO> getAllOrders(){
+        return orderRepository.findAll()
+                .stream()
+                .map(this::convertEntityToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PlaceOrderSupplierStocksDTO> getOrderById(Long orderId) throws NotFoundException {
+        if (!orderRepository.existsById(orderId)){
+            throw new NotFoundException("Order with this id does not exist");
+        }
+        return orderRepository.findById(orderId)
+                .stream()
+                .map(this::convertEntityToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteOrder(Long orderId) throws NotFoundException {
+        if (!orderRepository.existsById(orderId)){
+            throw new NotFoundException("Order with this id does not exist");
+        }
+        orderRepository.deleteById(orderId);
+    }
+
+    @Override
+    public void updateOrder(Long orderId,PlaceOrder placeOrder) throws NotFoundException{
+        PlaceOrder order=orderRepository.findById(orderId).get();
+
+        if (!orderRepository.existsById(orderId)){
+            throw new NotFoundException("Order with this id does not exist");
+        }
+        
+        if(Objects.nonNull(placeOrder.getOrderQuantity())&&
+        !"".equalsIgnoreCase(String.valueOf(placeOrder.getOrderQuantity()))){
+            order.setOrderQuantity(placeOrder.getOrderQuantity());
+        }
+        orderRepository.save(order);
+    }
+
+    private PlaceOrderSupplierStocksDTO convertEntityToDto(PlaceOrder placeOrder) {
+        PlaceOrderSupplierStocksDTO placeOrderSupplierStocksDTO =
+                new PlaceOrderSupplierStocksDTO();
+
+
+        placeOrderSupplierStocksDTO.setOrderId(placeOrder.getOrderId());
+        placeOrderSupplierStocksDTO.setSupplierProductName(placeOrder.getSupplierStocks().getSupplierProductName());
+        placeOrderSupplierStocksDTO.setSupplierCategory(placeOrder.getSupplierStocks().getSupplierCategory().getSupplierCategoryName());
+        placeOrderSupplierStocksDTO.setSupplierProductPrice(placeOrder.getSupplierStocks().getSupplierProductPrice());
+        placeOrderSupplierStocksDTO.setOrderQuantity(placeOrder.getOrderQuantity());
+        return placeOrderSupplierStocksDTO;
     }
 }
