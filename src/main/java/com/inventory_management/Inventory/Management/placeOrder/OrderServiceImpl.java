@@ -1,9 +1,12 @@
 package com.inventory_management.Inventory.Management.placeOrder;
 
+import com.inventory_management.Inventory.Management.email.OrderSuccessfulEmail;
 import com.inventory_management.Inventory.Management.entity.PlaceOrder;
 import com.inventory_management.Inventory.Management.entity.SupplierStocks;
 import com.inventory_management.Inventory.Management.supplierStocks.SupplierStocksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +19,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private SupplierStocksRepository supplierStocksRepository;
+
+    @Autowired
+    private OrderSuccessfulEmail orderSuccessfulEmail;
 
 
     @Override
@@ -33,6 +39,13 @@ public class OrderServiceImpl implements OrderService {
         supplierQty=supplierQty-orderQty;
         supplierStocks.setSupplierProductQuantity(supplierQty);
         supplierStocksRepository.save(supplierStocks);
+
+        orderSuccessfulEmail.sendOrderSuccessfulEmail(
+                "gokuldas1999@gmail.com",
+                "Order Placed Successfully",
+                "Order Placed"
+        );
+
         return "Order placed successfully";
     }
 
