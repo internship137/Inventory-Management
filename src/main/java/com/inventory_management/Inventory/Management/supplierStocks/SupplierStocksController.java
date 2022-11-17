@@ -15,7 +15,7 @@ public class SupplierStocksController {
     private SupplierStocksService supplierStocksService;
 
     // save
-    @PostMapping("/category/{supplierCategoryId}/product")
+    @PostMapping("/supplierCategory/{supplierCategoryId}/supplierProduct")
     public SupplierStocks saveSupplierStocks(@RequestBody SupplierStocks supplierStocks,
                                              @PathVariable Long supplierCategoryId) throws NotFoundException {
         return supplierStocksService.saveSupplierStocks(supplierStocks, supplierCategoryId);
@@ -23,21 +23,21 @@ public class SupplierStocksController {
 
 
     // get all products/stocks
-    @GetMapping("/all-stocks")
+    @GetMapping("/supplier-stocks")
     public List<SupplierCategorySupplierStockDTO> getAllProducts() {
         return supplierStocksService.getAllProducts();
     }
 
 
     // get products based on category
-    @GetMapping("/category/{supplierCategoryId}/product")
+    @GetMapping("/supplierCategory/{supplierCategoryId}/supplierProduct")
     public List<SupplierCategorySupplierStockDTO> fetchAllProductsByCategory(@PathVariable Long supplierCategoryId) throws NotFoundException {
         return supplierStocksService.fetchAllProductsByCategory(supplierCategoryId);
     }
 
 
     // get a specific product based on category
-    @GetMapping("/category/{supplierCategoryId}/product/{supplierStocksId}")
+    @GetMapping("/supplierCategory/{supplierCategoryId}/supplierProduct/{supplierStocksId}")
     public List<SupplierCategorySupplierStockDTO> getBySupplierCategoryIdAndSupplierStocksId(@PathVariable Long supplierCategoryId,
                                                                                            @PathVariable Long supplierStocksId) throws NotFoundException {
         return supplierStocksService.getBySupplierCategoryIdAndSupplierStocksId(supplierCategoryId, supplierStocksId);
@@ -45,25 +45,25 @@ public class SupplierStocksController {
 
 
     //search a product
-    @GetMapping("/all-stocks/search/{supplierProductName}")
+    @GetMapping("/supplier-stocks/search/{supplierProductName}")
     public List<SupplierCategorySupplierStockDTO> searchBySupplierProductName(@PathVariable String supplierProductName) throws NotFoundException {
         return supplierStocksService.searchBySupplierProductName(supplierProductName);
     }
 
 
-    @DeleteMapping("/all-stocks/{supplierStocksId}")
+    @DeleteMapping("/supplier-stocks/{supplierStocksId}")
     public String deleteSupplierProduct(@PathVariable Long supplierStocksId) throws NotFoundException {
         supplierStocksService.deleteSupplierProduct(supplierStocksId);
         return "Deleted Successfully";
     }
 
-    @GetMapping("/all-stocks/{supplierStocksId}")
+    @GetMapping("/supplier-stocks/{supplierStocksId}")
     public List<SupplierCategorySupplierStockDTO> getProductsById(@PathVariable Long supplierStocksId) throws NotFoundException {
         return supplierStocksService.getProductsById(supplierStocksId);
     }
 
 
-    @PutMapping("/category/{supplierCategoryId}/product/{supplierStocksId}")
+    @PutMapping("/supplierCategory/{supplierCategoryId}/supplierProduct/{supplierStocksId}")
     public String updateSupplierProduct(@PathVariable Long supplierCategoryId,
                                         @PathVariable Long supplierStocksId,
                                         @RequestBody SupplierStocks supplierStocks) throws NotFoundException {

@@ -14,7 +14,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @PostMapping("/product/{supplierStocksId}/order")
+    @PostMapping("/supplierProduct/{supplierStocksId}/order")
     public String saveOrder(@RequestBody PlaceOrder placeOrder,
                             @PathVariable Long supplierStocksId) throws NotFoundException {
         return orderService.saveOrder(placeOrder,supplierStocksId);
