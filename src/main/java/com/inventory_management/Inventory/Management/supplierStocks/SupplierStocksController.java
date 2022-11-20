@@ -14,7 +14,7 @@ public class SupplierStocksController {
     @Autowired
     private SupplierStocksService supplierStocksService;
 
-    // save
+    // Save
     @PostMapping("/supplierCategory/{supplierCategoryId}/supplierProduct")
     public SupplierStocks saveSupplierStocks(@RequestBody SupplierStocks supplierStocks,
                                              @PathVariable Long supplierCategoryId) throws NotFoundException {
@@ -22,21 +22,21 @@ public class SupplierStocksController {
     }
 
 
-    // get all products/stocks
+    // Get all products/stocks
     @GetMapping("/supplier-stocks")
     public List<SupplierCategorySupplierStockDTO> getAllProducts() {
         return supplierStocksService.getAllProducts();
     }
 
 
-    // get products based on category
+    // Get products based on category
     @GetMapping("/supplierCategory/{supplierCategoryId}/supplierProduct")
     public List<SupplierCategorySupplierStockDTO> fetchAllProductsByCategory(@PathVariable Long supplierCategoryId) throws NotFoundException {
         return supplierStocksService.fetchAllProductsByCategory(supplierCategoryId);
     }
 
 
-    // get a specific product based on category
+    // Get a specific product based on category
     @GetMapping("/supplierCategory/{supplierCategoryId}/supplierProduct/{supplierStocksId}")
     public List<SupplierCategorySupplierStockDTO> getBySupplierCategoryIdAndSupplierStocksId(@PathVariable Long supplierCategoryId,
                                                                                            @PathVariable Long supplierStocksId) throws NotFoundException {
