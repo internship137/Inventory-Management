@@ -1,11 +1,13 @@
-package com.inventory_management.Inventory.Management.placeOrder;
+package com.inventory_management.Inventory.Management.serviceImpl;
 
 import com.inventory_management.Inventory.Management.dto.PlaceOrderSupplierStocksDTO;
 import com.inventory_management.Inventory.Management.email.OrderSuccessfulEmail;
 import com.inventory_management.Inventory.Management.entity.PlaceOrder;
 import com.inventory_management.Inventory.Management.entity.SupplierStocks;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
-import com.inventory_management.Inventory.Management.supplierStocks.SupplierStocksRepository;
+import com.inventory_management.Inventory.Management.repository.OrderRepository;
+import com.inventory_management.Inventory.Management.service.OrderService;
+import com.inventory_management.Inventory.Management.repository.SupplierStocksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

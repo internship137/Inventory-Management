@@ -1,4 +1,4 @@
-package com.inventory_management.Inventory.Management.supplierStocks;
+package com.inventory_management.Inventory.Management.service;
 
 import com.inventory_management.Inventory.Management.dto.SupplierCategorySupplierStockDTO;
 import com.inventory_management.Inventory.Management.entity.SupplierStocks;

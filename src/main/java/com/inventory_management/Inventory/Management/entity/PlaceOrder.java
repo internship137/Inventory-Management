@@ -17,11 +17,9 @@ public class PlaceOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
-    @Temporal(TemporalType.DATE)
-    private Date orderPlacedDate;
-
-    @Temporal(TemporalType.TIME)
-    private Date orderPlacedTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "order_placed_date_time")
+    private Date orderPlacedDateTime = new Date(System.currentTimeMillis());
 
     @Column(name = "order_quantity")
     private Long orderQuantity;

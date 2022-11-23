@@ -1,4 +1,4 @@
-package com.inventory_management.Inventory.Management.supplierStocks;
+package com.inventory_management.Inventory.Management.repository;
 
 import com.inventory_management.Inventory.Management.entity.SupplierStocks;
 import org.springframework.data.jpa.repository.JpaRepository;

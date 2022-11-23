@@ -1,4 +1,4 @@
-package com.inventory_management.Inventory.Management.placeOrder;
+package com.inventory_management.Inventory.Management.service;
 
 import com.inventory_management.Inventory.Management.dto.PlaceOrderSupplierStocksDTO;
 import com.inventory_management.Inventory.Management.entity.PlaceOrder;

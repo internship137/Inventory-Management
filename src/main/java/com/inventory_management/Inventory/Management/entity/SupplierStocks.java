@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
@@ -30,5 +31,8 @@ public class SupplierStocks {
     @Column(name = "supplier_product_quantity")
     private Long supplierProductQuantity;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "supplier_stocks_created_date_time")
+    private Date supplierStocksCreatedDateTime = new Date(System.currentTimeMillis());
 
 }

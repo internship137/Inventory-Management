@@ -1,8 +1,9 @@
-package com.inventory_management.Inventory.Management.placeOrder;
+package com.inventory_management.Inventory.Management.controller;
 
 import com.inventory_management.Inventory.Management.dto.PlaceOrderSupplierStocksDTO;
 import com.inventory_management.Inventory.Management.entity.PlaceOrder;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
+import com.inventory_management.Inventory.Management.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

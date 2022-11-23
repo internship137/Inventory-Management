@@ -1,4 +1,4 @@
-package com.inventory_management.Inventory.Management.placeOrder;
+package com.inventory_management.Inventory.Management.repository;
 
 import com.inventory_management.Inventory.Management.entity.PlaceOrder;
 import org.springframework.data.jpa.repository.JpaRepository;

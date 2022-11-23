@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
@@ -20,5 +21,9 @@ public class SupplierCategory {
 
     @Column(name = "supplier_category_name")
     private String supplierCategoryName;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "supplier_category_created_date_time")
+    private Date supplierCategoryCreatedDateTime = new Date(System.currentTimeMillis());
 
 }

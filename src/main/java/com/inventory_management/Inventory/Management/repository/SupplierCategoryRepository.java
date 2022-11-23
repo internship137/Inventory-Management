@@ -1,4 +1,4 @@
-package com.inventory_management.Inventory.Management.supplierCategory;
+package com.inventory_management.Inventory.Management.repository;
 
 import com.inventory_management.Inventory.Management.entity.SupplierCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
