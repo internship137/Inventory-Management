@@ -35,6 +35,12 @@ public class OrderServiceImpl implements OrderService {
         }
 
         SupplierStocks supplierStocks = supplierStocksRepository.findById(supplierStocksId).get();
+
+        Long supplierStockId= supplierStocks.getSupplierStocksId();
+        String supplierProductName1=supplierStocks.getSupplierProductName();
+        String stockCategory= supplierStocks.getSupplierCategory().getSupplierCategoryName();
+        Long orderPrice=supplierStocks.getSupplierProductPrice();
+
         Long supplierQty = supplierStocks.getSupplierProductQuantity();
         Long orderQty = placeOrder.getOrderQuantity();
 
@@ -42,7 +48,11 @@ public class OrderServiceImpl implements OrderService {
             return "Order quantity exceeded supplier quantity";
         }
 
-        placeOrder.setSupplierStocks(supplierStocks);
+        placeOrder.setSupplierCategoryName(stockCategory);
+        placeOrder.setSupplierStocksId(supplierStockId);
+        placeOrder.setSupplierProductName(supplierProductName1);
+        placeOrder.setSupplierProductPrice(orderPrice);
+
         orderRepository.save(placeOrder);
         supplierQty = supplierQty - orderQty;
         supplierStocks.setSupplierProductQuantity(supplierQty);
@@ -105,10 +115,11 @@ public class OrderServiceImpl implements OrderService {
 
 
         placeOrderSupplierStocksDTO.setOrderId(placeOrder.getOrderId());
-        placeOrderSupplierStocksDTO.setSupplierProductName(placeOrder.getSupplierStocks().getSupplierProductName());
-        placeOrderSupplierStocksDTO.setSupplierCategory(placeOrder.getSupplierStocks().getSupplierCategory().getSupplierCategoryName());
-        placeOrderSupplierStocksDTO.setSupplierProductPrice(placeOrder.getSupplierStocks().getSupplierProductPrice());
+        placeOrderSupplierStocksDTO.setSupplierProductName(placeOrder.getSupplierProductName());
+        placeOrderSupplierStocksDTO.setSupplierCategoryName(placeOrder.getSupplierCategoryName());
+        placeOrderSupplierStocksDTO.setSupplierProductPrice(placeOrder.getSupplierProductPrice());
         placeOrderSupplierStocksDTO.setOrderQuantity(placeOrder.getOrderQuantity());
+        placeOrderSupplierStocksDTO.setOrderPlacedDate(placeOrder.getOrderPlacedDate());
         return placeOrderSupplierStocksDTO;
     }
 }

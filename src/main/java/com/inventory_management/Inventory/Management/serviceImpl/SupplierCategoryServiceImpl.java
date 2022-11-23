@@ -58,6 +58,7 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
         if (!supplierCategoryRepository.existsById(supplierCategoryId)) {
             throw new NotFoundException("Invalid Id provided");
         }
+        supplierCategoryRepository.deleteStocks(supplierCategoryId);
         supplierCategoryRepository.deleteById(supplierCategoryId);
     }
 

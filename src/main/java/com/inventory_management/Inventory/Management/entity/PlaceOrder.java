@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -27,8 +25,16 @@ public class PlaceOrder {
     @Column(name = "order_quantity")
     private Long orderQuantity;
 
-    @ManyToOne
-    @JoinColumn(name = "supplierStocksId")
-    private SupplierStocks supplierStocks;
+    @Column(name = "supplier_stocks_id")
+    private Long supplierStocksId;
+
+    @Column(name = "supplier_product_name")
+    private String supplierProductName;
+
+    @Column(name = "supplier_category_name")
+    private String supplierCategoryName;
+
+    @Column(name = "supplier_product_price")
+    private Long supplierProductPrice;
 
 }
