@@ -1,4 +1,4 @@
-package com.inventory_management.Inventory.Management.email;
+package com.inventory_management.Inventory.Management.utilities;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

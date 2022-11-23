@@ -2,8 +2,9 @@ package com.inventory_management.Inventory.Management.serviceImpl;
 
 import com.inventory_management.Inventory.Management.entity.SupplierCategory;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
-import com.inventory_management.Inventory.Management.repository.SupplierCategoryRepository;
+import com.inventory_management.Inventory.Management.repository.SupplierStocksRepository;
 import com.inventory_management.Inventory.Management.service.SupplierCategoryService;
+import com.inventory_management.Inventory.Management.repository.SupplierCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,9 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
 
     @Autowired
     private SupplierCategoryRepository supplierCategoryRepository;
+
+    @Autowired
+    private SupplierStocksRepository supplierStocksRepository;
 
     @Override
     public SupplierCategory saveCategory(SupplierCategory supplierCategory) {
@@ -32,7 +36,7 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
         Optional<SupplierCategory> supplierCategory =
                 supplierCategoryRepository.findBySupplierCategoryNameContaining(supplierCategoryName);
 
-        if (!supplierCategory.isPresent()) {
+        if (supplierCategory.isEmpty()) {
             throw new NotFoundException("Category with such name does not exists");
         }
         return supplierCategory.get();
@@ -43,7 +47,7 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
         Optional<SupplierCategory> supplierCategory =
                 supplierCategoryRepository.findById(supplierCategoryId);
 
-        if (!supplierCategory.isPresent()) {
+        if (supplierCategory.isEmpty()) {
             throw new NotFoundException("Category with this ID does not exists");
         }
         return supplierCategory.get();
@@ -54,7 +58,6 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
         if (!supplierCategoryRepository.existsById(supplierCategoryId)) {
             throw new NotFoundException("Invalid Id provided");
         }
-
         supplierCategoryRepository.deleteById(supplierCategoryId);
     }
 

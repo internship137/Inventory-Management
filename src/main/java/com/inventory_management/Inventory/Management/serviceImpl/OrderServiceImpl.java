@@ -1,7 +1,7 @@
 package com.inventory_management.Inventory.Management.serviceImpl;
 
 import com.inventory_management.Inventory.Management.dto.PlaceOrderSupplierStocksDTO;
-import com.inventory_management.Inventory.Management.email.OrderSuccessfulEmail;
+import com.inventory_management.Inventory.Management.utilities.OrderSuccessfulEmail;
 import com.inventory_management.Inventory.Management.entity.PlaceOrder;
 import com.inventory_management.Inventory.Management.entity.SupplierStocks;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
