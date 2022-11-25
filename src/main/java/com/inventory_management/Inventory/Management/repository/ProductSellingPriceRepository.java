@@ -12,12 +12,6 @@ import java.util.List;
 public interface ProductSellingPriceRepository extends JpaRepository<ProductSellingPrice, Long> {
 
 
-//    @Query(
-//            value = "select * from product x where x.product_id=?1 and x.selling_price_id=?2",
-//            nativeQuery = true
-//    )
-//    public ProductSellingPrice findSellingPriceIdByProductId(Long productId, Long sellingPriceId);
-
 
     public List<ProductSellingPrice> findBySellingPrice(Long sellingPrice);
 }

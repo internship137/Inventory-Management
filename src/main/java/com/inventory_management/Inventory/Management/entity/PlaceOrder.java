@@ -21,7 +21,6 @@ public class PlaceOrder {
     @CreationTimestamp
     private Date orderPlacedDate;
 
-
     @Column(name = "order_quantity")
     private Long orderQuantity;
 

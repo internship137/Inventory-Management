@@ -4,7 +4,7 @@ package com.inventory_management.Inventory.Management.controller;
 import com.inventory_management.Inventory.Management.service.ProductService;
 import com.inventory_management.Inventory.Management.repository.CategoryRepository;
 import com.inventory_management.Inventory.Management.service.ProductSellingPriceService;
-import com.inventory_management.Inventory.Management.dto.CategoryProductDTO;
+import com.inventory_management.Inventory.Management.dto.CategoryProductPricingDTO;
 import com.inventory_management.Inventory.Management.entity.Product;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class ProductController {
 
     @PostMapping("/category/{categoryId}/addProduct")
     public Product saveProduct(@RequestBody Product product,
-                               @PathVariable Long categoryId) {
+                               @PathVariable Long categoryId) throws NotFoundException{
         return productService.saveProduct(product, categoryId);
     }
 
@@ -35,7 +35,7 @@ public class ProductController {
     // Get all products with categories
 
     @GetMapping("/product")
-    public List<CategoryProductDTO> fetchProductList() {
+    public List<CategoryProductPricingDTO> fetchProductList() {
         return productService.fetchProductList();
     }
 
@@ -43,7 +43,7 @@ public class ProductController {
     // Get products from a specific category
 
     @GetMapping("/category/{categoryId}/product")
-    public List<CategoryProductDTO> fetchProductsByCategoryId(@PathVariable Long categoryId) throws NotFoundException {
+    public List<CategoryProductPricingDTO> fetchProductsByCategoryId(@PathVariable Long categoryId) throws NotFoundException {
         return productService.fetchProductsByCategoryId(categoryId);
     }
 
@@ -51,8 +51,8 @@ public class ProductController {
 
 
     @GetMapping("/category/{categoryId}/product/{productId}")
-    public List<CategoryProductDTO> fetchProductIdByCategoryId(@PathVariable Long categoryId,
-                                                               @PathVariable Long productId) throws NotFoundException {
+    public List<CategoryProductPricingDTO> fetchProductIdByCategoryId(@PathVariable Long categoryId,
+                                                                      @PathVariable Long productId) throws NotFoundException {
         return productService.fetchProductIdByCategoryId(categoryId, productId);
 
     }
@@ -62,7 +62,7 @@ public class ProductController {
 
 
     @GetMapping("/product/productCode/{productCode}")
-    public List<CategoryProductDTO> fetchByProductCode(@PathVariable Long productCode) throws NotFoundException {
+    public List<CategoryProductPricingDTO> fetchByProductCode(@PathVariable Long productCode) throws NotFoundException {
         return productService.fetchByProductCode(productCode);
     }
 
@@ -71,14 +71,14 @@ public class ProductController {
 
 
     @GetMapping("/product/{productName}")
-    public List<CategoryProductDTO> fetchByProductName(@PathVariable String productName) throws NotFoundException {
+    public List<CategoryProductPricingDTO> fetchByProductName(@PathVariable String productName) throws NotFoundException {
         return productService.fetchByProductName(productName);
     }
 
     // Get a product by productId
 
     @GetMapping("/product/productId/{productId}")
-    public List<CategoryProductDTO> fetchByProductId(@PathVariable Long productId) throws NotFoundException {
+    public List<CategoryProductPricingDTO> fetchByProductId(@PathVariable Long productId) throws NotFoundException {
         return productService.fetchByProductId(productId);
     }
 
@@ -89,7 +89,7 @@ public class ProductController {
     @PutMapping("/category/{categoryId}/updateProduct/{productId}")
     public String updateProduct(@PathVariable Long categoryId,
                                 @PathVariable Long productId,
-                                @RequestBody Product product) {
+                                @RequestBody Product product) throws NotFoundException{
         return productService.updateProduct(categoryId, productId, product);
     }
 

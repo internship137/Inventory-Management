@@ -2,7 +2,7 @@ package com.inventory_management.Inventory.Management.serviceImpl;
 
 
 import com.inventory_management.Inventory.Management.repository.CategoryRepository;
-import com.inventory_management.Inventory.Management.dto.CategoryProductDTO;
+import com.inventory_management.Inventory.Management.dto.CategoryProductPricingDTO;
 import com.inventory_management.Inventory.Management.entity.Category;
 import com.inventory_management.Inventory.Management.entity.Product;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
@@ -29,7 +29,10 @@ public class ProductServiceImpl implements ProductService {
     // Add Products to Category
 
     @Override
-    public Product saveProduct(Product product, Long categoryId) {
+    public Product saveProduct(Product product, Long categoryId) throws NotFoundException{
+        if (!categoryRepository.existsById(categoryId)) {
+            throw new NotFoundException(" Category with this Id does not exist");
+        }
         Category category = categoryRepository.findById(categoryId).get();
         product.setCategory(category);
         return productRepository.save(product);
@@ -39,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
     // Get all products with categories
 
     @Override
-    public List<CategoryProductDTO> fetchProductList() {
+    public List<CategoryProductPricingDTO> fetchProductList() {
         return productRepository.findAll()
                 .stream()
                 .map(this::convertEntityToDto)
@@ -51,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
     // Get products from a specific category
 
     @Override
-    public List<CategoryProductDTO> fetchProductsByCategoryId(Long categoryId) throws NotFoundException {
+    public List<CategoryProductPricingDTO> fetchProductsByCategoryId(Long categoryId) throws NotFoundException {
         List<Product> productDto = productRepository.findProductByCategoryId(categoryId);
 
         if (productDto.isEmpty()) {
@@ -69,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
     // Get a specific product from a specific category
 
     @Override
-    public List<CategoryProductDTO> fetchProductIdByCategoryId(Long categoryId, Long productId) throws NotFoundException {
+    public List<CategoryProductPricingDTO> fetchProductIdByCategoryId(Long categoryId, Long productId) throws NotFoundException {
         List<Product> productFromCategoryDto = productRepository.findProductIdByCategoryId(categoryId, productId);
 
         if (productFromCategoryDto.isEmpty()) {
@@ -86,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<CategoryProductDTO> fetchByProductCode(Long productCode) throws NotFoundException {
+    public List<CategoryProductPricingDTO> fetchByProductCode(Long productCode) throws NotFoundException {
         List<Product> productCodeDto = productRepository.findByProductCode(productCode);
 
         if (productCodeDto.isEmpty()) {
@@ -103,7 +106,7 @@ public class ProductServiceImpl implements ProductService {
     // Get product by product name  (containing)
 
     @Override
-    public List<CategoryProductDTO> fetchByProductName(String productName) throws NotFoundException {
+    public List<CategoryProductPricingDTO> fetchByProductName(String productName) throws NotFoundException {
         List<Product> productNameDto = productRepository.findByProductNameContaining(productName);
 
         if (productNameDto.isEmpty()) {
@@ -120,7 +123,7 @@ public class ProductServiceImpl implements ProductService {
     // Get a product by productId
 
     @Override
-    public List<CategoryProductDTO> fetchByProductId(Long productId) throws NotFoundException {
+    public List<CategoryProductPricingDTO> fetchByProductId(Long productId) throws NotFoundException {
 
         Optional<Product> productIdDto = productRepository.findById(productId);
 
@@ -138,7 +141,11 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public String updateProduct(Long categoryId, Long productId, Product product) {
+    public String updateProduct(Long categoryId, Long productId, Product product) throws NotFoundException{
+
+        if (!productRepository.existsById(productId)) {
+            throw new NotFoundException("Product with this id does not exist");
+        }
         Product proDB = productRepository.findProductIdUsingCategoryId(categoryId, productId);
 
 
@@ -188,21 +195,21 @@ public class ProductServiceImpl implements ProductService {
 
     // DTO
 
-    private CategoryProductDTO convertEntityToDto(Product product) {
-        CategoryProductDTO categoryProductDTO =
-                new CategoryProductDTO();
+    private CategoryProductPricingDTO convertEntityToDto(Product product) {
+        CategoryProductPricingDTO categoryProductPricingDTO =
+                new CategoryProductPricingDTO();
 
-        categoryProductDTO.setProductId(product.getProductId());
-        categoryProductDTO.setProductName(product.getProductName());
-        categoryProductDTO.setProductCode(product.getProductCode());
-        categoryProductDTO.setProductDescription(product.getProductDescription());
-        categoryProductDTO.setProductBuyingPrice(product.getProductBuyingPrice());
-        categoryProductDTO.setProductManufacturer(product.getProductManufacturer());
-        categoryProductDTO.setProductCreatedDateTime(product.getProductCreatedDateTime());
-        categoryProductDTO.setCategory(product.getCategory().getCategoryName());
-        categoryProductDTO.setProductSellingPrice(product.getProductSellingPrice().getSellingPrice());
+        categoryProductPricingDTO.setProductId(product.getProductId());
+        categoryProductPricingDTO.setProductName(product.getProductName());
+        categoryProductPricingDTO.setProductCode(product.getProductCode());
+        categoryProductPricingDTO.setProductDescription(product.getProductDescription());
+        categoryProductPricingDTO.setProductBuyingPrice(product.getProductBuyingPrice());
+        categoryProductPricingDTO.setProductManufacturer(product.getProductManufacturer());
+        categoryProductPricingDTO.setProductCreatedDateTime(product.getProductCreatedDateTime());
+        categoryProductPricingDTO.setCategory(product.getCategory().getCategoryName());
+        categoryProductPricingDTO.setProductSellingPrice(product.getProductSellingPrice().getSellingPrice());
 
-        return categoryProductDTO;
+        return categoryProductPricingDTO;
     }
 
 }

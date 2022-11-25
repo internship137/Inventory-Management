@@ -86,13 +86,7 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public void deleteOrder(Long orderId) throws NotFoundException {
-        if (!orderRepository.existsById(orderId)){
-            throw new NotFoundException("Order with this id does not exist");
-        }
-        orderRepository.deleteById(orderId);
-    }
+
 
     @Override
     public void updateOrder(Long orderId,PlaceOrder placeOrder) throws NotFoundException{
@@ -101,13 +95,23 @@ public class OrderServiceImpl implements OrderService {
         if (!orderRepository.existsById(orderId)){
             throw new NotFoundException("Order with this id does not exist");
         }
-        
+
         if(Objects.nonNull(placeOrder.getOrderQuantity())&&
-        !"".equalsIgnoreCase(String.valueOf(placeOrder.getOrderQuantity()))){
+                !"".equalsIgnoreCase(String.valueOf(placeOrder.getOrderQuantity()))){
             order.setOrderQuantity(placeOrder.getOrderQuantity());
         }
         orderRepository.save(order);
     }
+
+
+    @Override
+    public void deleteOrder(Long orderId) throws NotFoundException {
+        if (!orderRepository.existsById(orderId)){
+            throw new NotFoundException("Order with this id does not exist");
+        }
+        orderRepository.deleteById(orderId);
+    }
+
 
     private PlaceOrderSupplierStocksDTO convertEntityToDto(PlaceOrder placeOrder) {
         PlaceOrderSupplierStocksDTO placeOrderSupplierStocksDTO =

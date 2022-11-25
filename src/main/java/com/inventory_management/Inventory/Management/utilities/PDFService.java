@@ -19,13 +19,17 @@ public class PDFService {
         Font fontTile = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
         fontTile.setSize(18);
 
-        Paragraph paragraph = new Paragraph("Invoice.", fontTile);
+        Paragraph paragraph = new Paragraph("Sale Invoice", fontTile);
         paragraph.setAlignment(Paragraph.ALIGN_CENTER);
 
         Font fontParagraph = FontFactory.getFont(FontFactory.HELVETICA);
         fontParagraph.setSize(12);
 
-        Paragraph paragraph2 = new Paragraph("Order Details.", fontParagraph);
+        Paragraph paragraph2 = new Paragraph("Order Details " +
+                "Product Name :" +
+                "Product Category :" +
+                "Product Quantity : " +
+                "Product Price : ", fontParagraph);
         paragraph2.setAlignment(Paragraph.ALIGN_LEFT);
 
         document.add(paragraph);

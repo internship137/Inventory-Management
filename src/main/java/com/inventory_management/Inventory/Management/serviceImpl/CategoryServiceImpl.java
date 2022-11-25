@@ -60,7 +60,13 @@ public class CategoryServiceImpl implements CategoryService {
     // Update Category
 
     @Override
-    public Category updateCategory(Long categoryId, Category category) {
+    public Category updateCategory(Long categoryId, Category category) throws NotFoundException{
+
+        if (!categoryRepository.existsById(categoryId)) {
+            throw new NotFoundException("Category with this id does not exist");
+        }
+
+
         Category catDB = categoryRepository.findById(categoryId).get();
 
         if (Objects.nonNull(category.getCategoryName()) && !"".equalsIgnoreCase(category.getCategoryName())) {

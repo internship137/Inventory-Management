@@ -29,12 +29,8 @@ public class OrderController {
     @GetMapping("/orders/{orderId}")
     private List<PlaceOrderSupplierStocksDTO> getOrderById(@PathVariable Long orderId) throws NotFoundException {
         return orderService.getOrderById(orderId);
-    }
 
-    @DeleteMapping("/orders/delete/{orderId}")
-    private String deleteOrder(@PathVariable Long orderId) throws NotFoundException {
-        orderService.deleteOrder(orderId);
-        return "Order Deleted Successfully";
+
     }
 
     @PutMapping("/orders/{orderId}")
@@ -43,4 +39,14 @@ public class OrderController {
         orderService.updateOrder(orderId,placeOrder);
         return "Updated Successfully";
     }
+
+
+
+    @DeleteMapping("/orders/delete/{orderId}")
+    private String deleteOrder(@PathVariable Long orderId) throws NotFoundException {
+        orderService.deleteOrder(orderId);
+        return "Order Deleted Successfully";
+    }
+
+
 }

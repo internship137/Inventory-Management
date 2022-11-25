@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class CategoryProductDTO {
+public class CategoryProductPricingDTO {
 
     private Long productId;
     private String productName;

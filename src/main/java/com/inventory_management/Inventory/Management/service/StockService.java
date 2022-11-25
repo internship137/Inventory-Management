@@ -14,7 +14,7 @@ public interface StockService {
     public List<StocksDTO> fetchByStockId(Long stockId) throws NotFoundException;
 
 
-    public String updateStock(Long productId, Long stockId, Stock stock);
+    public String updateStock(Long productId, Long stockId, Stock stock) throws NotFoundException;
 
     public void deleteStock(Long stockId) throws NotFoundException;
 }

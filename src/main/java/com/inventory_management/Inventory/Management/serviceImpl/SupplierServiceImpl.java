@@ -53,7 +53,11 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public Supplier updateSupplier(Long supplierId, Supplier supplier) {
+    public Supplier updateSupplier(Long supplierId, Supplier supplier) throws NotFoundException{
+
+        if (!supplierRepository.existsById(supplierId)) {
+            throw new NotFoundException("Supplier with this id does not exist");
+        }
 
         Supplier supDB = supplierRepository.findById(supplierId).get();
 

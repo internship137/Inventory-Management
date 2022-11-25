@@ -76,7 +76,11 @@ public class ProductSellingPriceServiceImpl implements ProductSellingPriceServic
 
     @Override
     public String updateProductSellingPrice(Long sellingPriceId,
-                                            ProductSellingPrice productSellingPrice) {
+                                            ProductSellingPrice productSellingPrice) throws NotFoundException{
+
+//        if (!productSellingPriceRepository.existsById(sellingPriceId)) {
+//            throw new NotFoundException("Selling Price with this id does not exist");
+//        }
         ProductSellingPrice pricingDB = productSellingPriceRepository.findById(sellingPriceId).get();
 
 

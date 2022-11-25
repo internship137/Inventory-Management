@@ -17,7 +17,7 @@ public interface CategoryService {
     public Category fetchCategoryByName(String categoryName) throws NotFoundException;
 
 
-    public Category updateCategory(Long categoryId, Category product);
+    public Category updateCategory(Long categoryId, Category product) throws NotFoundException;
 
     public void deleteCategoryById(Long categoryId) throws NotFoundException;
 

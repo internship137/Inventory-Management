@@ -54,7 +54,7 @@ public class ProductSellingPriceController {
 
     @PutMapping("/productSellingPrice/{sellingPriceId}")
     public String updateProductSellingPrice(@PathVariable Long sellingPriceId,
-                                            @RequestBody ProductSellingPrice productSellingPrice) {
+                                            @RequestBody ProductSellingPrice productSellingPrice) throws NotFoundException{
         return productSellingPriceService.updateProductSellingPrice(sellingPriceId, productSellingPrice);
     }
 

@@ -49,7 +49,7 @@ public class CategoryController {
     // updateCategory
 
     @PutMapping("/{categoryId}")
-    public Category updateCategory(@PathVariable("categoryId") Long categoryId, @RequestBody Category product) {
+    public Category updateCategory(@PathVariable("categoryId") Long categoryId, @RequestBody Category product) throws NotFoundException{
         return categoryService.updateCategory(categoryId, product);
     }
 

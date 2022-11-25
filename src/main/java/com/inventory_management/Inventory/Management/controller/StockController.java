@@ -50,7 +50,7 @@ public class StockController {
     @PutMapping("/product/{productId}/updateStocks/{stockId}")
     public String updateStock(@PathVariable Long productId,
                                 @PathVariable Long stockId,
-                                @RequestBody Stock stock) {
+                                @RequestBody Stock stock) throws NotFoundException{
         return stockService.updateStock(productId, stockId, stock);
     }
 

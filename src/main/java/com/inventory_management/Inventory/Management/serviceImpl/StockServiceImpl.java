@@ -68,7 +68,11 @@ public class StockServiceImpl implements StockService {
 
 
     @Override
-    public String updateStock(Long productId, Long stockId, Stock stock) {
+    public String updateStock(Long productId, Long stockId, Stock stock) throws NotFoundException{
+
+        if (!stockRepository.existsById(stockId)) {
+            throw new NotFoundException("Stock with this id does not exist");
+        }
 
         Stock stockDB = stockRepository.findStockIdUsingProductId(productId, stockId);
 

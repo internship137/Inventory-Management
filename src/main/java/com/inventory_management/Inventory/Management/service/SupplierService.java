@@ -15,7 +15,7 @@ public interface SupplierService {
 
     public List<Supplier> fetchSupplierByCompanyName(String supplierCompany) throws NotFoundException;
 
-    public Supplier updateSupplier(Long supplierId, Supplier supplier);
+    public Supplier updateSupplier(Long supplierId, Supplier supplier) throws NotFoundException;
 
     public void deleteSupplierById(Long supplierId) throws NotFoundException;
 }
