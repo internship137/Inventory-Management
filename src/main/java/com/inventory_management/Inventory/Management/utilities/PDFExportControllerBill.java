@@ -1,8 +1,8 @@
 package com.inventory_management.Inventory.Management.utilities;
 
 import com.inventory_management.Inventory.Management.dto.InvoiceStocksDTO;
-import com.inventory_management.Inventory.Management.entity.Invoice;
 import com.inventory_management.Inventory.Management.service.InvoiceService;
+import com.lowagie.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,28 +15,39 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-public class PDFExportController {
+public class PDFExportControllerBill {
 
     @Autowired
     private InvoiceService invoiceService;
 
-    private final PDFService pdfService;
+    private final PDFServiceBill pdfService;
 
-    public PDFExportController(PDFService pdfService) {
+    public PDFExportControllerBill(PDFServiceBill pdfService) {
         this.pdfService = pdfService;
     }
 
-    @GetMapping("/pdf/invoice/generate")
-    public void generatePDF(HttpServletResponse response) throws IOException {
+    @GetMapping("/pdf/billInvoice/generate")
+//    public List<InvoiceStocksDTO> getByInvoiceId(@PathVariable Long invoiceId){
+//        return invoiceService.getByInvoiceId(invoiceId);
+//    }
+    public void generatePDF(HttpServletResponse response) throws IOException , DocumentException {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
 
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=Sale_Invoice_" + currentDateTime + ".pdf";
+        String headerValue = "attachment; filename=Bill_Invoice_" + currentDateTime + ".pdf";
+
+
         response.setHeader(headerKey, headerValue);
 
-        this.pdfService.export(response);
+
+        List<InvoiceStocksDTO> invoiceStocksDTOList = invoiceService.fetchAllInvoice();
+
+        PDFServiceBill exporter = new PDFServiceBill(invoiceStocksDTOList);
+        exporter.export(response);
+
+//        this.pdfService.export(response);
     }
 
 
