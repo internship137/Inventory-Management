@@ -60,8 +60,12 @@ public class OrderServiceImpl implements OrderService {
 
         orderSuccessfulEmail.sendOrderSuccessfulEmail(
                 "gokuldas1999@gmail.com",
-                "Order Placed Successfully",
-                "Order Placed"
+                "Your Order for "+placeOrder.getSupplierProductName()+" has been placed successfully \n"+
+                "Order Id: "+placeOrder.getOrderId()+"\n"+
+                "Quantity: "+placeOrder.getOrderQuantity()+"\n"+
+                "Order Price: "+placeOrder.getSupplierProductPrice()+"\n"+
+                "Order Placed On: "+placeOrder.getOrderPlacedDate(),
+                "Order Placed Successfully"
         );
 
         return "Order placed successfully";

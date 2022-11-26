@@ -7,6 +7,7 @@ import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.repository.InvoiceRepository;
 import com.inventory_management.Inventory.Management.repository.StockRepository;
 import com.inventory_management.Inventory.Management.service.InvoiceService;
+import com.inventory_management.Inventory.Management.utilities.QuantityLowEmailAlert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Autowired
     private InvoiceRepository invoiceRepository;
+
+    @Autowired
+    private QuantityLowEmailAlert quantityLowEmailAlert;
 
     @Override
     public String saveInvoice(Invoice invoice, Long stockId) throws NotFoundException {
@@ -53,6 +57,14 @@ public class InvoiceServiceImpl implements InvoiceService {
         stockQty = stockQty - sellingQty;
         stock.setStockQuantity(stockQty);
         stockRepository.save(stock);
+
+        if (stockQty<50){
+            quantityLowEmailAlert.sendOrderSuccessfulEmail(
+                    "gokuldas1999@gmail.com",
+                    "Stock with "+stock.getStockId()+" is low",
+                    "Alert"
+            );
+        }
 
         return "Invoice Generated";
     }
