@@ -29,7 +29,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public String saveInvoice(Invoice invoice, Long stockId) throws NotFoundException {
-        if (!stockRepository.existsById(stockId)){
+        if (!stockRepository.existsById(stockId)) {
             throw new NotFoundException("Product with this ID does not exist");
         }
 
@@ -43,7 +43,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         Long stockQty = stock.getStockQuantity();
         Long sellingQty = invoice.getSellingQuantity();
 
-        if ( sellingQty > stockQty){
+        if (sellingQty > stockQty) {
             return " Stock quantity is less than Selling Quantity";
 
         }
@@ -58,12 +58,15 @@ public class InvoiceServiceImpl implements InvoiceService {
         stock.setStockQuantity(stockQty);
         stockRepository.save(stock);
 
-        if (stockQty<50){
+        if (stockQty < 50) {
             quantityLowEmailAlert.sendOrderSuccessfulEmail(
                     "gokuldas1999@gmail.com",
-                    "Stock with "+stock.getStockId()+" is low",
+                    "Alert!! The quantity of stock with id " + stock.getStockId() + " is low.\n" +
+                            "Quantity available is " + stock.getStockQuantity(),
                     "Alert"
             );
+
+            return "Alert!! Stock quantity is low.";
         }
 
         return "Invoice Generated";
@@ -71,7 +74,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public List<InvoiceStocksDTO> fetchByInvoiceId(Long invoiceId) throws NotFoundException {
-        if (!invoiceRepository.existsById(invoiceId)){
+        if (!invoiceRepository.existsById(invoiceId)) {
             throw new NotFoundException("Invoice with this id does not exist");
         }
         return invoiceRepository.findById(invoiceId)
@@ -92,12 +95,12 @@ public class InvoiceServiceImpl implements InvoiceService {
     public void updateInvoice(Long invoiceId, Invoice invoice) throws NotFoundException {
         Invoice invoiceDB = invoiceRepository.findById(invoiceId).get();
 
-        if (!invoiceRepository.existsById(invoiceId)){
+        if (!invoiceRepository.existsById(invoiceId)) {
             throw new NotFoundException("Invoice with this id does not exist");
         }
 
-        if(Objects.nonNull(invoice.getSellingQuantity())&&
-                !"".equalsIgnoreCase(String.valueOf(invoice.getSellingQuantity()))){
+        if (Objects.nonNull(invoice.getSellingQuantity()) &&
+                !"".equalsIgnoreCase(String.valueOf(invoice.getSellingQuantity()))) {
             invoiceDB.setSellingQuantity(invoice.getSellingQuantity());
         }
         invoiceRepository.save(invoiceDB);
@@ -105,7 +108,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public void deleteInvoice(Long invoiceId) throws NotFoundException {
-        if (!invoiceRepository.existsById(invoiceId)){
+        if (!invoiceRepository.existsById(invoiceId)) {
             throw new NotFoundException("Invoice with this id does not exist");
         }
         invoiceRepository.deleteById(invoiceId);
