@@ -18,7 +18,7 @@ public class OrderSuccessfulEmail {
 
         SimpleMailMessage message=new SimpleMailMessage();
 
-        message.setFrom("");
+        message.setFrom("anson.sayonetech@gmail.com");
         message.setTo(toEmail);
         message.setText(body);
         message.setSubject(subject);
