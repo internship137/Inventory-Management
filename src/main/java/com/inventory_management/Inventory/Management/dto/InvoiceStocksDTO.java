@@ -9,10 +9,10 @@ import java.sql.Date;
 public class InvoiceStocksDTO {
 
     private Long invoiceId;
-    private Date dateOfIssue;
     private String productName;
     private String categoryName;
     private Long productPrice;
     private Long sellingQuantity;
+    private Date dateOfIssue;
 
 }

@@ -26,7 +26,7 @@ public class PDFExportControllerBill {
         this.pdfService = pdfService;
     }
 
-    @GetMapping("/pdf/billInvoice/generate/{invoiceId}")
+    @GetMapping("/pdf/billInvoice/generate")
 //    public List<InvoiceStocksDTO> getByInvoiceId(@PathVariable Long invoiceId){
 //        return invoiceService.getByInvoiceId(invoiceId);
 //    }
