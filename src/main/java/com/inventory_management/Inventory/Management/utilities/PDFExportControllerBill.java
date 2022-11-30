@@ -6,6 +6,7 @@ import com.lowagie.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -26,11 +27,10 @@ public class PDFExportControllerBill {
         this.pdfService = pdfService;
     }
 
-    @GetMapping("/pdf/billInvoice/generate")
-//    public List<InvoiceStocksDTO> getByInvoiceId(@PathVariable Long invoiceId){
-//        return invoiceService.getByInvoiceId(invoiceId);
-//    }
-    public void generatePDF(HttpServletResponse response) throws IOException , DocumentException {
+    @GetMapping("/pdf/billInvoice/generate/{invoiceId}")
+
+    public void generatePDF(HttpServletResponse response , @PathVariable Long invoiceId) throws IOException
+            , DocumentException {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
@@ -42,12 +42,11 @@ public class PDFExportControllerBill {
         response.setHeader(headerKey, headerValue);
 
 
-        List<InvoiceStocksDTO> invoiceStocksDTOList = invoiceService.fetchAllInvoice();
+        List<InvoiceStocksDTO> invoiceStocksDTOList = invoiceService.getByInvoiceId(invoiceId);
 
         PDFServiceBill exporter = new PDFServiceBill(invoiceStocksDTOList);
         exporter.export(response);
 
-//        this.pdfService.export(response);
     }
 
 

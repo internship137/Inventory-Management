@@ -1,7 +1,6 @@
 package com.inventory_management.Inventory.Management.serviceImpl;
 
 import com.inventory_management.Inventory.Management.repository.ProductRepository;
-//import com.inventory_management.Inventory.Management.dto.StocksDTO;
 import com.inventory_management.Inventory.Management.dto.StocksDTO;
 import com.inventory_management.Inventory.Management.entity.Product;
 import com.inventory_management.Inventory.Management.entity.Stock;
@@ -10,7 +9,6 @@ import com.inventory_management.Inventory.Management.repository.StockRepository;
 import com.inventory_management.Inventory.Management.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -25,6 +23,7 @@ public class StockServiceImpl implements StockService {
     @Autowired
     private ProductRepository productRepository;
 
+
     // Add Stock
 
 
@@ -34,6 +33,7 @@ public class StockServiceImpl implements StockService {
         stock.setProduct(product);
         return stockRepository.save(stock);
     }
+
 
     // Get all Stock
 
@@ -46,7 +46,9 @@ public class StockServiceImpl implements StockService {
                 .collect(Collectors.toList());
     }
 
+
     // Get By Stock Id
+
 
     @Override
     public List<StocksDTO> fetchByStockId(Long stockId) throws NotFoundException {
@@ -61,7 +63,6 @@ public class StockServiceImpl implements StockService {
                 .map(this::convertEntityToDto)
                 .collect(Collectors.toList());
     }
-
 
 
     // Update Stocks
@@ -101,6 +102,7 @@ public class StockServiceImpl implements StockService {
 
 
     // DTO
+
 
     private StocksDTO convertEntityToDto(Stock stock) {
         StocksDTO stocksDTO = new StocksDTO();

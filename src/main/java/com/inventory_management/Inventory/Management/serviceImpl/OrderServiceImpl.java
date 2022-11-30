@@ -10,7 +10,6 @@ import com.inventory_management.Inventory.Management.service.OrderService;
 import com.inventory_management.Inventory.Management.repository.SupplierStocksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;

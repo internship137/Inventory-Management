@@ -28,6 +28,7 @@ public class ProductServiceImpl implements ProductService {
 
     // Add Products to Category
 
+
     @Override
     public Product saveProduct(Product product, Long categoryId) throws NotFoundException{
         if (!categoryRepository.existsById(categoryId)) {
@@ -41,6 +42,7 @@ public class ProductServiceImpl implements ProductService {
 
     // Get all products with categories
 
+
     @Override
     public List<CategoryProductPricingDTO> fetchProductList() {
         return productRepository.findAll()
@@ -52,6 +54,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     // Get products from a specific category
+
 
     @Override
     public List<CategoryProductPricingDTO> fetchProductsByCategoryId(Long categoryId) throws NotFoundException {
@@ -70,6 +73,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     // Get a specific product from a specific category
+
 
     @Override
     public List<CategoryProductPricingDTO> fetchProductIdByCategoryId(Long categoryId, Long productId) throws NotFoundException {
@@ -105,6 +109,7 @@ public class ProductServiceImpl implements ProductService {
 
     // Get product by product name  (containing)
 
+
     @Override
     public List<CategoryProductPricingDTO> fetchByProductName(String productName) throws NotFoundException {
         List<Product> productNameDto = productRepository.findByProductNameContaining(productName);
@@ -121,6 +126,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     // Get a product by productId
+
 
     @Override
     public List<CategoryProductPricingDTO> fetchByProductId(Long productId) throws NotFoundException {
@@ -182,6 +188,7 @@ public class ProductServiceImpl implements ProductService {
 
     //Delete a product
 
+
     @Override
     public void deleteProduct(Long productId) throws NotFoundException {
 
@@ -194,6 +201,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     // DTO
+
 
     private CategoryProductPricingDTO convertEntityToDto(Product product) {
         CategoryProductPricingDTO categoryProductPricingDTO =

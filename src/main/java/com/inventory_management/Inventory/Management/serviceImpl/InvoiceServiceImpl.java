@@ -10,8 +10,6 @@ import com.inventory_management.Inventory.Management.service.InvoiceService;
 import com.inventory_management.Inventory.Management.utilities.QuantityLowEmailAlert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -130,7 +128,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceStocksDTO.setCategoryName(invoice.getCategoryName());
         invoiceStocksDTO.setProductPrice(invoice.getProductPrice());
         invoiceStocksDTO.setSellingQuantity(invoice.getSellingQuantity());
-        invoiceStocksDTO.setDateOfIssue(invoice.getDateOfIssue());
+
 
         return invoiceStocksDTO;
     }

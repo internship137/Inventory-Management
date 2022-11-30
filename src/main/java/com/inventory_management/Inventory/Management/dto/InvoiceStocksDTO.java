@@ -13,6 +13,5 @@ public class InvoiceStocksDTO {
     private String categoryName;
     private Long productPrice;
     private Long sellingQuantity;
-    private Date dateOfIssue;
 
 }
