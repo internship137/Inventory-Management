@@ -1,6 +1,7 @@
 package com.inventory_management.Inventory.Management.service;
 
 import com.inventory_management.Inventory.Management.dto.SupplierCategorySupplierStockDTO;
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.entity.SupplierStocks;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 
@@ -18,10 +19,10 @@ public interface SupplierStocksService {
 
     List<SupplierCategorySupplierStockDTO> searchBySupplierProductName(String supplierProductName) throws NotFoundException;
 
-    void deleteSupplierProduct(Long supplierStocksId) throws NotFoundException;
+    Message deleteSupplierProduct(Long supplierStocksId) throws NotFoundException;
 
     List<SupplierCategorySupplierStockDTO> getProductsById(Long supplierStocksId) throws NotFoundException;
 
 
-    String updateSupplierProduct(Long supplierCategoryId, Long supplierStocksId, SupplierStocks supplierStocks) throws NotFoundException;
+    Message updateSupplierProduct(Long supplierCategoryId, Long supplierStocksId, SupplierStocks supplierStocks) throws NotFoundException;
 }

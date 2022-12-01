@@ -1,5 +1,6 @@
 package com.inventory_management.Inventory.Management.service;
 
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.entity.SupplierCategory;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 
@@ -14,5 +15,7 @@ public interface SupplierCategoryService {
 
     SupplierCategory fetchBySupplierCategoryId(Long supplierCategoryId) throws NotFoundException;
 
-    SupplierCategory updateSupplierCategory(Long supplierCategoryId, SupplierCategory supplierCategory) throws NotFoundException;
+    void deleteSupplierCategoryById(Long supplierCategoryId) throws NotFoundException;
+
+    Message updateSupplierCategory(Long supplierCategoryId, SupplierCategory supplierCategory) throws NotFoundException;
 }

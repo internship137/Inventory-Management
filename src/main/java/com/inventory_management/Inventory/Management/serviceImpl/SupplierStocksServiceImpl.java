@@ -1,6 +1,7 @@
 package com.inventory_management.Inventory.Management.serviceImpl;
 
 import com.inventory_management.Inventory.Management.dto.SupplierCategorySupplierStockDTO;
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.entity.SupplierCategory;
 import com.inventory_management.Inventory.Management.entity.SupplierStocks;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
@@ -95,12 +96,15 @@ public class SupplierStocksServiceImpl implements SupplierStocksService {
     }
 
     @Override
-    public void deleteSupplierProduct(Long supplierStocksId) throws NotFoundException {
+    public Message deleteSupplierProduct(Long supplierStocksId) throws NotFoundException {
 
         if (!supplierStocksRepository.existsById(supplierStocksId)) {
             throw new NotFoundException("Invalid Id provided");
         }
         supplierStocksRepository.deleteById(supplierStocksId);
+        Message message=new Message();
+        message.setMessage("successfully deleted");
+        return message;
     }
 
     @Override
@@ -116,7 +120,7 @@ public class SupplierStocksServiceImpl implements SupplierStocksService {
     }
 
     @Override
-    public String updateSupplierProduct(Long supplierCategoryId, Long supplierStocksId, SupplierStocks supplierStocks) throws NotFoundException {
+    public Message updateSupplierProduct(Long supplierCategoryId, Long supplierStocksId, SupplierStocks supplierStocks) throws NotFoundException {
         if (!supplierStocksRepository.existsById(supplierStocksId)) {
             throw new NotFoundException("Product id or category id does not exist");
         }
@@ -138,7 +142,9 @@ public class SupplierStocksServiceImpl implements SupplierStocksService {
             supplierStocks1.setSupplierProductQuantity(supplierStocks.getSupplierProductQuantity());
         }
         supplierStocksRepository.save(supplierStocks1);
-        return "successfully updated";
+        Message message=new Message();
+        message.setMessage("successfully updated");
+        return message;
     }
 
 

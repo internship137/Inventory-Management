@@ -1,6 +1,7 @@
 package com.inventory_management.Inventory.Management.serviceImpl;
 
 import com.inventory_management.Inventory.Management.dto.PlaceOrderSupplierStocksDTO;
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.utilities.OrderSuccessfulEmail;
 import com.inventory_management.Inventory.Management.entity.PlaceOrder;
 import com.inventory_management.Inventory.Management.entity.SupplierStocks;
@@ -28,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public String saveOrder(PlaceOrder placeOrder, Long supplierStocksId) throws NotFoundException {
+    public Message saveOrder(PlaceOrder placeOrder, Long supplierStocksId) throws NotFoundException {
         if (!supplierStocksRepository.existsById(supplierStocksId)){
             throw new NotFoundException("Product with this ID does not exist");
         }
@@ -43,8 +44,11 @@ public class OrderServiceImpl implements OrderService {
         Long supplierQty = supplierStocks.getSupplierProductQuantity();
         Long orderQty = placeOrder.getOrderQuantity();
 
+
         if (orderQty > supplierQty) {
-            return "Order quantity exceeded supplier quantity";
+            Message message=new Message();
+            message.setMessage("Order quantity exceeded supplier quantity");
+            return message;
         }
 
         placeOrder.setSupplierCategoryName(stockCategory);
@@ -67,7 +71,9 @@ public class OrderServiceImpl implements OrderService {
                 "Order Placed Successfully"
         );
 
-        return "Order placed successfully";
+        Message message=new Message();
+        message.setMessage("Order placed successfully");
+        return message;
     }
 
     @Override
@@ -92,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public void updateOrder(Long orderId,PlaceOrder placeOrder) throws NotFoundException{
+    public Message updateOrder(Long orderId, PlaceOrder placeOrder) throws NotFoundException{
         PlaceOrder order=orderRepository.findById(orderId).get();
 
         if (!orderRepository.existsById(orderId)){
@@ -104,15 +110,9 @@ public class OrderServiceImpl implements OrderService {
             order.setOrderQuantity(placeOrder.getOrderQuantity());
         }
         orderRepository.save(order);
-    }
-
-
-    @Override
-    public void deleteOrder(Long orderId) throws NotFoundException {
-        if (!orderRepository.existsById(orderId)){
-            throw new NotFoundException("Order with this id does not exist");
-        }
-        orderRepository.deleteById(orderId);
+        Message message=new Message();
+        message.setMessage("successfully updated");
+        return message;
     }
 
 

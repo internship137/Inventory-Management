@@ -1,5 +1,6 @@
 package com.inventory_management.Inventory.Management.serviceImpl;
 
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.entity.SupplierCategory;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.repository.SupplierStocksRepository;
@@ -54,7 +55,7 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
 
 
     @Override
-    public SupplierCategory updateSupplierCategory(Long supplierCategoryId, SupplierCategory supplierCategory) throws NotFoundException {
+    public Message updateSupplierCategory(Long supplierCategoryId, SupplierCategory supplierCategory) throws NotFoundException {
         if (!supplierCategoryRepository.existsById(supplierCategoryId)) {
             throw new NotFoundException("Category with this id does not exist");
         }
@@ -64,7 +65,10 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
                 !"".equalsIgnoreCase(supplierCategory.getSupplierCategoryName())) {
             supplierCat.setSupplierCategoryName(supplierCategory.getSupplierCategoryName());
         }
-        return supplierCategoryRepository.save(supplierCat);
+        supplierCategoryRepository.save(supplierCat);
+        Message message=new Message();
+        message.setMessage("successfully updated");
+        return message;
 
     }
 

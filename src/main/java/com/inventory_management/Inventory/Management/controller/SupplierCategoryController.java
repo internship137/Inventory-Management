@@ -1,5 +1,6 @@
 package com.inventory_management.Inventory.Management.controller;
 
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.entity.SupplierCategory;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.service.SupplierCategoryService;
@@ -39,8 +40,8 @@ public class SupplierCategoryController {
 
 
     @PutMapping("/{supplierCategoryId}")
-    public SupplierCategory updateSupplierCategory(@PathVariable("supplierCategoryId") Long supplierCategoryId,
-                                                   @RequestBody SupplierCategory supplierCategory) throws NotFoundException {
+    public Message updateSupplierCategory(@PathVariable("supplierCategoryId") Long supplierCategoryId,
+                                          @RequestBody SupplierCategory supplierCategory) throws NotFoundException {
         return supplierCategoryService.updateSupplierCategory(supplierCategoryId,supplierCategory);
     }
 

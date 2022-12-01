@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -22,8 +24,8 @@ public class SupplierCategory {
     @Column(name = "supplier_category_name")
     private String supplierCategoryName;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     @Column(name = "supplier_category_created_date_time")
-    private Date supplierCategoryCreatedDateTime = new Date(System.currentTimeMillis());
+    private Date supplierCategoryCreatedDateTime;
 
 }

@@ -19,7 +19,7 @@ public class PlaceOrder {
     private Long orderId;
 
     @CreationTimestamp
-    @Column(name = "order_placed_date")
+    @Column(name = "order_placed_date_time")
     private Date orderPlacedDate;
 
     @Column(name = "order_quantity")

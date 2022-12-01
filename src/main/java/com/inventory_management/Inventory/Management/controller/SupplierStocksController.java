@@ -1,6 +1,7 @@
 package com.inventory_management.Inventory.Management.controller;
 
 import com.inventory_management.Inventory.Management.dto.SupplierCategorySupplierStockDTO;
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.entity.SupplierStocks;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.service.SupplierStocksService;
@@ -53,9 +54,9 @@ public class SupplierStocksController {
 
 
     @DeleteMapping("/supplier-stocks/{supplierStocksId}")
-    public String deleteSupplierProduct(@PathVariable Long supplierStocksId) throws NotFoundException {
-        supplierStocksService.deleteSupplierProduct(supplierStocksId);
-        return "Deleted Successfully";
+    public Message deleteSupplierProduct(@PathVariable Long supplierStocksId) throws NotFoundException {
+        return supplierStocksService.deleteSupplierProduct(supplierStocksId);
+
     }
 
     @GetMapping("/supplier-stocks/{supplierStocksId}")
@@ -65,9 +66,9 @@ public class SupplierStocksController {
 
 
     @PutMapping("/supplierCategory/{supplierCategoryId}/supplierProduct/{supplierStocksId}")
-    public String updateSupplierProduct(@PathVariable Long supplierCategoryId,
-                                        @PathVariable Long supplierStocksId,
-                                        @RequestBody SupplierStocks supplierStocks) throws NotFoundException {
+    public Message updateSupplierProduct(@PathVariable Long supplierCategoryId,
+                                         @PathVariable Long supplierStocksId,
+                                         @RequestBody SupplierStocks supplierStocks) throws NotFoundException {
         return supplierStocksService.updateSupplierProduct(supplierCategoryId,supplierStocksId,supplierStocks);
     }
 
