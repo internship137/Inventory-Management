@@ -19,6 +19,5 @@ public interface CategoryService {
 
     public Category updateCategory(Long categoryId, Category product) throws NotFoundException;
 
-    public void deleteCategoryById(Long categoryId) throws NotFoundException;
 
 }

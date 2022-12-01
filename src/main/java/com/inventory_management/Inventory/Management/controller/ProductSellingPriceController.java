@@ -58,14 +58,4 @@ public class ProductSellingPriceController {
         return productSellingPriceService.updateProductSellingPrice(sellingPriceId, productSellingPrice);
     }
 
-
-    // delete a product
-
-
-    @DeleteMapping("/pricing/delete/{sellingPriceId}")
-    public String deletePricingById(@PathVariable Long sellingPriceId) throws NotFoundException {
-        productSellingPriceService.deletePricing(sellingPriceId);
-        return "Selling Price Deleted !";
-    }
-
 }

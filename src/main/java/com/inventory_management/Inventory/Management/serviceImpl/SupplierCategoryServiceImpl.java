@@ -52,14 +52,6 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
         return supplierCategory.get();
     }
 
-    @Override
-    public void deleteSupplierCategoryById(Long supplierCategoryId) throws NotFoundException {
-        if (!supplierCategoryRepository.existsById(supplierCategoryId)) {
-            throw new NotFoundException("Invalid Id provided");
-        }
-        supplierCategoryRepository.deleteStocks(supplierCategoryId);
-        supplierCategoryRepository.deleteById(supplierCategoryId);
-    }
 
     @Override
     public SupplierCategory updateSupplierCategory(Long supplierCategoryId, SupplierCategory supplierCategory) throws NotFoundException {

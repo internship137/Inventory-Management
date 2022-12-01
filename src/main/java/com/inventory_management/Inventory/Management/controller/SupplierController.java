@@ -51,12 +51,4 @@ public class SupplierController {
         return supplierService.updateSupplier(supplierId , supplier);
     }
 
-    // delete supplier
-
-    @DeleteMapping("/supplier/deleteSupplier/{supplierId}")
-    public String deleteSupplierById(@PathVariable("supplierId") Long supplierId) throws NotFoundException{
-        supplierService.deleteSupplierById(supplierId);
-        return "Supplier deleted successfully";
-    }
-
 }

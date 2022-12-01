@@ -15,10 +15,5 @@ public interface SupplierCategoryRepository extends JpaRepository<SupplierCatego
 
     Optional<SupplierCategory> findBySupplierCategoryNameContaining(String supplierCategoryName);
 
-    @Modifying
-    @Query(
-            value = "delete from supplier_stocks s where s.supplier_category_id=?1",
-            nativeQuery = true
-    )
-    void deleteStocks(Long supplierCategoryId);
+
 }

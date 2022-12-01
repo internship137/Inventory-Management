@@ -37,12 +37,6 @@ public class SupplierCategoryController {
         return supplierCategoryService.fetchBySupplierCategoryId(supplierCategoryId);
     }
 
-    @DeleteMapping("/{supplierCategoryId}")
-    public String deleteSupplierCategoryById(@PathVariable("supplierCategoryId") Long supplierCategoryId) throws NotFoundException {
-        supplierCategoryService.deleteSupplierCategoryById(supplierCategoryId);
-        return "Deleted Successfully";
-    }
-
 
     @PutMapping("/{supplierCategoryId}")
     public SupplierCategory updateSupplierCategory(@PathVariable("supplierCategoryId") Long supplierCategoryId,

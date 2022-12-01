@@ -34,6 +34,7 @@ public class SupplierStocksServiceImpl implements SupplierStocksService {
     }
 
     // fetch all products
+
     @Override
     public List<SupplierCategorySupplierStockDTO> getAllProducts() {
         return supplierStocksRepository.findAll()
@@ -44,6 +45,7 @@ public class SupplierStocksServiceImpl implements SupplierStocksService {
 
 
     //    All products based on categoryId
+
     @Override
     public List<SupplierCategorySupplierStockDTO> fetchAllProductsByCategory(Long supplierCategoryId) throws NotFoundException {
         List<SupplierStocks> supplierStocksDto =
@@ -60,6 +62,7 @@ public class SupplierStocksServiceImpl implements SupplierStocksService {
 
 
     // get a specific product based on category
+
     @Override
     public List<SupplierCategorySupplierStockDTO> getBySupplierCategoryIdAndSupplierStocksId
     (Long supplierCategoryId, Long supplierStocksId) throws NotFoundException {
@@ -76,6 +79,7 @@ public class SupplierStocksServiceImpl implements SupplierStocksService {
     }
 
     //search a product
+
     @Override
     public List<SupplierCategorySupplierStockDTO> searchBySupplierProductName(String supplierProductName) throws NotFoundException {
         List<SupplierStocks> searchStock =

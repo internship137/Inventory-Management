@@ -53,14 +53,5 @@ public class CategoryController {
         return categoryService.updateCategory(categoryId, product);
     }
 
-    // deleteCategory
-
-    @DeleteMapping("/{categoryId}")
-    public String deleteCategoryById(@PathVariable("categoryId") Long categoryId) throws NotFoundException{
-        categoryService.deleteCategoryById(categoryId);
-        return "Category deleted Successfully !!";
-
-    }
-
 
 }

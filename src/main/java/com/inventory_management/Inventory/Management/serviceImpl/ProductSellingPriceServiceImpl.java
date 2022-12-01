@@ -104,18 +104,5 @@ public class ProductSellingPriceServiceImpl implements ProductSellingPriceServic
         return "Updated Successfully";
     }
 
-
-    // delete pricing
-
-
-    @Override
-    public void deletePricing(Long sellingPriceId) throws NotFoundException {
-
-        if (!productRepository.existsById(sellingPriceId)) {
-            throw new NotFoundException("Pricing Id does not exist");
-        }
-        productRepository.deleteById(sellingPriceId);
-
-    }
 }
 

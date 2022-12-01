@@ -19,7 +19,6 @@ public interface ProductSellingPriceService {
     public String updateProductSellingPrice(Long sellingPriceId,
                                             ProductSellingPrice productSellingPrice) throws NotFoundException;
 
-    public void deletePricing(Long sellingPriceId) throws NotFoundException;
 
 }
 
