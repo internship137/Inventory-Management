@@ -15,7 +15,5 @@ public interface SupplierCategoryService {
 
     SupplierCategory fetchBySupplierCategoryId(Long supplierCategoryId) throws NotFoundException;
 
-    void deleteSupplierCategoryById(Long supplierCategoryId) throws NotFoundException;
-
     Message updateSupplierCategory(Long supplierCategoryId, SupplierCategory supplierCategory) throws NotFoundException;
 }

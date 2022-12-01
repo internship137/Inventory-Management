@@ -54,6 +54,7 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
     }
 
 
+
     @Override
     public Message updateSupplierCategory(Long supplierCategoryId, SupplierCategory supplierCategory) throws NotFoundException {
         if (!supplierCategoryRepository.existsById(supplierCategoryId)) {
