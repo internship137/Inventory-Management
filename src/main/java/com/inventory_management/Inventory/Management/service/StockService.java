@@ -1,6 +1,7 @@
 package com.inventory_management.Inventory.Management.service;
 
 import com.inventory_management.Inventory.Management.dto.StocksDTO;
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.entity.Stock;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 
@@ -14,7 +15,7 @@ public interface StockService {
     public List<StocksDTO> fetchByStockId(Long stockId) throws NotFoundException;
 
 
-    public String updateStock(Long productId, Long stockId, Stock stock) throws NotFoundException;
+    public Message updateStock(Long productId, Long stockId, Stock stock) throws NotFoundException;
 
-    public void deleteStock(Long stockId) throws NotFoundException;
+    public Message deleteStock(Long stockId) throws NotFoundException;
 }

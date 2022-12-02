@@ -1,5 +1,6 @@
 package com.inventory_management.Inventory.Management.controller;
 
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.service.SupplierService;
 import com.inventory_management.Inventory.Management.entity.Supplier;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
@@ -47,7 +48,7 @@ public class SupplierController {
     // update supplier
 
     @PutMapping("/supplier/updateSupplier/{supplierId}")
-    public Supplier updateSupplier(@PathVariable("supplierId")Long supplierId, @RequestBody Supplier supplier) throws NotFoundException{
+    public Message updateSupplier(@PathVariable("supplierId")Long supplierId, @RequestBody Supplier supplier) throws NotFoundException{
         return supplierService.updateSupplier(supplierId , supplier);
     }
 

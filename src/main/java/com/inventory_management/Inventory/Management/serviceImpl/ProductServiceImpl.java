@@ -1,6 +1,7 @@
 package com.inventory_management.Inventory.Management.serviceImpl;
 
 
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.repository.CategoryRepository;
 import com.inventory_management.Inventory.Management.dto.CategoryProductPricingDTO;
 import com.inventory_management.Inventory.Management.entity.Category;
@@ -147,7 +148,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public String updateProduct(Long categoryId, Long productId, Product product) throws NotFoundException{
+    public Message updateProduct(Long categoryId, Long productId, Product product) throws NotFoundException{
 
         if (!productRepository.existsById(productId)) {
             throw new NotFoundException("Product with this id does not exist");
@@ -182,7 +183,9 @@ public class ProductServiceImpl implements ProductService {
 
 
         productRepository.save(proDB);
-        return "Updated Successfully";
+        Message message=new Message();
+        message.setMessage("Updated Successfully");
+        return message;
     }
 
 
@@ -190,12 +193,15 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public void deleteProduct(Long productId) throws NotFoundException {
+    public Message deleteProduct(Long productId) throws NotFoundException {
 
         if (!categoryRepository.existsById(productId)) {
             throw new NotFoundException("Product Id does not exist");
         }
         productRepository.deleteById(productId);
+        Message message=new Message();
+        message.setMessage("Deleted Successfully");
+        return message;
 
     }
 

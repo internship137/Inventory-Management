@@ -1,6 +1,7 @@
 package com.inventory_management.Inventory.Management.serviceImpl;
 
 
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.entity.Supplier;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.repository.SupplierRepository;
@@ -53,7 +54,7 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public Supplier updateSupplier(Long supplierId, Supplier supplier) throws NotFoundException{
+    public Message updateSupplier(Long supplierId, Supplier supplier) throws NotFoundException{
 
         if (!supplierRepository.existsById(supplierId)) {
             throw new NotFoundException("Supplier with this id does not exist");
@@ -74,16 +75,22 @@ public class SupplierServiceImpl implements SupplierService {
             supDB.setSupplierContact(supplier.getSupplierContact());
         }
 
-        return supplierRepository.save(supDB);
+        supplierRepository.save(supDB);
+        Message message=new Message();
+        message.setMessage("Updated Successfully");
+        return message;
     }
 
     @Override
-    public void deleteSupplierById(Long supplierId) throws NotFoundException {
+    public Message deleteSupplierById(Long supplierId) throws NotFoundException {
 
         if (!supplierRepository.existsById(supplierId)) {
             throw new NotFoundException("Product Id does not exist");
         }
         supplierRepository.deleteById(supplierId);
+        Message message=new Message();
+        message.setMessage("Deleted Successfully");
+        return message;
 
     }
 

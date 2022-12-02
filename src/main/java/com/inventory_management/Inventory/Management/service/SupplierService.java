@@ -1,5 +1,6 @@
 package com.inventory_management.Inventory.Management.service;
 
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.entity.Supplier;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 
@@ -15,7 +16,7 @@ public interface SupplierService {
 
     public List<Supplier> fetchSupplierByCompanyName(String supplierCompany) throws NotFoundException;
 
-    public Supplier updateSupplier(Long supplierId, Supplier supplier) throws NotFoundException;
+    public Message updateSupplier(Long supplierId, Supplier supplier) throws NotFoundException;
 
-    public void deleteSupplierById(Long supplierId) throws NotFoundException;
+    public Message deleteSupplierById(Long supplierId) throws NotFoundException;
 }

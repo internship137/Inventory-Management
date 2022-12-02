@@ -2,6 +2,7 @@ package com.inventory_management.Inventory.Management.controller;
 
 
 
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.service.CategoryService;
 import com.inventory_management.Inventory.Management.entity.Category;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
@@ -49,7 +50,7 @@ public class CategoryController {
     // updateCategory
 
     @PutMapping("/{categoryId}")
-    public Category updateCategory(@PathVariable("categoryId") Long categoryId, @RequestBody Category product) throws NotFoundException{
+    public Message updateCategory(@PathVariable("categoryId") Long categoryId, @RequestBody Category product) throws NotFoundException{
         return categoryService.updateCategory(categoryId, product);
     }
 

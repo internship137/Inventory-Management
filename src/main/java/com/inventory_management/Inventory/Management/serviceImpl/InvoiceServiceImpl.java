@@ -2,6 +2,7 @@ package com.inventory_management.Inventory.Management.serviceImpl;
 
 import com.inventory_management.Inventory.Management.dto.InvoiceStocksDTO;
 import com.inventory_management.Inventory.Management.entity.Invoice;
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.entity.Stock;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.repository.InvoiceRepository;
@@ -27,7 +28,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     private QuantityLowEmailAlert quantityLowEmailAlert;
 
     @Override
-    public String saveInvoice(Invoice invoice, Long stockId) throws NotFoundException {
+    public Message saveInvoice(Invoice invoice, Long stockId) throws NotFoundException {
         if (!stockRepository.existsById(stockId)){
             throw new NotFoundException("Product with this ID does not exist");
         }
@@ -43,7 +44,10 @@ public class InvoiceServiceImpl implements InvoiceService {
         Long sellingQty = invoice.getSellingQuantity();
 
         if ( sellingQty > stockQty){
-            return " Stock quantity is less than Selling Quantity";
+
+            Message message=new Message();
+            message.setMessage(" Stock quantity is less than Selling Quantity");
+            return message;
 
         }
 
@@ -59,13 +63,15 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         if (stockQty<50){
             quantityLowEmailAlert.sendOrderSuccessfulEmail(
-                    "gokuldas1999@gmail.com",
+                    "anson.joseph05@gmail.com",
                     "Stock with "+stock.getStockId()+" is low",
                     "Alert"
             );
         }
 
-        return "Invoice Generated";
+        Message message=new Message();
+        message.setMessage("Invoice Generated");
+        return message;
     }
 
     @Override
@@ -88,7 +94,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public void updateInvoice(Long invoiceId, Invoice invoice) throws NotFoundException {
+    public Message updateInvoice(Long invoiceId, Invoice invoice) throws NotFoundException {
         Invoice invoiceDB = invoiceRepository.findById(invoiceId).get();
 
         if (!invoiceRepository.existsById(invoiceId)){
@@ -100,14 +106,20 @@ public class InvoiceServiceImpl implements InvoiceService {
             invoiceDB.setSellingQuantity(invoice.getSellingQuantity());
         }
         invoiceRepository.save(invoiceDB);
+        Message message=new Message();
+        message.setMessage("successfully updated");
+        return message;
     }
 
     @Override
-    public void deleteInvoice(Long invoiceId) throws NotFoundException {
+    public Message deleteInvoice(Long invoiceId) throws NotFoundException {
         if (!invoiceRepository.existsById(invoiceId)){
             throw new NotFoundException("Invoice with this id does not exist");
         }
         invoiceRepository.deleteById(invoiceId);
+        Message message=new Message();
+        message.setMessage("deleted successfully");
+        return message;
     }
 
     @Override

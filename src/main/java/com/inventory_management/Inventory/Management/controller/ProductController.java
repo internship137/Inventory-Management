@@ -1,6 +1,7 @@
 package com.inventory_management.Inventory.Management.controller;
 
 
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.service.ProductService;
 import com.inventory_management.Inventory.Management.repository.CategoryRepository;
 import com.inventory_management.Inventory.Management.service.ProductSellingPriceService;
@@ -87,9 +88,9 @@ public class ProductController {
 
 
     @PutMapping("/category/{categoryId}/updateProduct/{productId}")
-    public String updateProduct(@PathVariable Long categoryId,
-                                @PathVariable Long productId,
-                                @RequestBody Product product) throws NotFoundException{
+    public Message updateProduct(@PathVariable Long categoryId,
+                                 @PathVariable Long productId,
+                                 @RequestBody Product product) throws NotFoundException{
         return productService.updateProduct(categoryId, productId, product);
     }
 

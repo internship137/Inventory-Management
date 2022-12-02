@@ -2,7 +2,7 @@ package com.inventory_management.Inventory.Management.controller;
 
 import com.inventory_management.Inventory.Management.dto.InvoiceStocksDTO;
 import com.inventory_management.Inventory.Management.entity.Invoice;
-import com.inventory_management.Inventory.Management.entity.PlaceOrder;
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +19,8 @@ public class InvoiceController {
     // Save Invoice
 
     @PostMapping("/product/{stockId}/invoice")
-    public String saveInvoice(@RequestBody Invoice invoice,
-                            @PathVariable Long stockId) throws NotFoundException {
+    public Message saveInvoice(@RequestBody Invoice invoice,
+                               @PathVariable Long stockId) throws NotFoundException {
         return invoiceService.saveInvoice(invoice,stockId);
     }
 

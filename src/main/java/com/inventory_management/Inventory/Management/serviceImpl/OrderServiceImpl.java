@@ -115,6 +115,17 @@ public class OrderServiceImpl implements OrderService {
         return message;
     }
 
+    @Override
+    public List<PlaceOrderSupplierStocksDTO> getByOrderId(Long orderId) throws NotFoundException {
+        if (!orderRepository.existsById(orderId)){
+            throw new NotFoundException("Order with this id does not exist");
+        }
+        return orderRepository.findById(orderId)
+                .stream()
+                .map(this::convertEntityToDto)
+                .collect(Collectors.toList());
+    }
+
 
     private PlaceOrderSupplierStocksDTO convertEntityToDto(PlaceOrder placeOrder) {
         PlaceOrderSupplierStocksDTO placeOrderSupplierStocksDTO =

@@ -20,7 +20,7 @@ public class Stock {
     @Column(name = "stock_id")
     private Long stockId;
 
-    @Column(name="stock_quantity")
+    @Column(name = "stock_quantity")
     private Long stockQuantity;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -30,19 +30,13 @@ public class Stock {
     // many-to-one association to Product
 
     @ManyToOne
-    @JoinColumn(name="productId")
+    @JoinColumn(name = "productId")
     private Product product;
 
     // many-to-one association to Supplier
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="supplierId")
+    @JoinColumn(name = "supplierId")
     private Supplier supplier;
-//
-//    // many-to-one association to Category
-//
-//    @ManyToOne
-//    @JoinColumn(name="categoryId")
-//    private Category category;
-//
+
 }

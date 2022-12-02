@@ -2,6 +2,7 @@ package com.inventory_management.Inventory.Management.service;
 
 
 import com.inventory_management.Inventory.Management.dto.CategoryProductPricingDTO;
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.entity.Product;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 
@@ -26,7 +27,7 @@ public interface ProductService {
     public List<CategoryProductPricingDTO> fetchByProductCode(Long productCode) throws NotFoundException;
 
 
-    public String updateProduct(Long productId, Long id, Product product) throws NotFoundException;
+    public Message updateProduct(Long productId, Long id, Product product) throws NotFoundException;
 
-    public void deleteProduct(Long productId) throws NotFoundException;
+    public Message deleteProduct(Long productId) throws NotFoundException;
 }

@@ -1,5 +1,6 @@
 package com.inventory_management.Inventory.Management.controller;
 
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.repository.StockRepository;
 import com.inventory_management.Inventory.Management.service.StockService;
 import com.inventory_management.Inventory.Management.dto.StocksDTO;
@@ -48,9 +49,9 @@ public class StockController {
     // Update stock
 
     @PutMapping("/product/{productId}/updateStocks/{stockId}")
-    public String updateStock(@PathVariable Long productId,
-                                @PathVariable Long stockId,
-                                @RequestBody Stock stock) throws NotFoundException{
+    public Message updateStock(@PathVariable Long productId,
+                               @PathVariable Long stockId,
+                               @RequestBody Stock stock) throws NotFoundException{
         return stockService.updateStock(productId, stockId, stock);
     }
 

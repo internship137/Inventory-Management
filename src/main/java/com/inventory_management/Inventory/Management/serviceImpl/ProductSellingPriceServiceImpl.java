@@ -1,6 +1,7 @@
 package com.inventory_management.Inventory.Management.serviceImpl;
 
 
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.repository.ProductRepository;
 import com.inventory_management.Inventory.Management.entity.Product;
 import com.inventory_management.Inventory.Management.entity.ProductSellingPrice;
@@ -28,7 +29,11 @@ public class ProductSellingPriceServiceImpl implements ProductSellingPriceServic
 
 
     @Override
-    public ProductSellingPrice saveSellingPrice(Long productId, ProductSellingPrice productSellingPrice) {
+    public ProductSellingPrice saveSellingPrice(Long productId, ProductSellingPrice productSellingPrice)  throws NotFoundException{
+
+        if (!productRepository.existsById(productId)){
+            throw new NotFoundException("Product with this ID does not exist");
+        }
         Product product = productRepository.findById(productId).get();
 
         float mrp = product.getMaximumRetailPrice();
@@ -87,8 +92,8 @@ public class ProductSellingPriceServiceImpl implements ProductSellingPriceServic
 
 
     @Override
-    public String updateProductSellingPrice(Long sellingPriceId,
-                                            ProductSellingPrice productSellingPrice) throws NotFoundException{
+    public Message updateProductSellingPrice(Long sellingPriceId,
+                                             ProductSellingPrice productSellingPrice) throws NotFoundException{
 
         if (!productSellingPriceRepository.existsById(sellingPriceId)) {
             throw new NotFoundException("Selling Price with this id does not exist");
@@ -115,7 +120,10 @@ public class ProductSellingPriceServiceImpl implements ProductSellingPriceServic
 
 
         productSellingPriceRepository.save(pricingDB);
-        return "Updated Successfully";
+        Message message=new Message();
+        message.setMessage("Updated Successfully");
+        return message;
+
     }
 
 }

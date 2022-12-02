@@ -44,7 +44,7 @@ public class PDFServiceBill {
 
         Paragraph paragraph = new Paragraph("Bill Invoice", fontTile1);
         paragraph.setAlignment(Paragraph.ALIGN_CENTER);
-//        paragraph.setSpacingBefore(40);
+
 
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
@@ -85,17 +85,12 @@ public class PDFServiceBill {
 
     private void writeTableHeader(PdfPTable table) {
         PdfPCell cell = new PdfPCell();
-//        cell.setBackgroundColor(Color.BLUE);
         cell.setPadding(3);
 
         Font font = FontFactory.getFont(FontFactory.HELVETICA);
-//        font.setColor(Color.WHITE);
 
         cell.setPhrase(new Phrase("invoice_id", font));
         table.addCell(cell);
-
-//        cell.setPhrase(new Phrase("date_of_issue" , font));
-//        table.addCell(cell);
 
         cell.setPhrase(new Phrase("product_name" , font));
         table.addCell(cell);
@@ -115,7 +110,6 @@ public class PDFServiceBill {
     private void writeTableData(PdfPTable table) {
         for (InvoiceStocksDTO invoiceStocksDTO : invoiceStocksDTOList){
             table.addCell(String.valueOf(invoiceStocksDTO.getInvoiceId()));
-//            table.addCell(String.valueOf(invoiceStocksDTO.getDateOfIssue()));
             table.addCell(invoiceStocksDTO.getProductName());
             table.addCell(invoiceStocksDTO.getCategoryName());
             table.addCell(String.valueOf(invoiceStocksDTO.getProductPrice()));

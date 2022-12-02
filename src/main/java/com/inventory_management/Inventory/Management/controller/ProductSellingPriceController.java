@@ -2,6 +2,7 @@ package com.inventory_management.Inventory.Management.controller;
 
 
 
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.entity.ProductSellingPrice;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.service.ProductSellingPriceService;
@@ -22,7 +23,7 @@ public class ProductSellingPriceController {
 
     @PostMapping("/product/{productId}/addSellingPrice")
     public ProductSellingPrice saveSellingPrice(@PathVariable Long productId,
-                                                @RequestBody ProductSellingPrice productSellingPrice) {
+                                                @RequestBody ProductSellingPrice productSellingPrice) throws NotFoundException{
         return productSellingPriceService.saveSellingPrice( productId, productSellingPrice);
 
     }
@@ -53,8 +54,8 @@ public class ProductSellingPriceController {
 
 
     @PutMapping("/productSellingPrice/{sellingPriceId}")
-    public String updateProductSellingPrice(@PathVariable Long sellingPriceId,
-                                            @RequestBody ProductSellingPrice productSellingPrice) throws NotFoundException{
+    public Message updateProductSellingPrice(@PathVariable Long sellingPriceId,
+                                             @RequestBody ProductSellingPrice productSellingPrice) throws NotFoundException{
         return productSellingPriceService.updateProductSellingPrice(sellingPriceId, productSellingPrice);
     }
 

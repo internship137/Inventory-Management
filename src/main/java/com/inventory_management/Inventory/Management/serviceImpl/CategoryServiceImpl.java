@@ -3,6 +3,7 @@ package com.inventory_management.Inventory.Management.serviceImpl;
 
 
 import com.inventory_management.Inventory.Management.entity.Category;
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.repository.CategoryRepository;
 import com.inventory_management.Inventory.Management.service.CategoryService;
@@ -60,7 +61,7 @@ public class CategoryServiceImpl implements CategoryService {
     // Update Category
 
     @Override
-    public Category updateCategory(Long categoryId, Category category) throws NotFoundException{
+    public Message updateCategory(Long categoryId, Category category) throws NotFoundException{
 
         if (!categoryRepository.existsById(categoryId)) {
             throw new NotFoundException("Category with this id does not exist");
@@ -73,7 +74,10 @@ public class CategoryServiceImpl implements CategoryService {
             catDB.setCategoryName(category.getCategoryName());
         }
 
-        return categoryRepository.save(catDB);
+        categoryRepository.save(catDB);
+        Message message=new Message();
+        message.setMessage("Updated Successfully");
+        return message;
     }
 
 

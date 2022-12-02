@@ -1,5 +1,6 @@
 package com.inventory_management.Inventory.Management.serviceImpl;
 
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.repository.ProductRepository;
 import com.inventory_management.Inventory.Management.dto.StocksDTO;
 import com.inventory_management.Inventory.Management.entity.Product;
@@ -69,7 +70,7 @@ public class StockServiceImpl implements StockService {
 
 
     @Override
-    public String updateStock(Long productId, Long stockId, Stock stock) throws NotFoundException{
+    public Message updateStock(Long productId, Long stockId, Stock stock) throws NotFoundException{
 
         if (!stockRepository.existsById(stockId)) {
             throw new NotFoundException("Stock with this id does not exist");
@@ -83,7 +84,9 @@ public class StockServiceImpl implements StockService {
         }
 
         stockRepository.save(stockDB);
-        return "Updated Successfully";
+        Message message=new Message();
+        message.setMessage("Updated Successfully");
+        return message;
     }
 
 
@@ -91,12 +94,16 @@ public class StockServiceImpl implements StockService {
 
 
     @Override
-    public void deleteStock(Long stockId) throws NotFoundException{
+    public Message deleteStock(Long stockId) throws NotFoundException{
 
             if (!stockRepository.existsById(stockId)) {
                 throw new NotFoundException("Stock Id does not exist");
             }
             stockRepository.deleteById(stockId);
+        Message message=new Message();
+        message.setMessage("Deleted Successfully");
+        return message;
+
 
     }
 
