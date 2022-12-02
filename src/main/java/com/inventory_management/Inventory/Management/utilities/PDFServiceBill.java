@@ -89,13 +89,13 @@ public class PDFServiceBill {
 
         Font font = FontFactory.getFont(FontFactory.HELVETICA);
 
-        cell.setPhrase(new Phrase("invoice_id", font));
+        cell.setPhrase(new Phrase("customer_name" ,font));
+        table.addCell(cell);
+
+        cell.setPhrase(new Phrase("email" ,font));
         table.addCell(cell);
 
         cell.setPhrase(new Phrase("product_name" , font));
-        table.addCell(cell);
-
-        cell.setPhrase(new Phrase("category_name" , font));
         table.addCell(cell);
 
         cell.setPhrase(new Phrase("product_price", font));
@@ -109,9 +109,9 @@ public class PDFServiceBill {
 
     private void writeTableData(PdfPTable table) {
         for (InvoiceStocksDTO invoiceStocksDTO : invoiceStocksDTOList){
-            table.addCell(String.valueOf(invoiceStocksDTO.getInvoiceId()));
+            table.addCell(invoiceStocksDTO.getCustomerName());
+            table.addCell(invoiceStocksDTO.getCustomerEmail());
             table.addCell(invoiceStocksDTO.getProductName());
-            table.addCell(invoiceStocksDTO.getCategoryName());
             table.addCell(String.valueOf(invoiceStocksDTO.getProductPrice()));
             table.addCell(String.valueOf(invoiceStocksDTO.getSellingQuantity()));
         }

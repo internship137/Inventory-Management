@@ -27,13 +27,11 @@ public class Stock {
     @Column(name = "created_date_time")
     private Date stockCreatedDateTime = new Date(System.currentTimeMillis());
 
-    // many-to-one association to Product
 
     @ManyToOne
     @JoinColumn(name = "productId")
     private Product product;
 
-    // many-to-one association to Supplier
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "supplierId")

@@ -27,6 +27,12 @@ public class Invoice {
     @Column(name = "selling_quantity")
     private Long sellingQuantity;
 
+    @Column(name = "customer_email")
+    private String customerEmail;
+
+    @Column(name = "customer_name")
+    private String customerName;
+
     @Column(name = "stock_id")
     private Long stockId;
 

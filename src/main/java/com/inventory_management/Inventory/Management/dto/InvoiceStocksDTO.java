@@ -13,5 +13,7 @@ public class InvoiceStocksDTO {
     private String categoryName;
     private Long productPrice;
     private Long sellingQuantity;
+    private String customerEmail;
+    private String customerName;
 
 }

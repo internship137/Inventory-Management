@@ -8,6 +8,7 @@ import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.repository.InvoiceRepository;
 import com.inventory_management.Inventory.Management.repository.StockRepository;
 import com.inventory_management.Inventory.Management.service.InvoiceService;
+import com.inventory_management.Inventory.Management.utilities.BillInvoiceEmail;
 import com.inventory_management.Inventory.Management.utilities.QuantityLowEmailAlert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Autowired
     private QuantityLowEmailAlert quantityLowEmailAlert;
+
+    @Autowired
+    private BillInvoiceEmail billInvoiceEmail;
 
     @Override
     public Message saveInvoice(Invoice invoice, Long stockId) throws NotFoundException {
@@ -61,13 +65,25 @@ public class InvoiceServiceImpl implements InvoiceService {
         stock.setStockQuantity(stockQty);
         stockRepository.save(stock);
 
+
+
         if (stockQty<50){
             quantityLowEmailAlert.sendOrderSuccessfulEmail(
                     "anson.joseph05@gmail.com",
-                    "Stock with "+stock.getStockId()+" is low",
+                    "Stock with Id "+stock.getStockId()+" is low below 50 units",
                     "Alert"
             );
         }
+
+
+        billInvoiceEmail.sendBillInvoiceEmail(""+invoice.getCustomerEmail(),
+                "Invoice Details of Purchased commodities from Company_Name",
+                "Bill Invoice"
+        );
+
+
+
+
 
         Message message=new Message();
         message.setMessage("Invoice Generated");
@@ -140,6 +156,9 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceStocksDTO.setCategoryName(invoice.getCategoryName());
         invoiceStocksDTO.setProductPrice(invoice.getProductPrice());
         invoiceStocksDTO.setSellingQuantity(invoice.getSellingQuantity());
+        invoiceStocksDTO.setCustomerEmail(invoice.getCustomerEmail());
+        invoiceStocksDTO.setCustomerName(invoice.getCustomerName());
+
 
 
         return invoiceStocksDTO;

@@ -23,5 +23,7 @@ public class QuantityLowEmailAlert {
         message.setTo(toEmail);
         message.setText(body);
         message.setSubject(subject);
+
+        mailSender.send(message);
     }
 }
