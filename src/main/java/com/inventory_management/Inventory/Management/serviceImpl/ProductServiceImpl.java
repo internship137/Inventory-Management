@@ -212,6 +212,7 @@ public class ProductServiceImpl implements ProductService {
         categoryProductPricingDTO.setProductCode(product.getProductCode());
         categoryProductPricingDTO.setProductDescription(product.getProductDescription());
         categoryProductPricingDTO.setProductBuyingPrice(product.getProductBuyingPrice());
+        categoryProductPricingDTO.setMaximumRetailPrice(product.getMaximumRetailPrice());
         categoryProductPricingDTO.setProductManufacturer(product.getProductManufacturer());
         categoryProductPricingDTO.setProductCreatedDateTime(product.getProductCreatedDateTime());
         categoryProductPricingDTO.setCategory(product.getCategory().getCategoryName());

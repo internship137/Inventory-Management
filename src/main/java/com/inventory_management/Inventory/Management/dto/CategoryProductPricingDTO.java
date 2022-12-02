@@ -12,6 +12,7 @@ public class CategoryProductPricingDTO {
     private Long productCode;
     private String productDescription;
     private Long productBuyingPrice;
+    private Long maximumRetailPrice;
     private Long productSellingPrice;
     private String productManufacturer;
     private Date productCreatedDateTime;

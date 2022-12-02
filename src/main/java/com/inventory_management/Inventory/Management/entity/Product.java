@@ -33,6 +33,9 @@ public class Product {
     @Column(name = "product_buying_price")
     private Long productBuyingPrice;
 
+    @Column(name = "maximum_retail_price")
+    private Long maximumRetailPrice;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "selling_price_id", referencedColumnName = "selling_price_id")        // pricing
     private ProductSellingPrice productSellingPrice;

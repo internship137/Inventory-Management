@@ -30,8 +30,20 @@ public class ProductSellingPriceServiceImpl implements ProductSellingPriceServic
     @Override
     public ProductSellingPrice saveSellingPrice(Long productId, ProductSellingPrice productSellingPrice) {
         Product product = productRepository.findById(productId).get();
+
+        float mrp = product.getMaximumRetailPrice();
+        float dicountPercentage = productSellingPrice.getPricingDiscountPercentage();
+
+        float sllngPrice = productSellingPrice.getSellingPrice();
+
+        sllngPrice = ((mrp) - (( dicountPercentage/100)*mrp) );
+        productSellingPrice.setSellingPrice((long) sllngPrice);
+
+
         product.setProductSellingPrice(productSellingPrice);
         return productSellingPriceRepository.save(productSellingPrice);
+
+
     }
 
     // Get All Pricing
@@ -92,6 +104,8 @@ public class ProductSellingPriceServiceImpl implements ProductSellingPriceServic
         if (Objects.nonNull(productSellingPrice.getPricingDiscountPercentage()) &&
                 !"".equalsIgnoreCase(String.valueOf(productSellingPrice.getPricingDiscountPercentage()))) {
             pricingDB.setPricingDiscountPercentage(productSellingPrice.getPricingDiscountPercentage());
+
+
         }
 
         if (Objects.nonNull(productSellingPrice.getPricingExpireDate()) &&
