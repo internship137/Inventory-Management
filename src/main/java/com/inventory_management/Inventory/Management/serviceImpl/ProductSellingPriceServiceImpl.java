@@ -44,8 +44,6 @@ public class ProductSellingPriceServiceImpl implements ProductSellingPriceServic
         sllngPrice = ((mrp) - (( dicountPercentage/100)*mrp) );
         productSellingPrice.setSellingPrice((long) sllngPrice);
 
-
-        product.setProductSellingPrice(productSellingPrice);
         return productSellingPriceRepository.save(productSellingPrice);
 
 
@@ -109,17 +107,16 @@ public class ProductSellingPriceServiceImpl implements ProductSellingPriceServic
         if (Objects.nonNull(productSellingPrice.getPricingDiscountPercentage()) &&
                 !"".equalsIgnoreCase(String.valueOf(productSellingPrice.getPricingDiscountPercentage()))) {
             pricingDB.setPricingDiscountPercentage(productSellingPrice.getPricingDiscountPercentage());
-
-
         }
+
 
         if (Objects.nonNull(productSellingPrice.getPricingExpireDate()) &&
                 !"".equalsIgnoreCase(String.valueOf(productSellingPrice.getPricingExpireDate()))) {
             pricingDB.setPricingExpireDate(productSellingPrice.getPricingExpireDate());
         }
 
-
         productSellingPriceRepository.save(pricingDB);
+
         Message message=new Message();
         message.setMessage("Updated Successfully");
         return message;

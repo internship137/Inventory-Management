@@ -51,7 +51,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         Long stockQty = stock.getStockQuantity();
         Long sellingQty = invoice.getSellingQuantity();
 
-        if ( sellingQty > stockQty){
+        if ( sellingQty > stockQty ){
 
             Message message=new Message();
             message.setMessage(" Stock quantity is less than Selling Quantity");
