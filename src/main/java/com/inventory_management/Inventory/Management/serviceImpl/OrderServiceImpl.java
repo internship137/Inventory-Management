@@ -11,6 +11,7 @@ import com.inventory_management.Inventory.Management.service.OrderService;
 import com.inventory_management.Inventory.Management.repository.SupplierStocksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -30,23 +31,23 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Message saveOrder(PlaceOrder placeOrder, Long supplierStocksId) throws NotFoundException {
-        if (!supplierStocksRepository.existsById(supplierStocksId)){
+        if (!supplierStocksRepository.existsById(supplierStocksId)) {
             throw new NotFoundException("Product with this ID does not exist");
         }
 
         SupplierStocks supplierStocks = supplierStocksRepository.findById(supplierStocksId).get();
 
-        Long supplierStockId= supplierStocks.getSupplierStocksId();
-        String supplierProductName1=supplierStocks.getSupplierProductName();
-        String stockCategory= supplierStocks.getSupplierCategory().getSupplierCategoryName();
-        Long orderPrice=supplierStocks.getSupplierProductPrice();
+        Long supplierStockId = supplierStocks.getSupplierStocksId();
+        String supplierProductName1 = supplierStocks.getSupplierProductName();
+        String stockCategory = supplierStocks.getSupplierCategory().getSupplierCategoryName();
+        Long orderPrice = supplierStocks.getSupplierProductPrice();
 
         Long supplierQty = supplierStocks.getSupplierProductQuantity();
         Long orderQty = placeOrder.getOrderQuantity();
 
 
         if (orderQty > supplierQty) {
-            Message message=new Message();
+            Message message = new Message();
             message.setMessage("Order quantity exceeded supplier quantity");
             return message;
         }
@@ -55,6 +56,7 @@ public class OrderServiceImpl implements OrderService {
         placeOrder.setSupplierStocksId(supplierStockId);
         placeOrder.setSupplierProductName(supplierProductName1);
         placeOrder.setSupplierProductPrice(orderPrice);
+        placeOrder.setOrderStatus("in-transit");
 
         orderRepository.save(placeOrder);
         supplierQty = supplierQty - orderQty;
@@ -63,21 +65,21 @@ public class OrderServiceImpl implements OrderService {
 
         orderSuccessfulEmail.sendOrderSuccessfulEmail(
                 "gokuldas1999@gmail.com",
-                "Your Order for "+placeOrder.getSupplierProductName()+" has been placed successfully \n"+
-                "Order Id: "+placeOrder.getOrderId()+"\n"+
-                "Quantity: "+placeOrder.getOrderQuantity()+"\n"+
-                "Order Price: "+placeOrder.getSupplierProductPrice()+"\n"+
-                "Order Placed On: "+placeOrder.getOrderPlacedDate(),
+                "Your Order for " + placeOrder.getSupplierProductName() + " has been placed successfully \n" +
+                        "Order Id: " + placeOrder.getOrderId() + "\n" +
+                        "Quantity: " + placeOrder.getOrderQuantity() + "\n" +
+                        "Order Price: " + placeOrder.getSupplierProductPrice() + "\n" +
+                        "Order Placed On: " + placeOrder.getOrderPlacedDate(),
                 "Order Placed Successfully"
         );
 
-        Message message=new Message();
+        Message message = new Message();
         message.setMessage("Order placed successfully");
         return message;
     }
 
     @Override
-    public List<PlaceOrderSupplierStocksDTO> getAllOrders(){
+    public List<PlaceOrderSupplierStocksDTO> getAllOrders() {
         return orderRepository.findAll()
                 .stream()
                 .map(this::convertEntityToDto)
@@ -86,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<PlaceOrderSupplierStocksDTO> getOrderById(Long orderId) throws NotFoundException {
-        if (!orderRepository.existsById(orderId)){
+        if (!orderRepository.existsById(orderId)) {
             throw new NotFoundException("Order with this id does not exist");
         }
         return orderRepository.findById(orderId)
@@ -96,28 +98,27 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-
     @Override
-    public Message updateOrder(Long orderId, PlaceOrder placeOrder) throws NotFoundException{
-        PlaceOrder order=orderRepository.findById(orderId).get();
+    public Message updateOrder(Long orderId, PlaceOrder placeOrder) throws NotFoundException {
+        PlaceOrder order = orderRepository.findById(orderId).get();
 
-        if (!orderRepository.existsById(orderId)){
+        if (!orderRepository.existsById(orderId)) {
             throw new NotFoundException("Order with this id does not exist");
         }
 
-        if(Objects.nonNull(placeOrder.getOrderQuantity())&&
-                !"".equalsIgnoreCase(String.valueOf(placeOrder.getOrderQuantity()))){
+        if (Objects.nonNull(placeOrder.getOrderQuantity()) &&
+                !"".equalsIgnoreCase(String.valueOf(placeOrder.getOrderQuantity()))) {
             order.setOrderQuantity(placeOrder.getOrderQuantity());
         }
         orderRepository.save(order);
-        Message message=new Message();
+        Message message = new Message();
         message.setMessage("successfully updated");
         return message;
     }
 
     @Override
     public List<PlaceOrderSupplierStocksDTO> getByOrderId(Long orderId) throws NotFoundException {
-        if (!orderRepository.existsById(orderId)){
+        if (!orderRepository.existsById(orderId)) {
             throw new NotFoundException("Order with this id does not exist");
         }
         return orderRepository.findById(orderId)
@@ -138,6 +139,7 @@ public class OrderServiceImpl implements OrderService {
         placeOrderSupplierStocksDTO.setSupplierProductPrice(placeOrder.getSupplierProductPrice());
         placeOrderSupplierStocksDTO.setOrderQuantity(placeOrder.getOrderQuantity());
         placeOrderSupplierStocksDTO.setOrderPlacedDate(placeOrder.getOrderPlacedDate());
+        placeOrderSupplierStocksDTO.setOrderStatus(placeOrder.getOrderStatus());
         return placeOrderSupplierStocksDTO;
     }
 }

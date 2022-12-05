@@ -37,4 +37,7 @@ public class PlaceOrder {
     @Column(name = "supplier_product_price")
     private Long supplierProductPrice;
 
+    @Column(name = "order_status")
+    private String orderStatus;
+
 }

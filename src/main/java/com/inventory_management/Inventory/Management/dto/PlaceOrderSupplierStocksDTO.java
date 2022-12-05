@@ -13,5 +13,6 @@ public class PlaceOrderSupplierStocksDTO {
     private String supplierCategoryName;
     private Long orderQuantity;
     private Date orderPlacedDate;
+    private String orderStatus;
 
 }
