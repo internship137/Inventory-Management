@@ -50,7 +50,6 @@ public class ProductServiceImpl implements ProductService {
                 .stream()
                 .map(this::convertEntityToDto)
                 .collect(Collectors.toList());
-
     }
 
 
@@ -68,8 +67,6 @@ public class ProductServiceImpl implements ProductService {
                 .stream()
                 .map(this::convertEntityToDto)
                 .collect(Collectors.toList());
-
-
     }
 
 

@@ -1,11 +1,12 @@
-package com.inventory_management.Inventory.Management.utilities;
+package com.inventory_management.Inventory.Management.utilities.OrderPDF;
 
 
-import com.inventory_management.Inventory.Management.dto.InvoiceStocksDTO;
 import com.inventory_management.Inventory.Management.dto.PlaceOrderSupplierStocksDTO;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
+import com.inventory_management.Inventory.Management.repository.OrderRepository;
 import com.inventory_management.Inventory.Management.service.OrderService;
 import com.lowagie.text.DocumentException;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,23 +19,27 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+@Data
 @Controller
 public class PDFExportControllerOrder {
 
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private OrderRepository orderRepository;
+
     private final PDFServiceOrder pdfService1;
 
-    public PDFExportControllerOrder(PDFServiceOrder pdfService1){
-        this.pdfService1 = pdfService1;
-    }
 
     @GetMapping("/pdf/orderInvoice/generate/{orderId}")
 
     public void generateOrderPDF(HttpServletResponse response
             , @PathVariable Long orderId) throws IOException
             , DocumentException, NotFoundException {
+        if (!orderRepository.existsById(orderId)) {
+            throw new NotFoundException("Order with this id does not exist");
+        }
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());

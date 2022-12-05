@@ -1,9 +1,9 @@
-package com.inventory_management.Inventory.Management.utilities;
+package com.inventory_management.Inventory.Management.utilities.BillInvoicePDF;
 
 
 import com.inventory_management.Inventory.Management.dto.InvoiceStocksDTO;
-import com.inventory_management.Inventory.Management.dto.PlaceOrderSupplierStocksDTO;
 import com.lowagie.text.*;
+import com.lowagie.text.Font;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
@@ -25,11 +25,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PDFServiceOrder {
 
-    private List<PlaceOrderSupplierStocksDTO> placeOrderSupplierStocksDTOList;
+public class PDFServiceBill {
 
-    public void export(HttpServletResponse response) throws IOException, DocumentException {
+    private List<InvoiceStocksDTO> invoiceStocksDTOList;
+
+
+    public void export(HttpServletResponse response) throws IOException , DocumentException {
         Document document = new Document(PageSize.A4);
         PdfWriter.getInstance(document, response.getOutputStream());
         document.open();
@@ -40,7 +42,7 @@ public class PDFServiceOrder {
         Font fontTile2 = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
         fontTile2.setSize(18);
 
-        Paragraph paragraph = new Paragraph("Order Invoice", fontTile1);
+        Paragraph paragraph = new Paragraph("Bill Invoice", fontTile1);
         paragraph.setAlignment(Paragraph.ALIGN_CENTER);
 
 
@@ -51,28 +53,22 @@ public class PDFServiceOrder {
         paragraph1.setSpacingBefore(20);
 
 
-        Paragraph paragraph2 = new Paragraph("Supplier Company Name \n Supplier Address " +
+        Paragraph paragraph2 = new Paragraph("Company Name \n Company Address " +
                 "\n Phone : 123456789 \n Email : company@gmail.com " );
         paragraph2.setAlignment(Paragraph.ALIGN_LEFT);
         paragraph2.setSpacingBefore(30);
 
-        Paragraph paragraph3 = new Paragraph("Shipping Address");
-        paragraph3.setAlignment(Paragraph.ALIGN_LEFT);
+        Paragraph paragraph3 = new Paragraph("Sale Details ");
+        paragraph3.setAlignment(Paragraph.ALIGN_CENTER);
         paragraph3.setSpacingBefore(20);
-
-        Paragraph paragraph4 = new Paragraph("Client Company Name \n Client Company Address " +
-                "\n Phone : 123456789 \n Email : company@gmail.com " );
-        paragraph4.setAlignment(Paragraph.ALIGN_LEFT);
-        paragraph4.setSpacingBefore(30);
-
-        Paragraph paragraph5 = new Paragraph("Order Details ");
-        paragraph5.setAlignment(Paragraph.ALIGN_CENTER);
-        paragraph5.setSpacingBefore(20);
 
         PdfPTable table = new PdfPTable(5);
         table.setWidthPercentage(100);
         table.setSpacingBefore(20);
 
+        Paragraph paragraph4 = new Paragraph("Thank you for your Business.", fontTile2);
+        paragraph4.setAlignment(Paragraph.ALIGN_CENTER);
+        paragraph4.setSpacingBefore(230);
 
         writeTableHeader(table);
         writeTableData(table);
@@ -81,9 +77,8 @@ public class PDFServiceOrder {
         document.add(paragraph1);
         document.add(paragraph2);
         document.add(paragraph3);
-        document.add(paragraph4);
-        document.add(paragraph5);
         document.add(table);
+        document.add(paragraph4);
         document.close();
 
     }
@@ -94,32 +89,33 @@ public class PDFServiceOrder {
 
         Font font = FontFactory.getFont(FontFactory.HELVETICA);
 
-        cell.setPhrase(new Phrase("order_id", font));
+        cell.setPhrase(new Phrase("customer_name" ,font));
         table.addCell(cell);
 
-        cell.setPhrase(new Phrase("supplier_product_name" , font));
+        cell.setPhrase(new Phrase("email" ,font));
         table.addCell(cell);
 
-        cell.setPhrase(new Phrase("supplier_category_name" , font));
+        cell.setPhrase(new Phrase("product_name" , font));
         table.addCell(cell);
 
-        cell.setPhrase(new Phrase("supplier_product_price", font));
+        cell.setPhrase(new Phrase("product_price", font));
         table.addCell(cell);
 
-        cell.setPhrase(new Phrase("order_quantity" , font));
+        cell.setPhrase(new Phrase("selling_quantity" , font));
         table.addCell(cell);
 
     }
 
 
     private void writeTableData(PdfPTable table) {
-        for (PlaceOrderSupplierStocksDTO placeOrderSupplierStocksDTO : placeOrderSupplierStocksDTOList){
-            table.addCell(String.valueOf(placeOrderSupplierStocksDTO.getOrderId()));
-            table.addCell(placeOrderSupplierStocksDTO.getSupplierProductName());
-            table.addCell(placeOrderSupplierStocksDTO.getSupplierCategoryName());
-            table.addCell(String.valueOf(placeOrderSupplierStocksDTO.getSupplierProductPrice()));
-            table.addCell(String.valueOf(placeOrderSupplierStocksDTO.getOrderQuantity()));
+        for (InvoiceStocksDTO invoiceStocksDTO : invoiceStocksDTOList){
+            table.addCell(invoiceStocksDTO.getCustomerName());
+            table.addCell(invoiceStocksDTO.getCustomerEmail());
+            table.addCell(invoiceStocksDTO.getProductName());
+            table.addCell(String.valueOf(invoiceStocksDTO.getProductPrice()));
+            table.addCell(String.valueOf(invoiceStocksDTO.getSellingQuantity()));
         }
 
     }
+
 }

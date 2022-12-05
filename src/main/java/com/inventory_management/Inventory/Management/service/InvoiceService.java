@@ -18,5 +18,5 @@ public interface InvoiceService {
 
     public Message deleteInvoice(Long invoiceId) throws NotFoundException;
 
-    public List<InvoiceStocksDTO> getByInvoiceId(Long invoiceId);
+    public List<InvoiceStocksDTO> getByInvoiceId(Long invoiceId) throws NotFoundException;
 }
