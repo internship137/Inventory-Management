@@ -12,6 +12,10 @@ import com.inventory_management.Inventory.Management.utilities.BillInvoiceEmail;
 import com.inventory_management.Inventory.Management.utilities.QuantityLowEmailAlert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -75,14 +79,17 @@ public class InvoiceServiceImpl implements InvoiceService {
             );
         }
 
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
 
         billInvoiceEmail.sendBillInvoiceEmail(""+invoice.getCustomerEmail(),
-                "Invoice Details of Purchased commodities from Company_Name",
+                "Dear " +invoice.getCustomerName()+ ",\n"+ "The details of your purchase from Company_Name on "+currentDateTime+" are \n"+
+                "Product Name : " +invoice.getProductName()+ "\n" +
+                "Product Price : " +invoice.getProductPrice()+ "\n" +
+                "Product Quantity : " +invoice.getSellingQuantity(),
                 "Bill Invoice"
         );
-
-
-
 
 
         Message message=new Message();
