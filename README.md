@@ -14,10 +14,15 @@ Better user services: All of the above help boost user service practices
 
 
 
+
 Functionalities - 
 Register.
 Login using the Jwt token.
-A bill is generated as Pdf based on the invoice.
-Remaining stocks are updated after the order is placed.
-Place an order and receive an order successful email.
-An alert email based on the remaining stocks.
+The Selling Price of the products are generated based on the discount percentage we give to the Maximum Retail Price.
+The customer receives an email with Purchase Details when a purchase is done.
+The Bill Invoice for the customers for the purchase they made is rendered as PDF.
+The Stock Quantity in the Stocks are updated when a sale is made.
+An email is send to the company's mail as an alert when the stock quantity goes low beyond a certain value.
+The company receives an email with Order Details when an Order is placed from the Supplier.
+The order invoice from supplier is rendered as PDF.
+The Stock Quantity in the Supplier Stocks are updated when an Order is Placed. 
