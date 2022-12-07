@@ -16,6 +16,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String userPassword;
+    private String email;
 
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)

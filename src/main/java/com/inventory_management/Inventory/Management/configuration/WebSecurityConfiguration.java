@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,11 +25,25 @@ public class WebSecurityConfiguration{
 
         @Autowired
         private PasswordEncoder passwordEncoder;
+
+
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
             httpSecurity.cors();
             httpSecurity.csrf().disable()
-                    .authorizeHttpRequests().antMatchers("/authenticate","/Register").permitAll()
+                    .authorizeHttpRequests().antMatchers("/authenticate","/registerAsUser",
+                            "/registerAsSupplier","/registerAsAdmin","/verifyRegistration","/resetPassword",
+                            "/savePassword","/changePassword","/supplierProduct/{supplierStocksId}/order",
+                            "/orders","/all-orders","/orders/","/category/{categoryId}/**","/product",
+                            "/product/**","/price/**","/allPricing","/productSellingPrice/**","/pricing/**",
+                            "/stock/**","/supplierCategory","/supplierCategory/**","/supplier/**","/supplier",
+                            "/supplier-stocks/**","/supplier-stocks").permitAll()
+
+                    .antMatchers(HttpMethod.PUT,"/category/**").permitAll()
+                    .antMatchers(HttpMethod.POST,"/category").hasRole("Admin")
+                    .antMatchers(HttpMethod.GET,"/category/**").hasRole("User")
+
+
 
                     .antMatchers(HttpHeaders.ALLOW).permitAll()
 
@@ -48,9 +63,7 @@ public class WebSecurityConfiguration{
         }
 
 
-
-
-        @Bean
+       @Bean
         public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)throws Exception{
             return authenticationConfiguration.getAuthenticationManager();
         }
