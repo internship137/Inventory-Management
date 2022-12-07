@@ -96,7 +96,8 @@ public class UserController {
                 +token;
         SimpleMailMessage confirmEmail=new SimpleMailMessage();
         confirmEmail.setFrom("priyankatheresa@gmail.com");
-        confirmEmail.setTo("priyaclarence@gmail.com");
+        confirmEmail.setTo(user.getEmail());
+        //confirmEmail.setTo("priyaclarence@gmail.com");
         confirmEmail.setSubject("Reset your Password");
         confirmEmail.setText("To confirm your Account,Click the link below:\n"+url);
         emailService.sendEmail(confirmEmail);

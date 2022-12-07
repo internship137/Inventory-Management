@@ -53,9 +53,9 @@ public class JwtUtil {
         return getClaimFromToken(token,Claims::getExpiration);
     }
     public String generateToken(UserDetails userDetails){
-        // System.out.println("hi inside generate token");
+
         Map<String,Object> claims=new HashMap<>();
-        //String encodedString = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
