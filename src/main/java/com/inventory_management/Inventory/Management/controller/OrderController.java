@@ -34,10 +34,11 @@ public class OrderController {
 
     }
 
-    @PutMapping("/orders/{orderId}")
-    private Message updateOrder(@PathVariable Long orderId,
-                                @RequestBody PlaceOrder placeOrder) throws NotFoundException {
-        return orderService.updateOrder(orderId,placeOrder);
+    @PutMapping("/supplierProduct/{supplierStocksId}/order/{orderId}")
+    private Message updateOrder(@RequestBody PlaceOrder placeOrder,
+                                @PathVariable Long supplierStocksId,
+                                @PathVariable Long orderId) throws NotFoundException {
+        return orderService.updateOrder(placeOrder,supplierStocksId,orderId);
     }
 
 

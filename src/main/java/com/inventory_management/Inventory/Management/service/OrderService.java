@@ -15,7 +15,7 @@ public interface OrderService {
     List<PlaceOrderSupplierStocksDTO> getOrderById(Long orderId) throws NotFoundException;
 
 
-    Message updateOrder(Long orderId, PlaceOrder placeOrder) throws NotFoundException;
+    Message updateOrder( PlaceOrder placeOrder, Long supplierStocksId,Long orderId) throws NotFoundException;
 
     List<PlaceOrderSupplierStocksDTO> getByOrderId(Long orderId) throws NotFoundException;
 }

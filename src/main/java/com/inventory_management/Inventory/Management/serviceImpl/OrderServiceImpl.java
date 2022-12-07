@@ -99,17 +99,28 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public Message updateOrder(Long orderId, PlaceOrder placeOrder) throws NotFoundException {
-        PlaceOrder order = orderRepository.findById(orderId).get();
-
+    public Message updateOrder( PlaceOrder placeOrder, Long supplierStocksId,Long orderId)
+            throws NotFoundException {
+        if (!supplierStocksRepository.existsById(supplierStocksId)) {
+            throw new NotFoundException("Product with this ID does not exist");
+        }
         if (!orderRepository.existsById(orderId)) {
             throw new NotFoundException("Order with this id does not exist");
         }
 
-        if (Objects.nonNull(placeOrder.getOrderQuantity()) &&
-                !"".equalsIgnoreCase(String.valueOf(placeOrder.getOrderQuantity()))) {
-            order.setOrderQuantity(placeOrder.getOrderQuantity());
+        SupplierStocks supplierStocks = supplierStocksRepository.findById(supplierStocksId).get();
+        PlaceOrder order = orderRepository.findById(orderId).get();
+        Long supplierQty = supplierStocks.getSupplierProductQuantity();
+
+
+
+        if (placeOrder.getOrderQuantity() > supplierQty) {
+            Message message = new Message();
+            message.setMessage("Order quantity exceeded supplier quantity");
+            return message;
         }
+        order.setOrderQuantity(placeOrder.getOrderQuantity());
+
         orderRepository.save(order);
         Message message = new Message();
         message.setMessage("successfully updated");

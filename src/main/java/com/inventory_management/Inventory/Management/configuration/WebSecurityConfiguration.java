@@ -34,7 +34,7 @@ public class WebSecurityConfiguration{
                     .authorizeHttpRequests().antMatchers("/authenticate","/registerAsUser",
                             "/registerAsSupplier","/registerAsAdmin","/verifyRegistration","/resetPassword",
                             "/savePassword","/changePassword","/supplierProduct/{supplierStocksId}/order",
-                            "/orders","/all-orders","/orders/","/category/{categoryId}/**","/product",
+                            "/orders","/all-orders","/orders/**","/supplierProduct/{supplierStocksId}/order/{orderId}","/category/{categoryId}/**","/product",
                             "/product/**","/price/**","/allPricing","/productSellingPrice/**","/pricing/**",
                             "/stock/**","/supplierCategory","/supplierCategory/**","/supplier/**","/supplier",
                             "/supplier-stocks/**","/supplier-stocks").permitAll()
