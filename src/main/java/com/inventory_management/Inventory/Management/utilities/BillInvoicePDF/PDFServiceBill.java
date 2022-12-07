@@ -68,7 +68,7 @@ public class PDFServiceBill {
 
         Paragraph paragraph4 = new Paragraph("Thank you for your Business.", fontTile2);
         paragraph4.setAlignment(Paragraph.ALIGN_CENTER);
-        paragraph4.setSpacingBefore(230);
+        paragraph4.setSpacingBefore(200);
 
         writeTableHeader(table);
         writeTableData(table);
