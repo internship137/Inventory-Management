@@ -34,14 +34,15 @@ public class WebSecurityConfiguration{
                     .authorizeHttpRequests().antMatchers("/authenticate","/registerAsUser",
                             "/registerAsSupplier","/registerAsAdmin","/verifyRegistration","/resetPassword",
                             "/savePassword","/changePassword","/supplierProduct/{supplierStocksId}/order",
-                            "/orders","/all-orders","/orders/","/category/{categoryId}/**","/product",
+                            "/orders","/all-orders","/orders/","/product",
                             "/product/**","/price/**","/allPricing","/productSellingPrice/**","/pricing/**",
                             "/stock/**","/supplierCategory","/supplierCategory/**","/supplier/**","/supplier",
                             "/supplier-stocks/**","/supplier-stocks").permitAll()
 
-                    .antMatchers(HttpMethod.PUT,"/category/**").permitAll()
+                    .antMatchers(HttpMethod.PUT,"/category/**").hasRole("Admin")
                     .antMatchers(HttpMethod.POST,"/category").hasRole("Admin")
-                    .antMatchers(HttpMethod.GET,"/category/**").hasRole("User")
+                    .antMatchers(HttpMethod.GET,"/category").hasAnyRole("User","Admin")
+                    .antMatchers(HttpMethod.GET,"/category/**").hasAnyRole("User","Admin")
 
 
 

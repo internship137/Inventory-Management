@@ -81,16 +81,6 @@ public class UserService {
         userRole.setRoleDescription("Role:Supplier");
         roleRepository.save(userRole);
 
-        /*User adminUser=new User();
-        adminUser.setUserName("admin123");
-        adminUser.setFirstName("admin");
-        adminUser.setLastName("admin");
-        adminUser.setUserPassword(getEncodedPassword("admin@123"));
-        Set<Role> adminRoles=new HashSet<>();
-        adminUser.setRole(adminRoles);
-        adminRoles.add(adminRole);
-        userRepository.save(adminUser);*/
-
     }
 
     //@Bean

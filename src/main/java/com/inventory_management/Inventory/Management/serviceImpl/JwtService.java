@@ -67,7 +67,7 @@ private UserRepository userRepository;
     }
     private void authenticate(String userName,String userPassword) throws Exception {
         try{
-            //System.out.println("hi");
+
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName,userPassword));
 
         }catch (DisabledException e){
