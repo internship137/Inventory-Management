@@ -31,13 +31,13 @@ public class WebSecurityConfiguration{
         public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
             httpSecurity.cors();
             httpSecurity.csrf().disable()
-                    .authorizeHttpRequests().antMatchers("/authenticate","/registerAsUser",
+                    .authorizeHttpRequests().antMatchers("/authenticate","/registerAsUser","/pdf/**",
                             "/registerAsSupplier","/registerAsAdmin","/verifyRegistration","/resetPassword",
                             "/savePassword","/changePassword","/supplierProduct/{supplierStocksId}/order",
                             "/orders","/all-orders","/orders/**","/supplierProduct/{supplierStocksId}/order/{orderId}","/category/{categoryId}/**","/product",
                             "/product/**","/price/**","/allPricing","/productSellingPrice/**","/pricing/**",
                             "/stock/**","/supplierCategory","/supplierCategory/**","/supplier/**","/supplier",
-                            "/supplier-stocks/**","/supplier-stocks").permitAll()
+                            "/supplier-stocks/**","/supplier-stocks","/category","/category**").permitAll()
 
                     .antMatchers(HttpMethod.PUT,"/category/**").permitAll()
                     .antMatchers(HttpMethod.POST,"/category").hasRole("Admin")
