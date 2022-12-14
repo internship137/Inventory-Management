@@ -26,7 +26,7 @@ public class ProductController {
 
     // Add Products to Category
 
-    @PostMapping("/category/{categoryId}/addProduct")
+    @PostMapping("/product/category/{categoryId}/addProduct")
     public Product saveProduct(@RequestBody Product product,
                                @PathVariable Long categoryId) throws NotFoundException{
         return productService.saveProduct(product, categoryId);
@@ -43,7 +43,7 @@ public class ProductController {
 
     // Get products from a specific category
 
-    @GetMapping("/category/{categoryId}/product")
+    @GetMapping("/fromCategory/{categoryId}/product")
     public List<CategoryProductPricingDTO> fetchProductsByCategoryId(@PathVariable Long categoryId) throws NotFoundException {
         return productService.fetchProductsByCategoryId(categoryId);
     }
@@ -51,7 +51,7 @@ public class ProductController {
     // Get a specific product from a specific category
 
 
-    @GetMapping("/category/{categoryId}/product/{productId}")
+    @GetMapping("/specific/category/{categoryId}/product/{productId}")
     public List<CategoryProductPricingDTO> fetchProductIdByCategoryId(@PathVariable Long categoryId,
                                                                       @PathVariable Long productId) throws NotFoundException {
         return productService.fetchProductIdByCategoryId(categoryId, productId);
@@ -78,7 +78,7 @@ public class ProductController {
 
     // Get a product by productId
 
-    @GetMapping("/product/productId/{productId}")
+    @GetMapping("/productId/{productId}")
     public List<CategoryProductPricingDTO> fetchByProductId(@PathVariable Long productId) throws NotFoundException {
         return productService.fetchByProductId(productId);
     }
@@ -98,7 +98,7 @@ public class ProductController {
     // Delete a product
 
 
-    @DeleteMapping("/product/delete/{productId}")
+    @DeleteMapping("/delete/{productId}")
     public String deleteProductById(@PathVariable Long productId) throws NotFoundException {
         productService.deleteProduct(productId);
         return "Product Deleted !";

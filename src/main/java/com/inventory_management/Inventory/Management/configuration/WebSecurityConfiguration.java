@@ -31,17 +31,18 @@ public class WebSecurityConfiguration{
         public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
             httpSecurity.cors();
             httpSecurity.csrf().disable()
-                    .authorizeHttpRequests().antMatchers("/authenticate","/registerAsUser","/pdf/**",
+                    .authorizeHttpRequests().antMatchers("/authenticate","/registerAsUser",
                             "/registerAsSupplier","/registerAsAdmin","/verifyRegistration","/resetPassword",
                             "/savePassword","/changePassword","/supplierProduct/{supplierStocksId}/order",
-                            "/orders","/all-orders","/orders/**","/supplierProduct/{supplierStocksId}/order/{orderId}","/category/{categoryId}/**","/product",
+                            "/orders","/all-orders","/orders/","/product","/pdf/","/pdf/**","/invoice","/invoice/**",
+                            "/allInvoice/**","/invoice","/fromCategory","/fromCategory/**","/specific","/specific/**",
+                            "/productId/","/productId/**","/AllPricing","/AllPricing/**",
                             "/product/**","/price/**","/allPricing","/productSellingPrice/**","/pricing/**",
                             "/stock/**","/supplierCategory","/supplierCategory/**","/supplier/**","/supplier",
-                            "/supplier-stocks/**","/supplier-stocks","/category","/category**").permitAll()
+                            "/supplier-stocks/**","/supplier-stocks").permitAll()
 
                     .antMatchers(HttpMethod.PUT,"/category/**").permitAll()
                     .antMatchers(HttpMethod.POST,"/category").hasRole("Admin")
-                    .antMatchers(HttpMethod.GET,"/category/**").hasRole("User")
 
 
 

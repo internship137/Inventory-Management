@@ -44,6 +44,7 @@ public class ProductSellingPriceServiceImpl implements ProductSellingPriceServic
         sllngPrice = ((mrp) - (( dicountPercentage/100)*mrp) );
         productSellingPrice.setSellingPrice((long) sllngPrice);
 
+        product.setProductSellingPrice(productSellingPrice);
         return productSellingPriceRepository.save(productSellingPrice);
 
 
@@ -97,6 +98,8 @@ public class ProductSellingPriceServiceImpl implements ProductSellingPriceServic
             throw new NotFoundException("Selling Price with this id does not exist");
         }
         ProductSellingPrice pricingDB = productSellingPriceRepository.findById(sellingPriceId).get();
+
+
 
 
         if (Objects.nonNull(productSellingPrice.getSellingPrice()) &&

@@ -24,7 +24,6 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
     private EmailService emailService;
 
 
-
     @Override
     public void onApplicationEvent(RegistrationCompleteEvent event) {
         User user=event.getUser();
@@ -33,9 +32,9 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
         String url=event.getApplicationUrl()+"/verifyRegistration?token="+token;
 
         SimpleMailMessage confirmEmail=new SimpleMailMessage();
-        confirmEmail.setFrom("priyankatheresa@gmail.com");
-        confirmEmail.setTo(user.getEmail());
-        //confirmEmail.setTo("priyaclarence@gmail.com");
+        confirmEmail.setFrom("anson.sayonetech@gmail.com");
+//        confirmEmail.setTo(user.getEmail());
+        confirmEmail.setTo("anson.joseph05@gmail.com");
         confirmEmail.setSubject("VERIFY YOUR ACCOUNT");
         confirmEmail.setText("To confirm your Account,Click the link below:\n"+url);
         emailService.sendEmail(confirmEmail);
