@@ -8,7 +8,7 @@ import com.inventory_management.Inventory.Management.error.NotFoundException;
 import java.util.List;
 
 public interface InvoiceService {
-    public Message saveInvoice(Invoice invoice, Long stockId) throws NotFoundException;
+    public Message saveInvoice(Invoice invoice, Long productId) throws NotFoundException;
 
     public List<InvoiceStocksDTO> fetchByInvoiceId(Long invoiceId) throws NotFoundException;
 

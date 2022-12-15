@@ -36,14 +36,14 @@ public class WebSecurityConfiguration{
                             "/savePassword","/changePassword","/supplierProduct/{supplierStocksId}/order",
                             "/orders","/all-orders","/orders/","/product","/pdf/","/pdf/**","/invoice","/invoice/**",
                             "/allInvoice/**","/invoice","/fromCategory","/fromCategory/**","/specific","/specific/**",
-                            "/productId/","/productId/**","/AllPricing","/AllPricing/**",
+                            "/productId/","/productId/**","/AllPricing","/AllPricing/**","/category/**","/category/",
                             "/product/**","/price/**","/allPricing","/productSellingPrice/**","/pricing/**",
                             "/stock/**","/supplierCategory","/supplierCategory/**","/supplier/**","/supplier",
                             "/supplier-stocks/**","/supplier-stocks","/employee","/employee/**","/category","/category/**","/request",
                             "/confirmOrder","/denyOrder").permitAll()
 
-                    .antMatchers(HttpMethod.PUT,"/category/**").permitAll()
-                    .antMatchers(HttpMethod.POST,"/category").hasRole("Admin")
+//                    .antMatchers(HttpMethod.PUT,"/category/**").permitAll()
+//                    .antMatchers(HttpMethod.POST,"/category").hasRole("Admin")
 
 
 

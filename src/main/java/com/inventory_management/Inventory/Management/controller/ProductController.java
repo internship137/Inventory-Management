@@ -4,13 +4,14 @@ package com.inventory_management.Inventory.Management.controller;
 import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.service.ProductService;
 import com.inventory_management.Inventory.Management.repository.CategoryRepository;
-import com.inventory_management.Inventory.Management.service.ProductSellingPriceService;
 import com.inventory_management.Inventory.Management.dto.CategoryProductPricingDTO;
 import com.inventory_management.Inventory.Management.entity.Product;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,19 +22,17 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @Autowired
-    private ProductSellingPriceService productSellingPriceService;
 
     // Add Products to Category
 
     @PostMapping("/product/category/{categoryId}/addProduct")
-    public Product saveProduct(@RequestBody Product product,
-                               @PathVariable Long categoryId) throws NotFoundException{
+    public Product saveProduct(@RequestBody  Product product,
+                               @PathVariable @Valid Long categoryId) throws NotFoundException{
         return productService.saveProduct(product, categoryId);
     }
 
 
-    // Get all products with categories
+    // Get all products with categoriesa
 
     @GetMapping("/product")
     public List<CategoryProductPricingDTO> fetchProductList() {
@@ -90,7 +89,7 @@ public class ProductController {
     @PutMapping("/category/{categoryId}/updateProduct/{productId}")
     public Message updateProduct(@PathVariable Long categoryId,
                                  @PathVariable Long productId,
-                                 @RequestBody Product product) throws NotFoundException{
+                                 @RequestBody @Valid Product product) throws NotFoundException{
         return productService.updateProduct(categoryId, productId, product);
     }
 

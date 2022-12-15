@@ -18,10 +18,10 @@ public class InvoiceController {
 
     // Save Invoice
 
-    @PostMapping("/product/{stockId}/invoice")
+    @PostMapping("/product/{productId}/invoice")
     public Message saveInvoice(@RequestBody Invoice invoice,
-                               @PathVariable Long stockId) throws NotFoundException {
-        return invoiceService.saveInvoice(invoice,stockId);
+                               @PathVariable Long productId) throws NotFoundException {
+        return invoiceService.saveInvoice(invoice,productId);
     }
 
     // Get All invoice

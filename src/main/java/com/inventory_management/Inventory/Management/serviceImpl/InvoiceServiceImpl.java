@@ -3,10 +3,10 @@ package com.inventory_management.Inventory.Management.serviceImpl;
 import com.inventory_management.Inventory.Management.dto.InvoiceStocksDTO;
 import com.inventory_management.Inventory.Management.entity.Invoice;
 import com.inventory_management.Inventory.Management.entity.Message;
-import com.inventory_management.Inventory.Management.entity.Stock;
+import com.inventory_management.Inventory.Management.entity.Product;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.repository.InvoiceRepository;
-import com.inventory_management.Inventory.Management.repository.StockRepository;
+import com.inventory_management.Inventory.Management.repository.ProductRepository;
 import com.inventory_management.Inventory.Management.service.InvoiceService;
 import com.inventory_management.Inventory.Management.utilities.BillInvoiceEmail;
 import com.inventory_management.Inventory.Management.utilities.QuantityLowEmailAlert;
@@ -23,8 +23,9 @@ import java.util.stream.Collectors;
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
 
+
     @Autowired
-    private StockRepository stockRepository;
+    private ProductRepository productRepository;
 
     @Autowired
     private InvoiceRepository invoiceRepository;
@@ -36,19 +37,19 @@ public class InvoiceServiceImpl implements InvoiceService {
     private BillInvoiceEmail billInvoiceEmail;
 
     @Override
-    public Message saveInvoice(Invoice invoice, Long stockId) throws NotFoundException {
-        if (!stockRepository.existsById(stockId)){
+    public Message saveInvoice(Invoice invoice, Long productId) throws NotFoundException {
+        if (!productRepository.existsById(productId)){
             throw new NotFoundException("Product with this ID does not exist");
         }
 
-        Stock stock = stockRepository.findById(stockId).get();
+        Product product = productRepository.findById(productId).get();
 
-        Long stocksId = stock.getStockId();
-        String productName = stock.getProduct().getProductName();
-        String productCategory = stock.getProduct().getCategory().getCategoryName();
-        Long productPrice = stock.getProduct().getProductSellingPrice().getSellingPrice();
+//        Long stocksId = stock.getStockId();
+        String productName = product.getProductName();
+        String productCategory = product.getCategory().getCategoryName();
+        Long productPrice = product.getSellingPrice();
 
-        Long stockQty = stock.getStockQuantity();
+        Long stockQty = product.getStockQuantity();
         Long sellingQty = invoice.getSellingQuantity();
 
         if ( sellingQty > stockQty ){
@@ -59,22 +60,22 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         }
 
-        invoice.setStockId(stocksId);
+//        invoice.setStockId(productId);
         invoice.setProductName(productName);
         invoice.setCategoryName(productCategory);
         invoice.setProductPrice(productPrice);
 
         invoiceRepository.save(invoice);
         stockQty = stockQty - sellingQty;
-        stock.setStockQuantity(stockQty);
-        stockRepository.save(stock);
+        product.setStockQuantity(stockQty);
+        productRepository.save(product);
 
 
 
         if (stockQty<50){
             quantityLowEmailAlert.sendOrderSuccessfulEmail(
                     "anson.joseph05@gmail.com",
-                    "Stock with Id "+stock.getStockId()+" is low below 50 units",
+                    "Product with Id "+product.getProductId()+" is low below 50 units",
                     "Alert"
             );
         }

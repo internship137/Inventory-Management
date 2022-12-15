@@ -35,6 +35,16 @@ public class ProductServiceImpl implements ProductService {
         if (!categoryRepository.existsById(categoryId)) {
             throw new NotFoundException(" Category with this Id does not exist");
         }
+
+        float mrp = product.getMaximumRetailPrice();
+        float discountPercentage = product.getPricingDiscountPercentage();
+
+        float sellngPrice = product.getSellingPrice();
+
+        sellngPrice = ((mrp) - (( discountPercentage/100)*mrp) );
+        product.setSellingPrice((long) sellngPrice);
+
+
         Category category = categoryRepository.findById(categoryId).get();
         product.setCategory(category);
         return productRepository.save(product);
@@ -153,19 +163,16 @@ public class ProductServiceImpl implements ProductService {
         Product proDB = productRepository.findProductIdUsingCategoryId(categoryId, productId);
 
 
-        if (Objects.nonNull(product.getProductName()) &&
-                !"".equalsIgnoreCase(product.getProductName())) {
-            proDB.setProductName(product.getProductName());
-        }
-
         if (Objects.nonNull(product.getProductCode()) &&
-                !"".equalsIgnoreCase(String.valueOf(product.getProductCode()))) {
+                !"".equalsIgnoreCase(product.getProductCode())){
             proDB.setProductCode(product.getProductCode());
         }
 
-        if (Objects.nonNull(product.getProductDescription()) &&
-                !"".equalsIgnoreCase(product.getProductDescription())) {
-            proDB.setProductDescription(product.getProductDescription());
+
+
+        if (Objects.nonNull(product.getProductName()) &&
+                !"".equalsIgnoreCase(product.getProductName())) {
+            proDB.setProductName(product.getProductName());
         }
 
         if (Objects.nonNull(product.getProductBuyingPrice()) &&
@@ -173,9 +180,29 @@ public class ProductServiceImpl implements ProductService {
             proDB.setProductBuyingPrice(product.getProductBuyingPrice());
         }
 
+        if (Objects.nonNull(product.getMaximumRetailPrice()) &&
+                !"".equalsIgnoreCase(String.valueOf(product.getMaximumRetailPrice()))) {
+            proDB.setMaximumRetailPrice(product.getMaximumRetailPrice());
+        }
+
+
         if (Objects.nonNull(product.getProductManufacturer()) &&
                 !"".equalsIgnoreCase(product.getProductManufacturer())) {
             proDB.setProductManufacturer(product.getProductManufacturer());
+        }
+
+        if (Objects.nonNull(product.getStockQuantity()) &&
+                !"".equalsIgnoreCase(String.valueOf(product.getStockQuantity()))) {
+            proDB.setStockQuantity(product.getStockQuantity());
+        }
+
+//       selling price update
+
+//      pricingDiscountPercentage
+
+        if (Objects.nonNull(product.getPricingExpireDate()) &&
+                !"".equalsIgnoreCase(String.valueOf(product.getPricingExpireDate()))) {
+            proDB.setPricingExpireDate(product.getPricingExpireDate());
         }
 
 
@@ -213,13 +240,14 @@ public class ProductServiceImpl implements ProductService {
         categoryProductPricingDTO.setProductId(product.getProductId());
         categoryProductPricingDTO.setProductName(product.getProductName());
         categoryProductPricingDTO.setProductCode(product.getProductCode());
-        categoryProductPricingDTO.setProductDescription(product.getProductDescription());
         categoryProductPricingDTO.setProductBuyingPrice(product.getProductBuyingPrice());
         categoryProductPricingDTO.setMaximumRetailPrice(product.getMaximumRetailPrice());
+        categoryProductPricingDTO.setProductSellingPrice(product.getSellingPrice());
+        categoryProductPricingDTO.setStockQuantity(product.getStockQuantity());
         categoryProductPricingDTO.setProductManufacturer(product.getProductManufacturer());
         categoryProductPricingDTO.setProductCreatedDateTime(product.getProductCreatedDateTime());
         categoryProductPricingDTO.setCategory(product.getCategory().getCategoryName());
-        categoryProductPricingDTO.setProductSellingPrice(product.getProductSellingPrice().getSellingPrice());
+
 
         return categoryProductPricingDTO;
     }
