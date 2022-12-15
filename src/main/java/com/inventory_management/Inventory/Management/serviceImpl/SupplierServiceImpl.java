@@ -18,6 +18,14 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Autowired
     private SupplierRepository supplierRepository;
+
+    @Override
+    public Message addSupplier(Supplier supplier) {
+         supplierRepository.save(supplier);
+         Message message=new Message();
+         message.setMessage("Supplier Added");
+         return message;
+    }
     @Override
     public List<Supplier> fetchSupplierList() {
         return supplierRepository.findAll();
@@ -31,26 +39,6 @@ public class SupplierServiceImpl implements SupplierService {
             throw new NotFoundException("Supplier with Id does not Exist");
         }
         return supplierRepository.findById(supplierId);
-    }
-
-    @Override
-    public List<Supplier> fetchSupplierByName(String supplierName) throws NotFoundException {
-
-        List<Supplier> supplierNAME = supplierRepository.findBySupplierNameContaining(supplierName);
-        if(supplierNAME.isEmpty()){
-            throw new NotFoundException("Supplier with this name does not Exist");
-        }
-        return supplierRepository.findBySupplierNameContaining(supplierName);
-    }
-
-    @Override
-    public List<Supplier> fetchSupplierByCompanyName(String supplierCompany) throws NotFoundException {
-
-        List<Supplier> supplierCOMPANY = supplierRepository.findBySupplierCompanyContaining(supplierCompany);
-        if (supplierCOMPANY.isEmpty()){
-            throw new NotFoundException("Supplier company with this name does not exist");
-        }
-        return supplierRepository.findBySupplierCompanyContaining(supplierCompany);
     }
 
     @Override
@@ -80,6 +68,8 @@ public class SupplierServiceImpl implements SupplierService {
         message.setMessage("Updated Successfully");
         return message;
     }
+
+
 
     @Override
     public Message deleteSupplierById(Long supplierId) throws NotFoundException {

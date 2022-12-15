@@ -6,12 +6,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OrderSuccessfulEmail {
+public class RequestEmail {
 
     @Autowired
     private JavaMailSender mailSender;
 
-    public void sendOrderSuccessfulEmail(
+    public void sendRequestEmail(
             String toEmail,
             String body,
             String subject){

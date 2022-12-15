@@ -12,11 +12,9 @@ public interface SupplierService {
 
     public Optional<Supplier> fetchSupplierById(Long supplierId) throws NotFoundException;
 
-    public List<Supplier> fetchSupplierByName(String supplierName) throws NotFoundException;
-
-    public List<Supplier> fetchSupplierByCompanyName(String supplierCompany) throws NotFoundException;
-
     public Message updateSupplier(Long supplierId, Supplier supplier) throws NotFoundException;
 
     public Message deleteSupplierById(Long supplierId) throws NotFoundException;
+
+    Message addSupplier(Supplier supplier);
 }
