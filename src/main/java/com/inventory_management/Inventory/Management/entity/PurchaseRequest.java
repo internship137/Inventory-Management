@@ -1,5 +1,6 @@
 package com.inventory_management.Inventory.Management.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +32,7 @@ public class PurchaseRequest {
     @Column(name = "product_quantity")
     private Long productQuantity;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @Column(name = "expected_delivery_date")
     private Date expectedDeliveryDate;
 
