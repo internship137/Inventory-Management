@@ -1,6 +1,5 @@
 package com.inventory_management.Inventory.Management.dto;
 
-import com.inventory_management.Inventory.Management.entity.SupplierCategory;
 import lombok.Data;
 
 import java.util.Date;
