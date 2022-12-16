@@ -21,11 +21,29 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Message addSupplier(Supplier supplier) {
+//        Supplier supplier1=supplierRepository.findBySupplierName(supplier.getSupplierName()).orElse(null);
+
+        if (supplierRepository.existsBySupplierCompanyIgnoreCase(supplier.getSupplierCompany())) {
+
+            Message message = new Message();
+            message.setMessage("exists by Company name");
+            return message;
+        }
+
+        if (supplierRepository.existsBySupplierEmailIgnoreCase(supplier.getSupplierEmail())) {
+
+            Message message = new Message();
+            message.setMessage("exists by email");
+            return message;
+        }
+
         supplierRepository.save(supplier);
-        Message message=new Message();
+        Message message = new Message();
         message.setMessage("Supplier Added");
         return message;
+
     }
+
     @Override
     public List<Supplier> fetchSupplierList() {
         return supplierRepository.findAll();
@@ -35,14 +53,14 @@ public class SupplierServiceImpl implements SupplierService {
     public Optional<Supplier> fetchSupplierById(Long supplierId) throws NotFoundException {
 
         Optional<Supplier> supplierID = supplierRepository.findById(supplierId);
-        if(supplierID.isEmpty()){
+        if (supplierID.isEmpty()) {
             throw new NotFoundException("Supplier with Id does not Exist");
         }
         return supplierRepository.findById(supplierId);
     }
 
     @Override
-    public Message updateSupplier(Long supplierId, Supplier supplier) throws NotFoundException{
+    public Message updateSupplier(Long supplierId, Supplier supplier) throws NotFoundException {
 
         if (!supplierRepository.existsById(supplierId)) {
             throw new NotFoundException("Supplier with this id does not exist");
@@ -64,11 +82,10 @@ public class SupplierServiceImpl implements SupplierService {
         }
 
         supplierRepository.save(supDB);
-        Message message=new Message();
+        Message message = new Message();
         message.setMessage("Updated Successfully");
         return message;
     }
-
 
 
     @Override
@@ -78,7 +95,7 @@ public class SupplierServiceImpl implements SupplierService {
             throw new NotFoundException("Product Id does not exist");
         }
         supplierRepository.deleteById(supplierId);
-        Message message=new Message();
+        Message message = new Message();
         message.setMessage("Deleted Successfully");
         return message;
 

@@ -2,6 +2,7 @@ package com.inventory_management.Inventory.Management.controller;
 
 import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.entity.PurchaseRequest;
+import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.event.PurchaseRequestEvent;
 import com.inventory_management.Inventory.Management.service.PurchaseRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,9 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class PurchaseRequestController {
@@ -21,7 +25,7 @@ public class PurchaseRequestController {
 
 
     @PostMapping("supplier/{supplierId}/request")
-    public Message saveOrder(@RequestBody PurchaseRequest purchaseRequest,
+    public Message saveOrder(@Valid @RequestBody PurchaseRequest purchaseRequest,
                              @PathVariable("supplierId") Long supplierId,
                              final HttpServletRequest request) {
         PurchaseRequest purchaseRequest1 = purchaseRequestService.saveOrder(purchaseRequest,supplierId);
@@ -65,6 +69,17 @@ public class PurchaseRequestController {
                 ":" +
                 request.getServerPort() +
                 request.getContextPath();
+    }
+
+
+    @GetMapping("/allRequests")
+    public List<PurchaseRequest> fetchAllRequest(){
+        return purchaseRequestService.fetchAllRequest();
+    }
+
+    @GetMapping("/allRequests/{purchaseRequestId}")
+    public Optional<PurchaseRequest> fetchRequestsById(@PathVariable("purchaseRequestId") Long purchaseRequestId) throws NotFoundException {
+        return purchaseRequestService.fetchRequestsById(purchaseRequestId);
     }
 
 }

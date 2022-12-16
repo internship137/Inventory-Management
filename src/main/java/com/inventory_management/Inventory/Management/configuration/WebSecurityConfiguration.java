@@ -40,7 +40,7 @@ public class WebSecurityConfiguration{
                             "/product/**","/price/**","/allPricing","/productSellingPrice/**","/pricing/**",
                             "/stock/**","/supplierCategory","/supplierCategory/**","/supplier/**","/supplier",
                             "/supplier-stocks/**","/supplier-stocks","/employee","/employee/**","/category","/category/**","/request",
-                            "/confirmOrder","/denyOrder").permitAll()
+                            "/confirmOrder","/denyOrder","/allRequests","/allRequests/**").permitAll()
 
 //                    .antMatchers(HttpMethod.PUT,"/category/**").permitAll()
 //                    .antMatchers(HttpMethod.POST,"/category").hasRole("Admin")

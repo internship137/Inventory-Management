@@ -6,6 +6,8 @@ import com.inventory_management.Inventory.Management.entity.Supplier;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +18,7 @@ public class SupplierController {
     private SupplierService supplierService;
 
     @PostMapping("/supplier")
-    public Message addSupplier(@RequestBody Supplier supplier){
+    public Message addSupplier(@RequestBody @Valid Supplier supplier){
         return supplierService.addSupplier(supplier);
     }
 
