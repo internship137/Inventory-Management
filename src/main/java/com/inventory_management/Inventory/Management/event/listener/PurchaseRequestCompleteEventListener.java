@@ -1,14 +1,26 @@
 package com.inventory_management.Inventory.Management.event.listener;
 
+import com.inventory_management.Inventory.Management.dto.MailResponse;
 import com.inventory_management.Inventory.Management.entity.PurchaseRequest;
 import com.inventory_management.Inventory.Management.event.PurchaseRequestEvent;
 import com.inventory_management.Inventory.Management.service.PurchaseRequestService;
 import com.inventory_management.Inventory.Management.utilities.RequestEmail;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Component
@@ -16,8 +28,15 @@ public class PurchaseRequestCompleteEventListener implements ApplicationListener
     @Autowired
     private PurchaseRequestService purchaseRequestService;
 
+//    @Autowired
+//    private RequestEmail requestEmail;
+
     @Autowired
-    private RequestEmail requestEmail;
+    private JavaMailSender sender;
+
+    @Autowired
+    private Configuration config;
+
 
     @Override
     public void onApplicationEvent(PurchaseRequestEvent event) {
@@ -37,19 +56,54 @@ public class PurchaseRequestCompleteEventListener implements ApplicationListener
 
         String url2 = event.getApplicationUrl2() + "/denyOrder?reject="
                 + reject;
+//
+//        String toEmail = purchaseRequest.getSupplierEmail();
+//        requestEmail.sendRequestEmail(toEmail,
+//                "An order for " + purchaseRequest.getProductName() + " has been requested by XYZ" + "\n"
+//                        + "Requested Quantity " + purchaseRequest.getProductQuantity() + "\n" + "\n" +
+//                        "The delivery is expected before " + purchaseRequest.getExpectedDeliveryDate()
+//                        + "\n" + "\n"
+//                        + "To approve the request CLICK HERE \n" +
+//                        url1 + "\n" + "\n"
+//                        + "To reject the request CLICK HERE \n"
+//                        + url2
+//                ,
+//                "Request for " + purchaseRequest.getProductName());
 
-        String toEmail = purchaseRequest.getSupplierEmail();
-        requestEmail.sendRequestEmail(toEmail,
-                "An order for " + purchaseRequest.getProductName() + " has been requested by XYZ" + "\n"
-                        + "Requested Quantity " + purchaseRequest.getProductQuantity() + "\n" + "\n" +
-                        "The delivery is expected before " + purchaseRequest.getExpectedDeliveryDate()
-                        + "\n" + "\n"
-                        + "To approve the request CLICK HERE \n" +
-                        url1 + "\n" + "\n"
-                        + "To reject the request CLICK HERE \n"
-                        + url2
-                ,
-                "Request for " + purchaseRequest.getProductName());
+        Map<String, Object> model = new HashMap<>();
+        MailResponse response = new MailResponse();
+
+        MimeMessage message = sender.createMimeMessage();
+        try {
+            // set mediaType
+            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
+            String expectedDate= String.valueOf(purchaseRequest.getExpectedDeliveryDate());
+
+            model.put("supplierName",purchaseRequest.getSupplierName());
+            model.put("productName",purchaseRequest.getProductName());
+            model.put("qty",purchaseRequest.getProductQuantity());
+            model.put("expectedDate",expectedDate);
+            model.put("url1",url1);
+            model.put("url2",url2);
+
+
+            Template t = config.getTemplate("purchase_req.html");
+            String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
+
+            helper.setTo(purchaseRequest.getSupplierEmail());
+            helper.setText(html, true);
+            helper.setSubject("New Order Request for "+purchaseRequest.getProductName());
+            helper.setFrom("gokuldas.sayonetech@gmail.com");
+            sender.send(message);
+
+            response.setMessage("mail send to : " + purchaseRequest.getSupplierEmail());
+            response.setStatus(Boolean.TRUE);
+
+        } catch (MessagingException | IOException | TemplateException e) {
+            response.setMessage("Mail Sending failure : " + e.getMessage());
+            response.setStatus(Boolean.FALSE);
+        }
 
     }
+
 }

@@ -72,7 +72,8 @@ public class PurchaseRequestServiceImpl implements PurchaseRequestService {
         purchaseRequest.setRequestStatus("Approved by supplier");
         purchaseRequest.setSupplierStatusDate(String.valueOf(new Date()));
         purchaseRequestRepository.save(purchaseRequest);
-        message.setMessage("Request Approved");
+        purchaseRequestVerificationTokenRepository.delete(purchaseRequestVerificationToken);
+        message.setMessage("Thank you for approving");
         return message;
     }
 

@@ -35,7 +35,8 @@ public class Supplier {
     @Column(name = "supplier_contact")
     private String supplierContact;
     
-    @Email(message = "invalid email address")
+    @Email(message = "invalid email address",regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
+            flags = Pattern.Flag.CASE_INSENSITIVE)
     @Column(name = "supplier_email")
     private String supplierEmail;
 
