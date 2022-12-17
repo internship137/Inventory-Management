@@ -8,7 +8,7 @@ import com.inventory_management.Inventory.Management.error.NotFoundException;
 import java.util.List;
 
 public interface CategoryService {
-    public Category saveCategory(Category category);
+    public Message saveCategory(Category category);
 
     public List<Category> fetchCategoryList();
 

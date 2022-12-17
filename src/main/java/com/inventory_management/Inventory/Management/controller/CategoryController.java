@@ -9,6 +9,7 @@ import com.inventory_management.Inventory.Management.error.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,7 @@ public class CategoryController {
     // saveCategory
 
     @PostMapping("/category")
-    public Category saveCategory(@RequestBody Category category) {
+    public Message saveCategory(@RequestBody @Valid Category category) {
         return categoryService.saveCategory(category);
 
     }
@@ -50,7 +51,7 @@ public class CategoryController {
     // updateCategory
 
     @PutMapping("/category/{categoryId}")
-    public Message updateCategory(@PathVariable("categoryId") Long categoryId, @RequestBody Category product) throws NotFoundException{
+    public Message updateCategory( @PathVariable ("categoryId") Long categoryId, @RequestBody @Valid Category product) throws NotFoundException{
         return categoryService.updateCategory(categoryId, product);
     }
 

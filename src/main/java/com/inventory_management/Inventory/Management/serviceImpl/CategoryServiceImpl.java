@@ -9,7 +9,6 @@ import com.inventory_management.Inventory.Management.repository.CategoryReposito
 import com.inventory_management.Inventory.Management.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,8 +21,18 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository categoryRepository;
 
     @Override
-    public Category saveCategory(Category category) {
-        return categoryRepository.save(category);
+    public Message saveCategory(Category category) {
+
+        if (categoryRepository.existsByCategoryNameIgnoreCase(category.getCategoryName())) {
+
+            Message message = new Message();
+            message.setMessage("Category Name already exists ");
+            return message;
+        }
+        categoryRepository.save(category);
+        Message message = new Message();
+        message.setMessage("Category Added");
+        return message;
     }
 
     @Override
@@ -69,6 +78,12 @@ public class CategoryServiceImpl implements CategoryService {
             throw new NotFoundException("Category with this id does not exist");
         }
 
+        if (categoryRepository.existsByCategoryNameIgnoreCase(category.getCategoryName())) {
+
+            Message message = new Message();
+            message.setMessage("Category Name already exists ");
+            return message;
+        }
 
         Category catDB = categoryRepository.findById(categoryId).get();
 
@@ -81,6 +96,4 @@ public class CategoryServiceImpl implements CategoryService {
         message.setMessage("Updated Successfully");
         return message;
     }
-
-
 }

@@ -6,8 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 
@@ -23,6 +28,8 @@ public class Category {
     @Column(name = "category_id")
     private Long categoryId;
 
+    @NotNull(message = "Category name should not be empty")
+    @Pattern(regexp = "^[a-zA-Z0-9]{1,70}$", message = "Please provide a valid Category Name")
     @Column(name = "category_name")
     private String categoryName;
 

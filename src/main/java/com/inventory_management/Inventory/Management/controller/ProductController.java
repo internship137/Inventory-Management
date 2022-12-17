@@ -8,7 +8,6 @@ import com.inventory_management.Inventory.Management.dto.CategoryProductPricingD
 import com.inventory_management.Inventory.Management.entity.Product;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,8 +25,8 @@ public class ProductController {
     // Add Products to Category
 
     @PostMapping("/product/category/{categoryId}/addProduct")
-    public Product saveProduct(@RequestBody  Product product,
-                               @PathVariable @Valid Long categoryId) throws NotFoundException{
+    public Message saveProduct(@Valid @RequestBody  Product product,
+                               @PathVariable Long categoryId) throws NotFoundException{
         return productService.saveProduct(product, categoryId);
     }
 
@@ -55,15 +54,6 @@ public class ProductController {
                                                                       @PathVariable Long productId) throws NotFoundException {
         return productService.fetchProductIdByCategoryId(categoryId, productId);
 
-    }
-
-
-    // Get product by product code (unique and String type)
-
-
-    @GetMapping("/product/productCode/{productCode}")
-    public List<CategoryProductPricingDTO> fetchByProductCode(@PathVariable Long productCode) throws NotFoundException {
-        return productService.fetchByProductCode(productCode);
     }
 
 

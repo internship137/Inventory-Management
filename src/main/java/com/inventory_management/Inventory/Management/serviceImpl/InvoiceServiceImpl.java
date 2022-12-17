@@ -49,7 +49,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         String productCategory = product.getCategory().getCategoryName();
         Long productPrice = product.getSellingPrice();
 
-        Long stockQty = product.getStockQuantity();
+        Long stockQty = Long.valueOf(product.getStockQuantity());
         Long sellingQty = invoice.getSellingQuantity();
 
         if ( sellingQty > stockQty ){
@@ -67,7 +67,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         invoiceRepository.save(invoice);
         stockQty = stockQty - sellingQty;
-        product.setStockQuantity(stockQty);
+        product.setStockQuantity(String.valueOf(stockQty));
         productRepository.save(product);
 
 

@@ -24,6 +24,9 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Autowired
+    private ProductService productService;
+
+    @Autowired
     private CategoryRepository categoryRepository;
 
 
@@ -31,27 +34,48 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public Product saveProduct(Product product, Long categoryId) throws NotFoundException{
+    public Message saveProduct(Product product, Long categoryId) throws NotFoundException{
         if (!categoryRepository.existsById(categoryId)) {
             throw new NotFoundException(" Category with this Id does not exist");
         }
 
-        float mrp = product.getMaximumRetailPrice();
-        float discountPercentage = product.getPricingDiscountPercentage();
+
+        if (productRepository.existsByProductNameIgnoreCase(product.getProductName())) {
+
+            Message message = new Message();
+            message.setMessage("Product Name already exists ");
+            return message;
+        }
+
+        if (productRepository.existsByProductCodeIgnoreCase(product.getProductCode())) {
+
+            Message message = new Message();
+            message.setMessage("Product Code already exists ");
+            return message;
+        }
+
+        float mrp = Float.parseFloat(product.getMaximumRetailPrice());
+        float discountPercentage = Float.parseFloat(product.getPricingDiscountPercentage());
 
         float sellngPrice = product.getSellingPrice();
 
-        sellngPrice = ((mrp) - (( discountPercentage/100)*mrp) );
+        sellngPrice = ((mrp) - (( discountPercentage/100)*mrp));
         product.setSellingPrice((long) sellngPrice);
 
 
         Category category = categoryRepository.findById(categoryId).get();
         product.setCategory(category);
-        return productRepository.save(product);
+        productRepository.save(product);
+
+        Message message = new Message();
+        message.setMessage("Product Added");
+        return message;
+
     }
 
 
     // Get all products with categories
+
 
 
     @Override
@@ -114,9 +138,7 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-
     // Get product by product name  (containing)
-
 
     @Override
     public List<CategoryProductPricingDTO> fetchByProductName(String productName) throws NotFoundException {
@@ -160,6 +182,21 @@ public class ProductServiceImpl implements ProductService {
         if (!productRepository.existsById(productId)) {
             throw new NotFoundException("Product with this id does not exist");
         }
+
+        if (productRepository.existsByProductNameIgnoreCase(product.getProductName())) {
+
+            Message message = new Message();
+            message.setMessage("Product Name already exists ");
+            return message;
+        }
+
+        if (productRepository.existsByProductCodeIgnoreCase(product.getProductCode())) {
+
+            Message message = new Message();
+            message.setMessage("Product Code already exists ");
+            return message;
+        }
+
         Product proDB = productRepository.findProductIdUsingCategoryId(categoryId, productId);
 
 
@@ -167,8 +204,6 @@ public class ProductServiceImpl implements ProductService {
                 !"".equalsIgnoreCase(product.getProductCode())){
             proDB.setProductCode(product.getProductCode());
         }
-
-
 
         if (Objects.nonNull(product.getProductName()) &&
                 !"".equalsIgnoreCase(product.getProductName())) {
@@ -184,7 +219,6 @@ public class ProductServiceImpl implements ProductService {
                 !"".equalsIgnoreCase(String.valueOf(product.getMaximumRetailPrice()))) {
             proDB.setMaximumRetailPrice(product.getMaximumRetailPrice());
         }
-
 
         if (Objects.nonNull(product.getProductManufacturer()) &&
                 !"".equalsIgnoreCase(product.getProductManufacturer())) {
@@ -240,10 +274,10 @@ public class ProductServiceImpl implements ProductService {
         categoryProductPricingDTO.setProductId(product.getProductId());
         categoryProductPricingDTO.setProductName(product.getProductName());
         categoryProductPricingDTO.setProductCode(product.getProductCode());
-        categoryProductPricingDTO.setProductBuyingPrice(product.getProductBuyingPrice());
-        categoryProductPricingDTO.setMaximumRetailPrice(product.getMaximumRetailPrice());
+        categoryProductPricingDTO.setProductBuyingPrice(Long.valueOf(product.getProductBuyingPrice()));
+        categoryProductPricingDTO.setMaximumRetailPrice(Long.valueOf(product.getMaximumRetailPrice()));
         categoryProductPricingDTO.setProductSellingPrice(product.getSellingPrice());
-        categoryProductPricingDTO.setStockQuantity(product.getStockQuantity());
+        categoryProductPricingDTO.setStockQuantity(Long.valueOf(product.getStockQuantity()));
         categoryProductPricingDTO.setProductManufacturer(product.getProductManufacturer());
         categoryProductPricingDTO.setProductCreatedDateTime(product.getProductCreatedDateTime());
         categoryProductPricingDTO.setCategory(product.getCategory().getCategoryName());

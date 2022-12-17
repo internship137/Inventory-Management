@@ -35,7 +35,7 @@ public class WebSecurityConfiguration{
                             "/registerAsSupplier","/registerAsAdmin","/verifyRegistration","/resetPassword",
                             "/savePassword","/changePassword","/supplierProduct/{supplierStocksId}/order",
                             "/orders","/all-orders","/orders/","/product","/pdf/","/pdf/**","/invoice","/invoice/**",
-                            "/allInvoice/**","/invoice","/fromCategory","/fromCategory/**","/specific","/specific/**",
+                            "/allInvoice/**","/invoice","/fromCategory","/fromCategory/**","/specific","/specific/**","/product/delete/",
                             "/productId/","/productId/**","/AllPricing","/AllPricing/**","/category/**","/category/",
                             "/product/**","/price/**","/allPricing","/productSellingPrice/**","/pricing/**",
                             "/stock/**","/supplierCategory","/supplierCategory/**","/supplier/**","/supplier",

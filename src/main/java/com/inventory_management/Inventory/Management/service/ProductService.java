@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ProductService {
 
-    Product saveProduct(Product product, Long categoryId) throws NotFoundException;
+    Message saveProduct(Product product, Long categoryId) throws NotFoundException;
 
     public List<CategoryProductPricingDTO> fetchProductList();
 
