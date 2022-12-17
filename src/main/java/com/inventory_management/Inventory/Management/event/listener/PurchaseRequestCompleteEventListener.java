@@ -56,19 +56,7 @@ public class PurchaseRequestCompleteEventListener implements ApplicationListener
 
         String url2 = event.getApplicationUrl2() + "/denyOrder?reject="
                 + reject;
-//
-//        String toEmail = purchaseRequest.getSupplierEmail();
-//        requestEmail.sendRequestEmail(toEmail,
-//                "An order for " + purchaseRequest.getProductName() + " has been requested by XYZ" + "\n"
-//                        + "Requested Quantity " + purchaseRequest.getProductQuantity() + "\n" + "\n" +
-//                        "The delivery is expected before " + purchaseRequest.getExpectedDeliveryDate()
-//                        + "\n" + "\n"
-//                        + "To approve the request CLICK HERE \n" +
-//                        url1 + "\n" + "\n"
-//                        + "To reject the request CLICK HERE \n"
-//                        + url2
-//                ,
-//                "Request for " + purchaseRequest.getProductName());
+
 
         Map<String, Object> model = new HashMap<>();
         MailResponse response = new MailResponse();

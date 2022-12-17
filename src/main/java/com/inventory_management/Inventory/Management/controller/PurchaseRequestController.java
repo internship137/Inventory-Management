@@ -22,7 +22,8 @@ public class PurchaseRequestController {
     @Autowired
     private ApplicationEventPublisher publisher;
 
-    @PostMapping("supplier/{supplierId}/request")
+
+    @PostMapping("supplier/{supplierId}/purchaseRequests")
     public Message saveOrder(@Valid @RequestBody PurchaseRequest purchaseRequest,
                              @PathVariable("supplierId") Long supplierId,
                              final HttpServletRequest request) {
@@ -36,21 +37,11 @@ public class PurchaseRequestController {
     @GetMapping("/confirmOrder")
     public Message confirmOrder(@RequestParam("token") String token) {
         return purchaseRequestService.confirmOrderStatus(token);
-//        String result = purchaseRequestService.confirmOrderStatus(token);
-//        if (result.equalsIgnoreCase("valid")) {
-//            return "Confirmed";
-//        }
-//        return result;
     }
 
     @GetMapping("/denyOrder")
     public Message rejectOrder(@RequestParam("reject") String reject) {
         return purchaseRequestService.rejectOrder(reject);
-//        String result = purchaseRequestService.rejectOrder(reject);
-//        if (result.equalsIgnoreCase("valid")) {
-//            return "Confirmed";
-//        }
-//        return result;
     }
 
     private String applicationUrl2(HttpServletRequest request) {
@@ -70,12 +61,12 @@ public class PurchaseRequestController {
     }
 
 
-    @GetMapping("/allRequests")
+    @GetMapping("/purchaseRequests")
     public List<PurchaseRequest> fetchAllRequest(){
         return purchaseRequestService.fetchAllRequest();
     }
 
-    @GetMapping("/allRequests/{purchaseRequestId}")
+    @GetMapping("/purchaseRequests/{purchaseRequestId}")
     public Optional<PurchaseRequest> fetchRequestsById(@PathVariable("purchaseRequestId") Long purchaseRequestId) throws NotFoundException {
         return purchaseRequestService.fetchRequestsById(purchaseRequestId);
     }
