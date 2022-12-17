@@ -13,7 +13,7 @@ import java.util.Date;
 public class PurchaseRequestVerificationToken {
 
 
-    private static final int EXPIRATION_TIME=10;
+    private static final int EXPIRATION_TIME=2880;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
