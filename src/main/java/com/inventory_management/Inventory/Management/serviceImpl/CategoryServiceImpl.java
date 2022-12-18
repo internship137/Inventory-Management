@@ -1,13 +1,13 @@
 package com.inventory_management.Inventory.Management.serviceImpl;
-
-
-
 import com.inventory_management.Inventory.Management.entity.Category;
 import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.repository.CategoryRepository;
 import com.inventory_management.Inventory.Management.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,11 +37,21 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> fetchCategoryList() {
-        return categoryRepository.findAll();
+        return null;
+    }
+
+    // Get all Category (Pagination and Sorting)
+
+    @Override
+    public List<Category> fetchCategoryList(int pageNo, int recordCount) {
+        Pageable pageable = PageRequest.of(pageNo,recordCount,
+                Sort.by("categoryId"));
+        return categoryRepository.findAll(pageable).get().toList();
     }
 
 
     // fetch Category ById
+
 
     @Override
     public Category fetchCategoryById(Long categoryId) throws NotFoundException {
@@ -78,12 +88,6 @@ public class CategoryServiceImpl implements CategoryService {
             throw new NotFoundException("Category with this id does not exist");
         }
 
-        if (categoryRepository.existsByCategoryNameIgnoreCase(category.getCategoryName())) {
-
-            Message message = new Message();
-            message.setMessage("Category Name already exists ");
-            return message;
-        }
 
         Category catDB = categoryRepository.findById(categoryId).get();
 
@@ -96,4 +100,6 @@ public class CategoryServiceImpl implements CategoryService {
         message.setMessage("Updated Successfully");
         return message;
     }
+
+
 }

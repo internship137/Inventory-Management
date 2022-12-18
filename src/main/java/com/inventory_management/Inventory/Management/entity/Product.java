@@ -25,12 +25,14 @@ public class Product {
 
 
     @NotBlank(message = "Product code should not be empty")
-    @Pattern(regexp = "^[a-zA-Z0-9]{1,70}$", message = "Please provide a valid Product Code and special characters are not allowed")
+    @Pattern(regexp = "^[a-zA-Z0-9]{1,70}$"
+            , message = "Please provide a valid Product Code and special characters are not allowed")
     @Column(name = "product_code")
     private String productCode;
 
     @NotBlank(message = "Product name should not be empty")
-    @Pattern(regexp = "^[a-zA-Z0-9]{1,70}$", message = "Please provide a valid Product Name and special characters are not allowed")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]{1,70}$"
+            , message = "Please provide a valid Product Name and special characters are not allowed")
     @Column(name = "product_name")
     private String productName;
 
@@ -45,7 +47,8 @@ public class Product {
     private String maximumRetailPrice;
 
     @NotBlank(message = "Product manufacturer should not be empty")
-    @Pattern(regexp = "^[a-zA-Z]{1,70}$", message = "Please provide a valid Product manufacturer and no special characters are allowed")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]{1,70}$"
+            ,message = "Please provide a valid Product manufacturer and no special characters are allowed")
     @Column(name = "product_manufacturer")
     private String productManufacturer;
 
@@ -63,6 +66,8 @@ public class Product {
     private String pricingDiscountPercentage;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
+    @NotNull(message = "Please provide Discount Expire Date")
+    @Future(message = "Enter a valid date")
     @Column(name = "pricing_expire_date")
     private Date pricingExpireDate;
 
@@ -73,5 +78,6 @@ public class Product {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "categoryId")
     private Category category;
+
 
 }

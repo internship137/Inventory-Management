@@ -36,8 +36,8 @@ public class WebSecurityConfiguration{
                             "/savePassword","/changePassword","/supplierProduct/{supplierStocksId}/order",
                             "/orders","/all-orders","/orders/","/product","/pdf/","/pdf/**","/invoice","/invoice/**",
                             "/allInvoice/**","/invoice","/fromCategory","/fromCategory/**","/specific","/specific/**","/product/delete/",
-                            "/productId/","/productId/**","/AllPricing","/AllPricing/**","/category/**","/category/",
-                            "/product/**","/price/**","/allPricing","/productSellingPrice/**","/pricing/**",
+                            "/productId/","/productId/**","/AllPricing","/AllPricing/**","/category/**","/category/","/paginationAndSort/**",
+                            "/product/**","/price/**","/allPricing","/productSellingPrice/**","/pricing/**","/pagination/**",
                             "/stock/**","/supplierCategory","/supplierCategory/**","/supplier/**","/supplier",
                             "/supplier-stocks/**","/supplier-stocks","/employee","/employee/**","/category","/category/**","/request",
                             "/confirmOrder","/denyOrder","/purchaseRequests","/purchaseRequests/**").permitAll()

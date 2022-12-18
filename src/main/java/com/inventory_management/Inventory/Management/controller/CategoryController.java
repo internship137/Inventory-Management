@@ -27,11 +27,12 @@ public class CategoryController {
 
     }
 
-    // fetchCategoryList
+    // fetchCategoryList (get all categories Pagination and Sorting)
 
-    @GetMapping("/category")
-    public List<Category> fetchCategoryList() {
-        return categoryService.fetchCategoryList();
+    @GetMapping("/category/{pageNo}/{recordCount}")
+    public List<Category> fetchCategoryList(@PathVariable int pageNo,
+                                            @PathVariable int recordCount) {
+        return categoryService.fetchCategoryList(pageNo,recordCount);
     }
 
     // fetchCategoryById

@@ -1,23 +1,29 @@
 package com.inventory_management.Inventory.Management.serviceImpl;
 
 
-import com.inventory_management.Inventory.Management.entity.Message;
-import com.inventory_management.Inventory.Management.repository.CategoryRepository;
-import com.inventory_management.Inventory.Management.dto.CategoryProductPricingDTO;
+import com.inventory_management.Inventory.Management.dto.ProductDTO;
 import com.inventory_management.Inventory.Management.entity.Category;
+import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.entity.Product;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
+import com.inventory_management.Inventory.Management.repository.CategoryRepository;
 import com.inventory_management.Inventory.Management.repository.ProductRepository;
 import com.inventory_management.Inventory.Management.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 @Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
@@ -34,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public Message saveProduct(Product product, Long categoryId) throws NotFoundException{
+    public Message saveProduct(Product product, Long categoryId) throws NotFoundException {
         if (!categoryRepository.existsById(categoryId)) {
             throw new NotFoundException(" Category with this Id does not exist");
         }
@@ -59,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
 
         float sellngPrice = product.getSellingPrice();
 
-        sellngPrice = ((mrp) - (( discountPercentage/100)*mrp));
+        sellngPrice = ((mrp) - ((discountPercentage / 100) * mrp));
         product.setSellingPrice((long) sellngPrice);
 
 
@@ -74,13 +80,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    // Get all products with categories
-
+    // Get all products with categories (Pagination and Sorting)
 
 
     @Override
-    public List<CategoryProductPricingDTO> fetchProductList() {
-        return productRepository.findAll()
+    public List<ProductDTO> fetchProductList(int pageNo, int recordCount) {
+        Pageable pageable = PageRequest.of(pageNo, recordCount,
+                Sort.by("productId"));
+        return productRepository.findAll(pageable)
                 .stream()
                 .map(this::convertEntityToDto)
                 .collect(Collectors.toList());
@@ -91,8 +98,11 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<CategoryProductPricingDTO> fetchProductsByCategoryId(Long categoryId) throws NotFoundException {
-        List<Product> productDto = productRepository.findProductByCategoryId(categoryId);
+    public List<ProductDTO> fetchProductsByCategoryId(Long categoryId, int pageNo, int recordCount)
+            throws NotFoundException {
+        Pageable pageable = PageRequest.of(pageNo, recordCount);
+        List<Product> productDto = productRepository.findProductByCategoryId(categoryId, pageable);
+
 
         if (productDto.isEmpty()) {
             throw new NotFoundException("Products with this Category id does not exist");
@@ -108,7 +118,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<CategoryProductPricingDTO> fetchProductIdByCategoryId(Long categoryId, Long productId) throws NotFoundException {
+    public List<ProductDTO> fetchProductIdByCategoryId(Long categoryId, Long productId) throws NotFoundException {
         List<Product> productFromCategoryDto = productRepository.findProductIdByCategoryId(categoryId, productId);
 
         if (productFromCategoryDto.isEmpty()) {
@@ -125,7 +135,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<CategoryProductPricingDTO> fetchByProductCode(Long productCode) throws NotFoundException {
+    public List<ProductDTO> fetchByProductCode(String productCode) throws NotFoundException {
         List<Product> productCodeDto = productRepository.findByProductCode(productCode);
 
         if (productCodeDto.isEmpty()) {
@@ -141,7 +151,7 @@ public class ProductServiceImpl implements ProductService {
     // Get product by product name  (containing)
 
     @Override
-    public List<CategoryProductPricingDTO> fetchByProductName(String productName) throws NotFoundException {
+    public List<ProductDTO> fetchByProductName(String productName) throws NotFoundException {
         List<Product> productNameDto = productRepository.findByProductNameContaining(productName);
 
         if (productNameDto.isEmpty()) {
@@ -159,7 +169,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<CategoryProductPricingDTO> fetchByProductId(Long productId) throws NotFoundException {
+    public List<ProductDTO> fetchByProductId(Long productId) throws NotFoundException {
 
         Optional<Product> productIdDto = productRepository.findById(productId);
 
@@ -177,31 +187,18 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public Message updateProduct(Long categoryId, Long productId, Product product) throws NotFoundException{
+    public Message updateProduct(Long categoryId, Long productId, Product product) throws NotFoundException {
 
         if (!productRepository.existsById(productId)) {
             throw new NotFoundException("Product with this id does not exist");
         }
 
-        if (productRepository.existsByProductNameIgnoreCase(product.getProductName())) {
-
-            Message message = new Message();
-            message.setMessage("Product Name already exists ");
-            return message;
-        }
-
-        if (productRepository.existsByProductCodeIgnoreCase(product.getProductCode())) {
-
-            Message message = new Message();
-            message.setMessage("Product Code already exists ");
-            return message;
-        }
 
         Product proDB = productRepository.findProductIdUsingCategoryId(categoryId, productId);
 
 
         if (Objects.nonNull(product.getProductCode()) &&
-                !"".equalsIgnoreCase(product.getProductCode())){
+                !"".equalsIgnoreCase(product.getProductCode())) {
             proDB.setProductCode(product.getProductCode());
         }
 
@@ -241,7 +238,7 @@ public class ProductServiceImpl implements ProductService {
 
 
         productRepository.save(proDB);
-        Message message=new Message();
+        Message message = new Message();
         message.setMessage("Updated Successfully");
         return message;
     }
@@ -257,7 +254,7 @@ public class ProductServiceImpl implements ProductService {
             throw new NotFoundException("Product Id does not exist");
         }
         productRepository.deleteById(productId);
-        Message message=new Message();
+        Message message = new Message();
         message.setMessage("Deleted Successfully");
         return message;
 
@@ -267,9 +264,9 @@ public class ProductServiceImpl implements ProductService {
     // DTO
 
 
-    private CategoryProductPricingDTO convertEntityToDto(Product product) {
-        CategoryProductPricingDTO categoryProductPricingDTO =
-                new CategoryProductPricingDTO();
+    private ProductDTO convertEntityToDto(Product product) {
+        ProductDTO categoryProductPricingDTO =
+                new ProductDTO();
 
         categoryProductPricingDTO.setProductId(product.getProductId());
         categoryProductPricingDTO.setProductName(product.getProductName());

@@ -4,7 +4,7 @@ package com.inventory_management.Inventory.Management.controller;
 import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.service.ProductService;
 import com.inventory_management.Inventory.Management.repository.CategoryRepository;
-import com.inventory_management.Inventory.Management.dto.CategoryProductPricingDTO;
+import com.inventory_management.Inventory.Management.dto.ProductDTO;
 import com.inventory_management.Inventory.Management.entity.Product;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,28 +30,35 @@ public class ProductController {
         return productService.saveProduct(product, categoryId);
     }
 
+    // Pagination and Sorting
 
-    // Get all products with categoriesa
 
-    @GetMapping("/product")
-    public List<CategoryProductPricingDTO> fetchProductList() {
-        return productService.fetchProductList();
+
+    // Get all products with categories (Pagination and Sorting)
+
+    @GetMapping("/product/paginationAndSorting/{pageNo}/{recordCount}")
+    public List<ProductDTO> fetchProductList(@PathVariable int pageNo,
+                                             @PathVariable int recordCount) {
+        return productService.fetchProductList(pageNo,recordCount);
     }
+
 
 
     // Get products from a specific category
 
-    @GetMapping("/fromCategory/{categoryId}/product")
-    public List<CategoryProductPricingDTO> fetchProductsByCategoryId(@PathVariable Long categoryId) throws NotFoundException {
-        return productService.fetchProductsByCategoryId(categoryId);
+    @GetMapping("/fromCategory/{categoryId}/product/{pageNo}/{recordCount}")
+    public List<ProductDTO> fetchProductsByCategoryId(@PathVariable Long categoryId,
+                                                      @PathVariable int pageNo,
+                                                      @PathVariable int recordCount) throws NotFoundException {
+        return productService.fetchProductsByCategoryId(categoryId,pageNo,recordCount);
     }
 
     // Get a specific product from a specific category
 
 
     @GetMapping("/specific/category/{categoryId}/product/{productId}")
-    public List<CategoryProductPricingDTO> fetchProductIdByCategoryId(@PathVariable Long categoryId,
-                                                                      @PathVariable Long productId) throws NotFoundException {
+    public List<ProductDTO> fetchProductIdByCategoryId(@PathVariable Long categoryId,
+                                                       @PathVariable Long productId) throws NotFoundException {
         return productService.fetchProductIdByCategoryId(categoryId, productId);
 
     }
@@ -61,14 +68,22 @@ public class ProductController {
 
 
     @GetMapping("/product/{productName}")
-    public List<CategoryProductPricingDTO> fetchByProductName(@PathVariable String productName) throws NotFoundException {
+    public List<ProductDTO> fetchByProductName(@PathVariable String productName) throws NotFoundException {
         return productService.fetchByProductName(productName);
+    }
+
+    // Get product by product code
+
+
+    @GetMapping("/product/productCode/{productCode}")
+    public List<ProductDTO> fetchByProductCode(@PathVariable String productCode) throws NotFoundException {
+        return productService.fetchByProductCode(productCode);
     }
 
     // Get a product by productId
 
     @GetMapping("/productId/{productId}")
-    public List<CategoryProductPricingDTO> fetchByProductId(@PathVariable Long productId) throws NotFoundException {
+    public List<ProductDTO> fetchByProductId(@PathVariable Long productId) throws NotFoundException {
         return productService.fetchByProductId(productId);
     }
 

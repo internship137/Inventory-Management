@@ -20,4 +20,5 @@ public interface CategoryService {
     public Message updateCategory(Long categoryId, Category product) throws NotFoundException;
 
 
+    List<Category> fetchCategoryList(int pageNo, int recordCount);
 }
