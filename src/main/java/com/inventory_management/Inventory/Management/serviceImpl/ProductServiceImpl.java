@@ -316,6 +316,9 @@ public class ProductServiceImpl implements ProductService {
         categoryProductPricingDTO.setCategory(product.getCategory().getCategoryName());
         categoryProductPricingDTO.setSupplierName(product.getSupplierName());
         categoryProductPricingDTO.setSupplierCompany(product.getSupplierCompany());
+        //////////
+        categoryProductPricingDTO.setPricingDiscountPercentage(Long.valueOf(product.getPricingDiscountPercentage()));
+        categoryProductPricingDTO.setPricingExpireDate(product.getPricingExpireDate());
 
 
         return categoryProductPricingDTO;
