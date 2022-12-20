@@ -10,10 +10,9 @@ import java.util.List;
 
 public interface ProductService {
 
-    Message saveProduct(Product product, Long categoryId) throws NotFoundException;
+    Message saveProduct(Product product, Long categoryId, Long supplierId) throws NotFoundException;
 
     public List<ProductDTO> fetchProductList(int pageNo, int recordCount);
-
 
     public List<ProductDTO> fetchProductsByCategoryId(Long categoryId, int pageNo, int recordCount) throws NotFoundException;
 
@@ -23,13 +22,10 @@ public interface ProductService {
 
     public List<ProductDTO> fetchByProductName(String productName) throws NotFoundException;
 
-
     public List<ProductDTO> fetchByProductCode(String productCode) throws NotFoundException;
-
 
     public Message updateProduct(Long productId, Long id, Product product) throws NotFoundException;
 
     public Message deleteProduct(Long productId) throws NotFoundException;
-
 
 }

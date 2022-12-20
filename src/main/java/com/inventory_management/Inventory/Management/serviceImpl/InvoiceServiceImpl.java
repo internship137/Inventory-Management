@@ -44,7 +44,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         Product product = productRepository.findById(productId).get();
 
-//        Long stocksId = stock.getStockId();
         String productName = product.getProductName();
         String productCategory = product.getCategory().getCategoryName();
         Long productPrice = product.getSellingPrice();
@@ -60,7 +59,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         }
 
-//        invoice.setStockId(productId);
         invoice.setProductName(productName);
         invoice.setCategoryName(productCategory);
         invoice.setProductPrice(productPrice);
@@ -166,8 +164,6 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceStocksDTO.setSellingQuantity(invoice.getSellingQuantity());
         invoiceStocksDTO.setCustomerEmail(invoice.getCustomerEmail());
         invoiceStocksDTO.setCustomerName(invoice.getCustomerName());
-
-
 
         return invoiceStocksDTO;
     }

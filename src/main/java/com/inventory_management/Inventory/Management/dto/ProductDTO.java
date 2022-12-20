@@ -27,15 +27,17 @@ public class ProductDTO {
 
     private String productManufacturer;
 
-
-    //    private String supplier;
-
-    private String pricingDiscountPercentage;
+    private Long pricingDiscountPercentage;
 
     private Date pricingExpireDate;
 
     private Date productCreatedDateTime;
 
     private String category;
+
+    private String supplierName;
+
+    private String supplierCompany;
+
 
 }

@@ -24,10 +24,11 @@ public class ProductController {
 
     // Add Products to Category
 
-    @PostMapping("/product/category/{categoryId}/addProduct")
+    @PostMapping("/product/category/{categoryId}/supplierId/{supplierId}/addProduct")
     public Message saveProduct(@Valid @RequestBody  Product product,
-                               @PathVariable Long categoryId) throws NotFoundException{
-        return productService.saveProduct(product, categoryId);
+                               @PathVariable Long categoryId,
+                               @PathVariable Long supplierId) throws NotFoundException{
+        return productService.saveProduct(product, categoryId , supplierId);
     }
 
     // Pagination and Sorting

@@ -5,9 +5,11 @@ import com.inventory_management.Inventory.Management.dto.ProductDTO;
 import com.inventory_management.Inventory.Management.entity.Category;
 import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.entity.Product;
+import com.inventory_management.Inventory.Management.entity.Supplier;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.repository.CategoryRepository;
 import com.inventory_management.Inventory.Management.repository.ProductRepository;
+import com.inventory_management.Inventory.Management.repository.SupplierRepository;
 import com.inventory_management.Inventory.Management.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -35,14 +37,20 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private SupplierRepository supplierRepository;
+
 
     // Add Products to Category
 
 
     @Override
-    public Message saveProduct(Product product, Long categoryId) throws NotFoundException {
+    public Message saveProduct(Product product, Long categoryId, Long supplierId) throws NotFoundException {
         if (!categoryRepository.existsById(categoryId)) {
             throw new NotFoundException(" Category with this Id does not exist");
+        }
+        if (!supplierRepository.existsById(supplierId)) {
+            throw new NotFoundException(" Supplier with this Id does not exist");
         }
 
 
@@ -59,6 +67,21 @@ public class ProductServiceImpl implements ProductService {
             message.setMessage("Product Code already exists ");
             return message;
         }
+
+        // supplier
+
+        Supplier supplier = supplierRepository.findById(supplierId).get();
+
+        String supplierName = supplier.getSupplierName();
+        String supplierCompany = supplier.getSupplierCompany();
+
+        supplier.setSupplierName(supplierName);
+        supplier.setSupplierCompany(supplierCompany);
+
+        supplierRepository.save(supplier);
+//        productRepository.save(product);
+
+        // selling price logic
 
         float mrp = Float.parseFloat(product.getMaximumRetailPrice());
         float discountPercentage = Float.parseFloat(product.getPricingDiscountPercentage());
@@ -78,7 +101,6 @@ public class ProductServiceImpl implements ProductService {
         return message;
 
     }
-
 
     // Get all products with categories (Pagination and Sorting)
 
@@ -229,7 +251,18 @@ public class ProductServiceImpl implements ProductService {
 
 //       selling price update
 
+//        if (Objects.nonNull(product.getSellingPrice()) &&
+//                !"".equalsIgnoreCase(String.valueOf(product.getSellingPrice()))) {
+//            proDB.setSellingPrice(product.getSellingPrice());
+//        }
+
 //      pricingDiscountPercentage
+
+        if (Objects.nonNull(product.getPricingDiscountPercentage()) &&
+                !"".equalsIgnoreCase(String.valueOf(product.getPricingDiscountPercentage()))) {
+            proDB.setPricingDiscountPercentage(product.getPricingDiscountPercentage());
+        }
+
 
         if (Objects.nonNull(product.getPricingExpireDate()) &&
                 !"".equalsIgnoreCase(String.valueOf(product.getPricingExpireDate()))) {
@@ -278,6 +311,8 @@ public class ProductServiceImpl implements ProductService {
         categoryProductPricingDTO.setProductManufacturer(product.getProductManufacturer());
         categoryProductPricingDTO.setProductCreatedDateTime(product.getProductCreatedDateTime());
         categoryProductPricingDTO.setCategory(product.getCategory().getCategoryName());
+        categoryProductPricingDTO.setSupplierName(product.getSupplierName());
+        categoryProductPricingDTO.setSupplierCompany(product.getSupplierCompany());
 
 
         return categoryProductPricingDTO;

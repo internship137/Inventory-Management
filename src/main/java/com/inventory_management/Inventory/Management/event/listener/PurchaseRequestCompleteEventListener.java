@@ -5,6 +5,7 @@ import com.inventory_management.Inventory.Management.entity.PurchaseRequest;
 import com.inventory_management.Inventory.Management.event.PurchaseRequestEvent;
 import com.inventory_management.Inventory.Management.service.PurchaseRequestService;
 import com.inventory_management.Inventory.Management.utilities.RequestEmail;
+//import freemarker.template.Configuration;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

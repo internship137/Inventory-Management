@@ -25,12 +25,15 @@ public class Supplier {
 
     @Column(name = "supplier_name",unique = true)
     @NotBlank(message = "Supplier company name cannot be null or blank")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]{1,70}$", message = "Please provide a valid Supplier Name")
     private String supplierName;
 
     @NotBlank(message = "Supplier name cannot be null or blank")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]{1,70}$", message = "Please provide a valid Company Name")
     @Column(name = "supplier_company")
     private String supplierCompany;
-    
+
+    @NotBlank(message = "Supplier contact cannot be null or blank")
     @Pattern(regexp = "^\\d{10}$",message = "invalid mobile number entered ")
     @Column(name = "supplier_contact")
     private String supplierContact;
