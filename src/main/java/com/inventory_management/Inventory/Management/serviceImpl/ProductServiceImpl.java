@@ -72,11 +72,14 @@ public class ProductServiceImpl implements ProductService {
 
         Supplier supplier = supplierRepository.findById(supplierId).get();
 
-        String supplierName = supplier.getSupplierName();
-        String supplierCompany = supplier.getSupplierCompany();
+//        String supplierName = supplier.getSupplierName();
+//        String supplierCompany = supplier.getSupplierCompany();
 
-        supplier.setSupplierName(supplierName);
-        supplier.setSupplierCompany(supplierCompany);
+//        supplier.setSupplierName(supplierName);
+//        supplier.setSupplierCompany(supplierCompany);
+
+        product.setSupplierName(supplier.getSupplierName());
+        product.setSupplierCompany(supplier.getSupplierCompany());
 
         supplierRepository.save(supplier);
 //        productRepository.save(product);
