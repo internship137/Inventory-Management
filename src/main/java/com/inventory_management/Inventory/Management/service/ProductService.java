@@ -22,8 +22,6 @@ public interface ProductService {
 
     public List<ProductDTO> fetchByProductName(String productName) throws NotFoundException;
 
-    public List<ProductDTO> fetchByProductCode(String productCode) throws NotFoundException;
-
     public Message updateProduct(Long productId, Long id, Product product) throws NotFoundException;
 
     public Message deleteProduct(Long productId) throws NotFoundException;

@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SupplierService {
-    public List<Supplier> fetchSupplierList();
+    public List<Supplier> fetchSupplierList(int pageNo);
+
 
     public Optional<Supplier> fetchSupplierById(Long supplierId) throws NotFoundException;
 

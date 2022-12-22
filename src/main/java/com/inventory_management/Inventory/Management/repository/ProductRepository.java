@@ -14,9 +14,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     boolean existsByProductNameIgnoreCase(String productName);
     boolean existsByProductCodeIgnoreCase(String productCode);
-
-
-    public List<Product> findByProductCode(String productCode);
+    
 
     public List<Product> findByProductNameContaining(String productName);
 
@@ -42,4 +40,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     public Product findProductIdUsingCategoryId(Long categoryId, Long productId);
 
+    Product findByProductCode(String code);
+
+    Product findByProductCodeIgnoreCase(String code);
 }

@@ -24,9 +24,9 @@ public class SupplierController {
 
     // Get all suppliers
 
-    @GetMapping("/supplier")
-    public List<Supplier> fetchSupplierList() {
-        return supplierService.fetchSupplierList();
+    @GetMapping("/supplier/page/{pageNo}")
+    public List<Supplier> fetchSupplierList(@PathVariable int pageNo) {
+        return supplierService.fetchSupplierList(pageNo);
     }
 
     // Get supplier By Id

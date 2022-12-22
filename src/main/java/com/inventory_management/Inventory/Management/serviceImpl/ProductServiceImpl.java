@@ -156,22 +156,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    // Get product by product code (unique and String type)
-
-
-    @Override
-    public List<ProductDTO> fetchByProductCode(String productCode) throws NotFoundException {
-        List<Product> productCodeDto = productRepository.findByProductCode(productCode);
-
-        if (productCodeDto.isEmpty()) {
-            throw new NotFoundException("Product with this product code does not exist");
-        }
-
-        return productCodeDto
-                .stream()
-                .map(this::convertEntityToDto)
-                .collect(Collectors.toList());
-    }
 
     // Get product by product name  (containing)
 

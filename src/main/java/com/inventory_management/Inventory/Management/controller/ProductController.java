@@ -73,13 +73,6 @@ public class ProductController {
         return productService.fetchByProductName(productName);
     }
 
-    // Get product by product code
-
-
-    @GetMapping("/product/productCode/{productCode}")
-    public List<ProductDTO> fetchByProductCode(@PathVariable String productCode) throws NotFoundException {
-        return productService.fetchByProductCode(productCode);
-    }
 
     // Get a product by productId
 
