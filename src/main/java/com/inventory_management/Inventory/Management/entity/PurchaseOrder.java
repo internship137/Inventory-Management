@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -17,12 +16,12 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PurchaseRequest {
+public class PurchaseOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "purchase_request_id")
-    private Long purchaseRequestId;
+    @Column(name = "purchase_order_id")
+    private Long purchaseOrderId;
 
     @CreationTimestamp
     @Column(name = "request_placed_date_time")
@@ -31,9 +30,17 @@ public class PurchaseRequest {
 
 
 
-    @NotBlank(message = "Product cannot be empty")
+//    @NotBlank(message = "Product cannot be empty")
     @Column(name = "product_name")
     private String productName;
+
+    @Column(name = "product_category")
+    private String productCategory;
+
+    @NotBlank(message = "Product code should not be empty")
+    @Pattern(regexp = "^[a-zA-Z0-9]{1,70}$", message = "Please provide a valid Product Code")
+    @Column(name = "product_code")
+    private String productCode;
 
 
     @NotNull(message = "Product cannot be empty")
@@ -47,7 +54,6 @@ public class PurchaseRequest {
     @Future(message = "Enter a valid date")
     private Date expectedDeliveryDate;
 
-
     @Column(name = "request_status")
     private String requestStatus;
 
@@ -56,6 +62,8 @@ public class PurchaseRequest {
 
     @Column(name = "supplier_name")
     private String supplierName;
+
+    private String supplierCompany;
 
     @Column(name = "supplier_email")
     private String supplierEmail;

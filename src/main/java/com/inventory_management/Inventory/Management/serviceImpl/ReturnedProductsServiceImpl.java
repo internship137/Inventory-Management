@@ -40,9 +40,8 @@ public class ReturnedProductsServiceImpl implements ReturnedProductsService {
 
         DamagedProducts damagedProducts = damagedProductsRepository.findById(damagedProductsId).get();
 
-        returnedProducts.setReturnProductName(damagedProducts.getDamagedProductName());
+        returnedProducts.setReturnProductName(damagedProducts.getProductName());
         returnedProducts.setProductCode(damagedProducts.getProductCode());
-        returnedProducts.setProductManufacturer(damagedProducts.getProductManufacturer());
         returnedProducts.setSupplierName(damagedProducts.getSupplierName());
         returnedProducts.setSupplierCompany(damagedProducts.getSupplierCompany());
 
@@ -51,7 +50,7 @@ public class ReturnedProductsServiceImpl implements ReturnedProductsService {
 
 
         Long returnQuantity = Long.valueOf(returnedProducts.getReturnQuantity());
-        Long damagedQuantity = Long.valueOf(damagedProducts.getDamagedQuantity());
+        Long damagedQuantity = Long.valueOf(damagedProducts.getToReturnQuantity());
 
         if (returnQuantity > damagedQuantity) {
             message.setMessage("Return quantity should be less than Damaged Product Quantity");
@@ -65,7 +64,7 @@ public class ReturnedProductsServiceImpl implements ReturnedProductsService {
             return message;
         }
 
-        damagedProducts.setDamagedQuantity(String.valueOf(qty));
+        damagedProducts.setToReturnQuantity(qty);
 
         damagedProductsRepository.save(damagedProducts);
         returnedProductsRepository.save(returnedProducts);

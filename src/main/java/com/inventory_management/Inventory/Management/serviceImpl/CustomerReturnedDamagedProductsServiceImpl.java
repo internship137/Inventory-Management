@@ -1,0 +1,110 @@
+package com.inventory_management.Inventory.Management.serviceImpl;
+
+import com.inventory_management.Inventory.Management.entity.*;
+import com.inventory_management.Inventory.Management.error.NotFoundException;
+import com.inventory_management.Inventory.Management.repository.CustomerReturnedDamagedProductsRepository;
+import com.inventory_management.Inventory.Management.repository.DamagedProductsRepository;
+import com.inventory_management.Inventory.Management.repository.InvoiceRepository;
+import com.inventory_management.Inventory.Management.repository.ProductRepository;
+import com.inventory_management.Inventory.Management.service.CustomerReturnedDamagedProductsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CustomerReturnedDamagedProductsServiceImpl implements CustomerReturnedDamagedProductsService {
+
+    @Autowired
+    private CustomerReturnedDamagedProductsRepository customerReturnedDamagedProductsRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private InvoiceRepository invoiceRepository;
+
+    @Autowired
+    private DamagedProductsRepository damagedProductsRepository;
+
+
+    @Override
+    public Message customerReturnProductFromInvoice(CustomerReturnedDamagedProducts customerReturnedDamagedProducts, Long invoiceId) throws NotFoundException {
+        if (!invoiceRepository.existsById(invoiceId)) {
+            throw new NotFoundException("Not found");
+        }
+        Invoice invoice = invoiceRepository.findById(invoiceId).get();
+
+        String code = invoice.getProductCode();
+
+
+        if (!productRepository.existsByProductCodeIgnoreCase(code)) {
+            throw new NotFoundException("Not found");
+        }
+
+        Product product = productRepository.findByProductCodeIgnoreCase(code);
+
+        customerReturnedDamagedProducts.setInvoiceId(invoiceId);
+
+        customerReturnedDamagedProducts.setCustomerName(invoice.getCustomerName());
+        customerReturnedDamagedProducts.setCustomerEmail(invoice.getCustomerEmail());
+
+        customerReturnedDamagedProducts.setProductCode(invoice.getProductCode());
+        customerReturnedDamagedProducts.setProductName(invoice.getProductName());
+
+        Message message = new Message();
+
+        if (customerReturnedDamagedProductsRepository.existsByProductCodeIgnoreCaseAndInvoiceId(code, invoiceId)) {
+            message.setMessage("exists");
+            return message;
+        }
+
+        Long a = invoice.getSellingQuantity();
+        Long b = Long.valueOf(customerReturnedDamagedProducts.getCustomerReturnQuantity());
+
+        if (b > a) {
+            message.setMessage("cannot save selling qty > return quantity");
+            return message;
+        }
+
+        if (b == 0) {
+            message.setMessage("cannot be ZERO ");
+            return message;
+        }
+        customerReturnedDamagedProductsRepository.save(customerReturnedDamagedProducts);
+
+        DamagedProducts damagedProducts = new DamagedProducts();
+
+        if (!damagedProductsRepository.existsByProductCodeIgnoreCase(code)) {
+            damagedProducts.setProductName(invoice.getProductName());
+            damagedProducts.setProductCode(invoice.getProductCode());
+            damagedProducts.setProductCategory(product.getCategory().getCategoryName());
+            damagedProducts.setSupplierName(product.getSupplierName());
+            damagedProducts.setSupplierCompany(product.getSupplierCompany());
+
+
+            damagedProducts.setCustomerReturnQuantity(Long.valueOf(customerReturnedDamagedProducts.getCustomerReturnQuantity()));
+            damagedProducts.setToReturnQuantity(Long.valueOf(customerReturnedDamagedProducts.getCustomerReturnQuantity()));
+
+            if (damagedProducts.getPurchaseOrderDamagedQuantity() == null) {
+                damagedProducts.setPurchaseOrderDamagedQuantity(Long.valueOf(0));
+            }
+
+            damagedProductsRepository.save(damagedProducts);
+            message.setMessage("hi");
+            return message;
+        }
+
+        if (damagedProductsRepository.existsByProductCodeIgnoreCase(code)) {
+            DamagedProducts damagedProducts1 = damagedProductsRepository.findByProductCodeIgnoreCase(code);
+
+            Long currentCustomerReturnQty = damagedProducts1.getCustomerReturnQuantity();
+            Long qty = Long.valueOf(customerReturnedDamagedProducts.getCustomerReturnQuantity());
+            Long purchaseRequestReturnQty = damagedProducts1.getPurchaseOrderDamagedQuantity();
+
+            damagedProducts1.setCustomerReturnQuantity(currentCustomerReturnQty + qty);
+            damagedProducts1.setToReturnQuantity(currentCustomerReturnQty + qty + purchaseRequestReturnQty);
+            damagedProductsRepository.save(damagedProducts1);
+        }
+        message.setMessage("saved ");
+        return message;
+    }
+}

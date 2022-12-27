@@ -1,10 +1,10 @@
 package com.inventory_management.Inventory.Management.controller;
 
 import com.inventory_management.Inventory.Management.entity.Message;
-import com.inventory_management.Inventory.Management.entity.PurchaseRequest;
+import com.inventory_management.Inventory.Management.entity.PurchaseOrder;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
-import com.inventory_management.Inventory.Management.event.PurchaseRequestEvent;
-import com.inventory_management.Inventory.Management.service.PurchaseRequestService;
+import com.inventory_management.Inventory.Management.event.PurchaseOrderEvent;
+import com.inventory_management.Inventory.Management.service.PurchaseOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
@@ -15,20 +15,20 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class PurchaseRequestController {
+public class PurchaseOrderController {
     @Autowired
-    private PurchaseRequestService purchaseRequestService;
+    private PurchaseOrderService purchaseOrderService;
 
     @Autowired
     private ApplicationEventPublisher publisher;
 
 
     @PostMapping("supplier/{supplierId}/purchaseRequests")
-    public Message saveOrder(@Valid @RequestBody PurchaseRequest purchaseRequest,
+    public Message saveOrder(@Valid @RequestBody PurchaseOrder purchaseOrder,
                              @PathVariable("supplierId") Long supplierId,
-                             final HttpServletRequest request) {
-        PurchaseRequest purchaseRequest1 = purchaseRequestService.saveOrder(purchaseRequest,supplierId);
-        publisher.publishEvent(new PurchaseRequestEvent(purchaseRequest1,applicationUrl1(request),applicationUrl2(request)));
+                             final HttpServletRequest request) throws NotFoundException {
+        PurchaseOrder purchaseOrder1 = purchaseOrderService.saveOrder(purchaseOrder,supplierId);
+        publisher.publishEvent(new PurchaseOrderEvent(purchaseOrder1,applicationUrl1(request),applicationUrl2(request)));
         Message message=new Message();
         message.setMessage("Request placed successfully");
         return message;
@@ -36,12 +36,12 @@ public class PurchaseRequestController {
 
     @GetMapping("/confirmOrder")
     public Message confirmOrder(@RequestParam("token") String token) {
-        return purchaseRequestService.confirmOrderStatus(token);
+        return purchaseOrderService.confirmOrderStatus(token);
     }
 
     @GetMapping("/denyOrder")
     public Message rejectOrder(@RequestParam("reject") String reject) {
-        return purchaseRequestService.rejectOrder(reject);
+        return purchaseOrderService.rejectOrder(reject);
     }
 
     private String applicationUrl2(HttpServletRequest request) {
@@ -62,13 +62,13 @@ public class PurchaseRequestController {
 
 
     @GetMapping("/purchaseRequests")
-    public List<PurchaseRequest> fetchAllRequest(){
-        return purchaseRequestService.fetchAllRequest();
+    public List<PurchaseOrder> fetchAllRequest(){
+        return purchaseOrderService.fetchAllRequest();
     }
 
     @GetMapping("/purchaseRequests/{purchaseRequestId}")
-    public Optional<PurchaseRequest> fetchRequestsById(@PathVariable("purchaseRequestId") Long purchaseRequestId) throws NotFoundException {
-        return purchaseRequestService.fetchRequestsById(purchaseRequestId);
+    public Optional<PurchaseOrder> fetchRequestsById(@PathVariable("purchaseRequestId") Long purchaseRequestId) throws NotFoundException {
+        return purchaseOrderService.fetchRequestsById(purchaseRequestId);
     }
 
 }

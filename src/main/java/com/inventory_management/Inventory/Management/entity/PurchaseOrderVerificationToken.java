@@ -10,7 +10,7 @@ import java.util.Date;
 @Entity
 @Data
 @NoArgsConstructor
-public class PurchaseRequestVerificationToken {
+public class PurchaseOrderVerificationToken {
 
 
     private static final int EXPIRATION_TIME=2880;
@@ -27,17 +27,17 @@ public class PurchaseRequestVerificationToken {
     @JoinColumn(name = "order_id",
             nullable = false,
             foreignKey = @ForeignKey(name = "FK_TOKEN"))
-    private PurchaseRequest purchaseRequest;
+    private PurchaseOrder purchaseOrder;
 
-    public PurchaseRequestVerificationToken(PurchaseRequest purchaseRequest, String token, String reject){
+    public PurchaseOrderVerificationToken(PurchaseOrder purchaseOrder, String token, String reject){
         super();
-        this.purchaseRequest = purchaseRequest;
+        this.purchaseOrder = purchaseOrder;
         this.token=token;
         this.reject=reject;
         this.expirationTime=calculateExpirationDate(EXPIRATION_TIME);
     }
 
-    public PurchaseRequestVerificationToken(String token1, String reject){
+    public PurchaseOrderVerificationToken(String token, String reject){
         super();
         this.token=token;
         this.reject=reject;

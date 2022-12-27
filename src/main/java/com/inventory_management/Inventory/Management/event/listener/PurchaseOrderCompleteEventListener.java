@@ -1,15 +1,13 @@
 package com.inventory_management.Inventory.Management.event.listener;
 
 import com.inventory_management.Inventory.Management.dto.MailResponse;
-import com.inventory_management.Inventory.Management.entity.PurchaseRequest;
-import com.inventory_management.Inventory.Management.event.PurchaseRequestEvent;
-import com.inventory_management.Inventory.Management.service.PurchaseRequestService;
-import com.inventory_management.Inventory.Management.utilities.RequestEmail;
+import com.inventory_management.Inventory.Management.entity.PurchaseOrder;
+import com.inventory_management.Inventory.Management.event.PurchaseOrderEvent;
+import com.inventory_management.Inventory.Management.service.PurchaseOrderService;
 //import freemarker.template.Configuration;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -25,12 +23,9 @@ import java.util.Map;
 import java.util.UUID;
 
 @Component
-public class PurchaseRequestCompleteEventListener implements ApplicationListener<PurchaseRequestEvent> {
+public class PurchaseOrderCompleteEventListener implements ApplicationListener<PurchaseOrderEvent> {
     @Autowired
-    private PurchaseRequestService purchaseRequestService;
-
-//    @Autowired
-//    private RequestEmail requestEmail;
+    private PurchaseOrderService purchaseOrderService;
 
     @Autowired
     private JavaMailSender sender;
@@ -40,15 +35,15 @@ public class PurchaseRequestCompleteEventListener implements ApplicationListener
 
 
     @Override
-    public void onApplicationEvent(PurchaseRequestEvent event) {
+    public void onApplicationEvent(PurchaseOrderEvent event) {
 
         //create verification token for the USer with link
 
-        PurchaseRequest purchaseRequest = event.getPurchaseRequest();
+        PurchaseOrder purchaseOrder = event.getPurchaseOrder();
         String token = UUID.randomUUID().toString();
         String reject = UUID.randomUUID().toString();
 
-        purchaseRequestService.saveTokens(purchaseRequest, token, reject);
+        purchaseOrderService.saveTokens(purchaseOrder, token, reject);
 
         //send email
 
@@ -66,11 +61,11 @@ public class PurchaseRequestCompleteEventListener implements ApplicationListener
         try {
             // set mediaType
             MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
-            String expectedDate= String.valueOf(purchaseRequest.getExpectedDeliveryDate());
+            String expectedDate= String.valueOf(purchaseOrder.getExpectedDeliveryDate());
 
-            model.put("supplierName",purchaseRequest.getSupplierName());
-            model.put("productName",purchaseRequest.getProductName());
-            model.put("qty",purchaseRequest.getProductQuantity());
+            model.put("supplierName", purchaseOrder.getSupplierName());
+            model.put("productName", purchaseOrder.getProductName());
+            model.put("qty", purchaseOrder.getProductQuantity());
             model.put("expectedDate",expectedDate);
             model.put("url1",url1);
             model.put("url2",url2);
@@ -79,13 +74,13 @@ public class PurchaseRequestCompleteEventListener implements ApplicationListener
             Template t = config.getTemplate("purchase_req.html");
             String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
 
-            helper.setTo(purchaseRequest.getSupplierEmail());
+            helper.setTo(purchaseOrder.getSupplierEmail());
             helper.setText(html, true);
-            helper.setSubject("New Order Request for "+purchaseRequest.getProductName());
+            helper.setSubject("New Order Request for "+ purchaseOrder.getProductName());
             helper.setFrom("gokuldas.sayonetech@gmail.com");
             sender.send(message);
 
-            response.setMessage("mail send to : " + purchaseRequest.getSupplierEmail());
+            response.setMessage("mail send to : " + purchaseOrder.getSupplierEmail());
             response.setStatus(Boolean.TRUE);
 
         } catch (MessagingException | IOException | TemplateException e) {

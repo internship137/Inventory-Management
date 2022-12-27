@@ -63,6 +63,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoice.setCategoryName(productCategory);
         invoice.setProductPrice(productPrice);
 
+        invoice.setProductCode(product.getProductCode());
+
         invoiceRepository.save(invoice);
         stockQty = stockQty - sellingQty;
         product.setStockQuantity(String.valueOf(stockQty));

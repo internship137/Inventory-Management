@@ -21,34 +21,29 @@ public class DamagedProducts {
     @Column(name = "damaged_products_id")
     private Long damagedProductsId;
 
-    @Column(name = "damaged_product_name")
-    private String damagedProductName;
+    @Column(name = "product_name")
+    private String productName;
 
-    @NotBlank(message = "Product code should not be empty")
+//    @NotBlank(message = "Product code should not be empty")
     @Pattern(regexp = "^[a-zA-Z0-9]{1,70}$", message = "Please provide a valid Product Code")
     @Column(name = "product_code")
     private String productCode;
-
-    @Column(name = "product_manufacturer")
-    private String productManufacturer;
-
+    
     @Column(name = "product_category")
     private String productCategory;
 
-    @Column(name = "total_quantity")
-    private Long totalQuantity;
-
-    @NotNull(message = "Stock Quantity should not be empty")
-    @Pattern(regexp = "^[0-9]{1,8}$", message = "Invalid quantity provided")
-    @Column(name = "damaged_quantity")
-    private String damagedQuantity;
-
-    @Column(name = "supplierName")
+    @Column(name = "supplier_name")
     private String supplierName;
 
-    @Column(name = "supplierCompany")
+    @Column(name = "supplier_company")
     private String supplierCompany;
 
+    private Long customerReturnQuantity= Long.valueOf(0);
 
+    private Long purchaseOrderDamagedQuantity= Long.valueOf(0);
+
+
+    @Column(name = "to_return_quantity")
+    private Long toReturnQuantity;
 
 }

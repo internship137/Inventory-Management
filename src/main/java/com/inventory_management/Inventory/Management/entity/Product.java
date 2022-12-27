@@ -34,6 +34,8 @@ public class Product {
     @Column(name = "product_name")
     private String productName;
 
+
+
     @NotNull(message = "Product buying price should not be empty")
     @Pattern(regexp = "^[0-9]{1,7}$", message = "Please provide a valid Product Buying Price")
     @Min(1)@Max(9999999)
