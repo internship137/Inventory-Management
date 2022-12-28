@@ -16,7 +16,7 @@ public interface PurchaseOrderService {
 
     Message rejectOrder(String reject);
 
-    List<PurchaseOrder> fetchAllRequest();
+    List<PurchaseOrder> fetchAllRequest(int pageNo);
 
 
     Optional<PurchaseOrder> fetchRequestsById(Long purchaseRequestId) throws NotFoundException;

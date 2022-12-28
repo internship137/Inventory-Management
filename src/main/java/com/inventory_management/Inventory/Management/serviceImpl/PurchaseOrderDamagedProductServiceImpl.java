@@ -7,7 +7,12 @@ import com.inventory_management.Inventory.Management.repository.PurchaseOrderDam
 import com.inventory_management.Inventory.Management.repository.PurchaseOrderRepository;
 import com.inventory_management.Inventory.Management.service.PurchaseOrderDamagedProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDamagedProductService {
@@ -39,14 +44,14 @@ public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDama
 
         String code = purchaseOrder.getProductCode();
         if (purchaseOrderDamagedProductRepository.existsByProductCodeIgnoreCaseAndPurchaseOrderId(code, purchaseOrderId)) {
-            message.setMessage("exists");
+            message.setMessage("Already exists with Product code and purchase order Id");
             return message;
         }
         Long a = Long.valueOf(purchaseOrderDamagedProduct.getPurchaseOrderDamagedQuantity());
         Long b = purchaseOrder.getProductQuantity();
 
         if (a > b) {
-            message.setMessage("cannot save purchase order qty > damaged quantity");
+            message.setMessage("Damaged quantity is greater than purchase order quantity");
             return message;
         }
 
@@ -85,8 +90,23 @@ public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDama
             damagedProducts1.setToReturnQuantity(currentPurchaseOrderDamagedQty+qty+currentCustomerReturnQty);
             damagedProductsRepository.save(damagedProducts1);
         }
-        message.setMessage("saved ");
+        message.setMessage("New item added to the list");
         return message;
+    }
+
+    @Override
+    public List<PurchaseOrderDamagedProduct> fetchPurchaseOrderDamagedProductsList(int pageNo) {
+        Pageable pageable = PageRequest.of(pageNo, 3);
+        return purchaseOrderDamagedProductRepository.findAll(pageable).get().toList();
+    }
+
+    @Override
+    public Optional<PurchaseOrderDamagedProduct> fetchPurchaseOrderDamagedProductsId(Long purchaseOrderDamagedProductsId) throws NotFoundException {
+        if (!purchaseOrderDamagedProductRepository.existsById(purchaseOrderDamagedProductsId)){
+            throw new NotFoundException("Not found with this Id");
+        }
+
+        return purchaseOrderDamagedProductRepository.findById(purchaseOrderDamagedProductsId);
     }
 
 }

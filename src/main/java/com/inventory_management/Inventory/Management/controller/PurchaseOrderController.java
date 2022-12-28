@@ -61,9 +61,9 @@ public class PurchaseOrderController {
     }
 
 
-    @GetMapping("/purchaseRequests")
-    public List<PurchaseOrder> fetchAllRequest(){
-        return purchaseOrderService.fetchAllRequest();
+    @GetMapping("/purchaseRequests/page/{pageNo}")
+    public List<PurchaseOrder> fetchAllRequest(@PathVariable int pageNo){
+        return purchaseOrderService.fetchAllRequest(pageNo);
     }
 
     @GetMapping("/purchaseRequests/{purchaseRequestId}")

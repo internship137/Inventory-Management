@@ -8,6 +8,8 @@ import com.inventory_management.Inventory.Management.repository.SupplierReposito
 import com.inventory_management.Inventory.Management.repository.PurchaseOrderRepository;
 import com.inventory_management.Inventory.Management.service.PurchaseOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -117,8 +119,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
-    public List<PurchaseOrder> fetchAllRequest() {
-        return purchaseOrderRepository.findAll();
+    public List<PurchaseOrder> fetchAllRequest(int pageNo) {
+        Pageable pageable = PageRequest.of(pageNo, 3);
+        return purchaseOrderRepository.findAll(pageable).get().toList();
     }
 
     @Override

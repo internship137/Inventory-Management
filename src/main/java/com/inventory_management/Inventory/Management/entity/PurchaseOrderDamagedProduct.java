@@ -17,7 +17,7 @@ public class PurchaseOrderDamagedProduct {
     @Column(name = "customer_returned_products_id")
     private Long purchaseOrderDamageProductsId;
 
-    @Column(name = "invoice_id")
+    @Column(name = "purchase_order_id")
     private Long purchaseOrderId;
 
 

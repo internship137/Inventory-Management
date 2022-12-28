@@ -8,7 +8,12 @@ import com.inventory_management.Inventory.Management.repository.InvoiceRepositor
 import com.inventory_management.Inventory.Management.repository.ProductRepository;
 import com.inventory_management.Inventory.Management.service.CustomerReturnedDamagedProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerReturnedDamagedProductsServiceImpl implements CustomerReturnedDamagedProductsService {
@@ -106,5 +111,21 @@ public class CustomerReturnedDamagedProductsServiceImpl implements CustomerRetur
         }
         message.setMessage("saved ");
         return message;
+    }
+
+    @Override
+    public List<CustomerReturnedDamagedProducts> fetchCustomerReturnProductFromInvoiceList(int pageNo) {
+        Pageable pageable = PageRequest.of(pageNo, 3);
+        return customerReturnedDamagedProductsRepository.findAll(pageable).get().toList();
+    }
+
+    @Override
+    public Optional<CustomerReturnedDamagedProducts> fetchCustomerReturnProductFromInvoiceById(Long customerReturnProductsId) throws NotFoundException {
+
+        if (!customerReturnedDamagedProductsRepository.existsById(customerReturnProductsId)){
+            throw new NotFoundException("Customer Return products does not exists with this ID");
+        }
+
+        return customerReturnedDamagedProductsRepository.findById(customerReturnProductsId);
     }
 }

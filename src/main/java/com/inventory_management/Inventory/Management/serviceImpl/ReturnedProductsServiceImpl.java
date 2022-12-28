@@ -33,10 +33,6 @@ public class ReturnedProductsServiceImpl implements ReturnedProductsService {
 
         Message message = new Message();
 
-        if (Long.valueOf(returnedProducts.getReturnQuantity())==0){
-            message.setMessage("Return quantity cannot be ZERO");
-            return message;
-        }
 
         DamagedProducts damagedProducts = damagedProductsRepository.findById(damagedProductsId).get();
 
@@ -47,30 +43,22 @@ public class ReturnedProductsServiceImpl implements ReturnedProductsService {
 
         returnedProducts.setReturnStatus("Return request initiated");
 
+        returnedProducts.setReturnQuantity(String.valueOf(damagedProducts.getToReturnQuantity()));
 
-
-        Long returnQuantity = Long.valueOf(returnedProducts.getReturnQuantity());
-        Long damagedQuantity = Long.valueOf(damagedProducts.getToReturnQuantity());
-
-        if (returnQuantity > damagedQuantity) {
-            message.setMessage("Return quantity should be less than Damaged Product Quantity");
-            return message;
-        }
-
-        Long qty=damagedQuantity - returnQuantity;
-
-        if (qty<0){
-            message.setMessage("Not enough quantity in damaged item list");
-            return message;
-        }
-
-        damagedProducts.setToReturnQuantity(qty);
-
-        damagedProductsRepository.save(damagedProducts);
         returnedProductsRepository.save(returnedProducts);
 
-        message.setMessage("Return request successful");
+
+        damagedProducts.setToReturnQuantity(Long.valueOf(0));
+        damagedProducts.setCustomerReturnQuantity(Long.valueOf(0));
+        damagedProducts.setPurchaseOrderDamagedQuantity(Long.valueOf(0));
+
+        damagedProductsRepository.save(damagedProducts);
+
+        message.setMessage("done");
         return message;
+
+
+
     }
 
     @Override

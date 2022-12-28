@@ -31,7 +31,7 @@ public class ReturnedProducts {
     private String productManufacturer;
 
 
-    @NotNull(message = "Stock Quantity should not be empty")
+//    @NotNull(message = "Stock Quantity should not be empty")
     @Pattern(regexp = "^[0-9]{1,8}$", message = "Invalid quantity provided")
     @Column(name = "return_quantity")
     private String returnQuantity;
