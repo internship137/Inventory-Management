@@ -27,8 +27,6 @@ public class ReturnedProducts {
     @Column(name = "product_code")
     private String productCode;
 
-    @Column(name = "product_manufacturer")
-    private String productManufacturer;
 
 
 //    @NotNull(message = "Stock Quantity should not be empty")
