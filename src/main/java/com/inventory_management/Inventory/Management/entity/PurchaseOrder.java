@@ -34,11 +34,12 @@ public class PurchaseOrder {
     @Column(name = "product_name")
     private String productName;
 
-    @Column(name = "product_category")
-    private String productCategory;
+//    @NotBlank(message = "Product category should not be empty")
+//    @Column(name = "product_category")
+//    private String productCategory;
 
-    @NotBlank(message = "Product code should not be empty")
-    @Pattern(regexp = "^[a-zA-Z0-9]{1,70}$", message = "Please provide a valid Product Code")
+//    @NotBlank(message = "Product code should not be empty")
+//    @Pattern(regexp = "^[a-zA-Z0-9]{1,70}$", message = "Please provide a valid Product Code")
     @Column(name = "product_code")
     private String productCode;
 

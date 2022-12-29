@@ -11,6 +11,8 @@ import java.util.Optional;
 
 @Repository
 public interface SupplierRepository extends JpaRepository<Supplier,Long> {
+    Supplier findBySupplierCompanyIgnoreCase(String supplierCompany);
+    boolean existsBySupplierContactIgnoreCase(String supplierContact);
 
     boolean existsBySupplierCompanyIgnoreCase(String supplierCompany);
 

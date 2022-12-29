@@ -3,6 +3,7 @@ package com.inventory_management.Inventory.Management.serviceImpl;
 import com.inventory_management.Inventory.Management.entity.*;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.repository.DamagedProductsRepository;
+import com.inventory_management.Inventory.Management.repository.ProductRepository;
 import com.inventory_management.Inventory.Management.repository.PurchaseOrderDamagedProductRepository;
 import com.inventory_management.Inventory.Management.repository.PurchaseOrderRepository;
 import com.inventory_management.Inventory.Management.service.PurchaseOrderDamagedProductService;
@@ -25,6 +26,8 @@ public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDama
 
     @Autowired
     private DamagedProductsRepository damagedProductsRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
     public Message addPurchaseOrderDamagedProduct(PurchaseOrderDamagedProduct purchaseOrderDamagedProduct, Long purchaseOrderId) throws NotFoundException {
@@ -60,6 +63,11 @@ public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDama
             return message;
         }
 
+        if (!productRepository.existsByProductNameIgnoreCase(purchaseOrder.getProductName())){
+            message.setMessage("Add the product to products lists before adding damaged product");
+            return message;
+        }
+
         purchaseOrderDamagedProductRepository.save(purchaseOrderDamagedProduct);
 
         DamagedProducts damagedProducts = new DamagedProducts();
@@ -68,7 +76,6 @@ public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDama
 
             damagedProducts.setProductName(purchaseOrder.getProductName());
             damagedProducts.setProductCode(purchaseOrder.getProductCode());
-            damagedProducts.setProductCategory(purchaseOrder.getProductCategory());
             damagedProducts.setSupplierName(purchaseOrder.getSupplierName());
             damagedProducts.setSupplierCompany(purchaseOrder.getSupplierCompany());
 

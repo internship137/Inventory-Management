@@ -31,26 +31,46 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private ProductRepository productRepository;
 
     @Override
-    public PurchaseOrder saveOrder(PurchaseOrder purchaseOrder, Long supplierId) throws NotFoundException {
+    public PurchaseOrder saveOrder(PurchaseOrder purchaseOrder) throws NotFoundException {
 
-        if (!supplierRepository.existsById(supplierId)){
+//        if (!supplierRepository.existsById(supplierId)) {
+//            throw new NotFoundException("Not found");
+//        }
+        if (!productRepository.existsByProductCodeIgnoreCase(purchaseOrder.getProductCode())){
             throw new NotFoundException("Not found");
         }
-        Supplier supplier=supplierRepository.findById(supplierId).get();
 
-        Product product=productRepository.findByProductCodeIgnoreCase(purchaseOrder.getProductCode());
+        Product product = productRepository.findByProductCodeIgnoreCase(purchaseOrder.getProductCode());
+
+        Supplier supplier = supplierRepository.findBySupplierCompanyIgnoreCase(product.getSupplierCompany());
+
+//        if (!productRepository.existsByProductNameIgnoreCase(purchaseOrder.getProductName())) {
+//
+//
+//            purchaseOrder.setProductCode("new product");
+//            purchaseOrder.setSupplierId(supplierId);
+//            purchaseOrder.setSupplierName(supplier.getSupplierName());
+//            purchaseOrder.setSupplierEmail(supplier.getSupplierEmail());
+//            purchaseOrder.setSupplierCompany(supplier.getSupplierCompany());
+//            purchaseOrder.setRequestStatus("Requested");
+//            purchaseOrder.setSupplierStatusDate("waiting");
+//            return purchaseOrderRepository.save(purchaseOrder);
+//
+//        }
+
+
+
 
         purchaseOrder.setProductName(product.getProductName());
-        purchaseOrder.setProductCategory(product.getCategory().getCategoryName());
 
-
-        purchaseOrder.setSupplierId(supplierId);
+        purchaseOrder.setSupplierId(supplier.getSupplierId());
         purchaseOrder.setSupplierName(supplier.getSupplierName());
         purchaseOrder.setSupplierEmail(supplier.getSupplierEmail());
         purchaseOrder.setSupplierCompany(supplier.getSupplierCompany());
         purchaseOrder.setRequestStatus("Requested");
         purchaseOrder.setSupplierStatusDate("waiting");
         return purchaseOrderRepository.save(purchaseOrder);
+
     }
 
     @Override
@@ -64,7 +84,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     @Override
     public Message confirmOrderStatus(String token) {
-        Message message=new Message();
+        Message message = new Message();
         PurchaseOrderVerificationToken purchaseOrderVerificationToken =
                 purchaseOrderVerificationTokenRepository.findByToken(token);
         if (purchaseOrderVerificationToken == null) {
@@ -92,7 +112,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     @Override
     public Message rejectOrder(String reject) {
-        Message message=new Message();
+        Message message = new Message();
 
         PurchaseOrderVerificationToken purchaseOrderVerificationToken =
                 purchaseOrderVerificationTokenRepository.findByReject(reject);
@@ -126,7 +146,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     @Override
     public Optional<PurchaseOrder> fetchRequestsById(Long purchaseRequestId) throws NotFoundException {
-        if (!purchaseOrderRepository.existsById(purchaseRequestId)){
+        if (!purchaseOrderRepository.existsById(purchaseRequestId)) {
             throw new NotFoundException("Not request found with this Id");
         }
         return purchaseOrderRepository.findById(purchaseRequestId);

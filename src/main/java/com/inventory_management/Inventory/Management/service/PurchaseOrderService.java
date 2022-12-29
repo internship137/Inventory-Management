@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PurchaseOrderService {
-    PurchaseOrder saveOrder(PurchaseOrder purchaseOrder, Long supplierId) throws NotFoundException;
+    PurchaseOrder saveOrder(PurchaseOrder purchaseOrder) throws NotFoundException;
 
     void saveTokens(PurchaseOrder purchaseOrder, String token1, String token2);
 

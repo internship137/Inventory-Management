@@ -66,12 +66,12 @@ public class CustomerReturnedDamagedProductsServiceImpl implements CustomerRetur
         Long b = Long.valueOf(customerReturnedDamagedProducts.getCustomerReturnQuantity());
 
         if (b > a) {
-            message.setMessage("cannot save selling qty > return quantity");
+            message.setMessage("Damaged quantity is greater than total item sold");
             return message;
         }
 
         if (b == 0) {
-            message.setMessage("cannot be ZERO ");
+            message.setMessage("Damaged quantity cannot be ZERO ");
             return message;
         }
         customerReturnedDamagedProductsRepository.save(customerReturnedDamagedProducts);
@@ -94,7 +94,7 @@ public class CustomerReturnedDamagedProductsServiceImpl implements CustomerRetur
             }
 
             damagedProductsRepository.save(damagedProducts);
-            message.setMessage("hi");
+            message.setMessage("New item added to damaged product list");
             return message;
         }
 
@@ -109,7 +109,7 @@ public class CustomerReturnedDamagedProductsServiceImpl implements CustomerRetur
             damagedProducts1.setToReturnQuantity(currentCustomerReturnQty + qty + purchaseRequestReturnQty);
             damagedProductsRepository.save(damagedProducts1);
         }
-        message.setMessage("saved ");
+        message.setMessage("Damaged quantity updated ");
         return message;
     }
 

@@ -54,7 +54,7 @@ public class ReturnedProductsServiceImpl implements ReturnedProductsService {
 
         damagedProductsRepository.save(damagedProducts);
 
-        message.setMessage("done");
+        message.setMessage("Return request initiated");
         return message;
 
 

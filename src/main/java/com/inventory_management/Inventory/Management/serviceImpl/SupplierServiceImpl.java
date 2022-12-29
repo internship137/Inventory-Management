@@ -28,14 +28,19 @@ public class SupplierServiceImpl implements SupplierService {
         if (supplierRepository.existsBySupplierCompanyIgnoreCase(supplier.getSupplierCompany())) {
 
             Message message = new Message();
-            message.setMessage("exists by Company name");
+            message.setMessage("Cannot add new supplier because supplier with this Company Name already exists");
             return message;
         }
 
         if (supplierRepository.existsBySupplierEmailIgnoreCase(supplier.getSupplierEmail())) {
 
             Message message = new Message();
-            message.setMessage("exists by email");
+            message.setMessage("Cannot add new supplier because supplier with this Email already exists");
+            return message;
+        }
+        if (supplierRepository.existsBySupplierContactIgnoreCase(supplier.getSupplierContact())){
+            Message message = new Message();
+            message.setMessage("Cannot add new supplier because supplier with this contact already exists");
             return message;
         }
 

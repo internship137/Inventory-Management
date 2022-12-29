@@ -23,7 +23,7 @@ public class Supplier {
     @Column(name = "supplier_id")
     private Long supplierId;
 
-    @Column(name = "supplier_name",unique = true)
+    @Column(name = "supplier_name")
     @NotBlank(message = "Supplier company name cannot be null or blank")
     @Pattern(regexp = "^[a-zA-Z0-9 ]{1,70}$", message = "Please provide a valid Supplier Name")
     private String supplierName;
@@ -35,7 +35,7 @@ public class Supplier {
 
     @NotBlank(message = "Supplier contact cannot be null or blank")
     @Pattern(regexp = "^\\d{10}$",message = "invalid mobile number entered ")
-    @Column(name = "supplier_contact")
+    @Column(name = "supplier_contact", unique = true)
     private String supplierContact;
     
     @Email(message = "invalid email address",regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
