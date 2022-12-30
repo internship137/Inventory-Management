@@ -1,4 +1,5 @@
 package com.inventory_management.Inventory.Management.serviceImpl;
+
 import com.inventory_management.Inventory.Management.entity.Category;
 import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
@@ -44,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> fetchCategoryList(int pageNo, int recordCount) {
-        Pageable pageable = PageRequest.of(pageNo,recordCount,
+        Pageable pageable = PageRequest.of(pageNo, recordCount,
                 Sort.by("categoryId"));
         return categoryRepository.findAll(pageable).get().toList();
     }
@@ -82,7 +83,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
-    public Message updateCategory(Long categoryId, Category category) throws NotFoundException{
+    public Message updateCategory(Long categoryId, Category category) throws NotFoundException {
 
         if (!categoryRepository.existsById(categoryId)) {
             throw new NotFoundException("Category with this id does not exist");
@@ -96,7 +97,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         categoryRepository.save(catDB);
-        Message message=new Message();
+        Message message = new Message();
         message.setMessage("Updated Successfully");
         return message;
     }

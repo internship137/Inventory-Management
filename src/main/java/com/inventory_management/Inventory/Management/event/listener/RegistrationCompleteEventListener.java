@@ -26,19 +26,18 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
 
     @Override
     public void onApplicationEvent(RegistrationCompleteEvent event) {
-        User user=event.getUser();
-        String token= UUID.randomUUID().toString();
-        userService.saveVerificationTokenForUser(token,user);
-        String url=event.getApplicationUrl()+"/verifyRegistration?token="+token;
+        User user = event.getUser();
+        String token = UUID.randomUUID().toString();
+        userService.saveVerificationTokenForUser(token, user);
+        String url = event.getApplicationUrl() + "/verifyRegistration?token=" + token;
 
-        SimpleMailMessage confirmEmail=new SimpleMailMessage();
+        SimpleMailMessage confirmEmail = new SimpleMailMessage();
         confirmEmail.setFrom("anson.sayonetech@gmail.com");
 //        confirmEmail.setTo(user.getEmail());
         confirmEmail.setTo("anson.joseph05@gmail.com");
         confirmEmail.setSubject("VERIFY YOUR ACCOUNT");
-        confirmEmail.setText("To confirm your Account,Click the link below:\n"+url);
+        confirmEmail.setText("To confirm your Account,Click the link below:\n" + url);
         emailService.sendEmail(confirmEmail);
-
 
 
     }

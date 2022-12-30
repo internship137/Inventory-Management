@@ -8,19 +8,19 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class PasswordResetToken {
 
-    private static final int EXPIRATION_TIME=10;
+    private static final int EXPIRATION_TIME = 10;
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
 
 
     private String token;
@@ -35,22 +35,23 @@ public class PasswordResetToken {
     private User user;
 
 
-    public PasswordResetToken(User user,String token){
+    public PasswordResetToken(User user, String token) {
         super();
-        this.user=user;
-        this.token=token;
-        this.expirationTime=calculateExpirationDate(EXPIRATION_TIME);
+        this.user = user;
+        this.token = token;
+        this.expirationTime = calculateExpirationDate(EXPIRATION_TIME);
     }
 
-    public PasswordResetToken(String token){
+    public PasswordResetToken(String token) {
         super();
-        this.token=token;
-        this.expirationTime=calculateExpirationDate(EXPIRATION_TIME);
+        this.token = token;
+        this.expirationTime = calculateExpirationDate(EXPIRATION_TIME);
     }
+
     private Date calculateExpirationDate(int expirationTime) {
-        Calendar calendar=Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(new Date().getTime());
-        calendar.add(Calendar.MINUTE,expirationTime);
+        calendar.add(Calendar.MINUTE, expirationTime);
         return new Date(calendar.getTime().getTime());
     }
 

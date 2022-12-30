@@ -1,7 +1,6 @@
 package com.inventory_management.Inventory.Management.controller;
 
 
-
 import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.service.CategoryService;
 import com.inventory_management.Inventory.Management.entity.Category;
@@ -32,7 +31,7 @@ public class CategoryController {
     @GetMapping("/category/{pageNo}/{recordCount}")
     public List<Category> fetchCategoryList(@PathVariable int pageNo,
                                             @PathVariable int recordCount) {
-        return categoryService.fetchCategoryList(pageNo,recordCount);
+        return categoryService.fetchCategoryList(pageNo, recordCount);
     }
 
     // fetchCategoryById
@@ -45,14 +44,14 @@ public class CategoryController {
     // fetchCategoryByName
 
     @GetMapping("/category/name/{name}")
-    public Category fetchCategoryByName(@PathVariable("name") String categoryName) throws NotFoundException{
+    public Category fetchCategoryByName(@PathVariable("name") String categoryName) throws NotFoundException {
         return categoryService.fetchCategoryByName(categoryName);
     }
 
     // updateCategory
 
     @PutMapping("/category/{categoryId}")
-    public Message updateCategory( @PathVariable ("categoryId") Long categoryId, @RequestBody @Valid Category product) throws NotFoundException{
+    public Message updateCategory(@PathVariable("categoryId") Long categoryId, @RequestBody @Valid Category product) throws NotFoundException {
         return categoryService.updateCategory(categoryId, product);
     }
 

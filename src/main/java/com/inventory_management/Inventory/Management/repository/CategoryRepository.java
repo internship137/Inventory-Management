@@ -9,8 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category,Long> {
+public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     boolean existsByCategoryNameIgnoreCase(String categoryName);
-    public Optional<Category> findByCategoryNameContaining(String categoryName)throws NotFoundException;
+
+    public Optional<Category> findByCategoryNameContaining(String categoryName) throws NotFoundException;
 }

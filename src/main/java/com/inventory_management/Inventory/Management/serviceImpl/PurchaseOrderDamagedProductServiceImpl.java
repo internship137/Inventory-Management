@@ -63,7 +63,7 @@ public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDama
             return message;
         }
 
-        if (!productRepository.existsByProductNameIgnoreCase(purchaseOrder.getProductName())){
+        if (!productRepository.existsByProductNameIgnoreCase(purchaseOrder.getProductName())) {
             message.setMessage("Add the product to products lists before adding damaged product");
             return message;
         }
@@ -84,17 +84,17 @@ public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDama
             damagedProductsRepository.save(damagedProducts);
         }
 
-        if (damagedProductsRepository.existsByProductCodeIgnoreCase(code)){
+        if (damagedProductsRepository.existsByProductCodeIgnoreCase(code)) {
             DamagedProducts damagedProducts1 = damagedProductsRepository.findByProductCodeIgnoreCase(code);
 
-            Long currentPurchaseOrderDamagedQty=damagedProducts1.getPurchaseOrderDamagedQuantity();
+            Long currentPurchaseOrderDamagedQty = damagedProducts1.getPurchaseOrderDamagedQuantity();
 
-            Long qty= Long.valueOf(purchaseOrderDamagedProduct.getPurchaseOrderDamagedQuantity());
+            Long qty = Long.valueOf(purchaseOrderDamagedProduct.getPurchaseOrderDamagedQuantity());
 
-            Long currentCustomerReturnQty=damagedProducts1.getCustomerReturnQuantity();
+            Long currentCustomerReturnQty = damagedProducts1.getCustomerReturnQuantity();
 
-            damagedProducts1.setPurchaseOrderDamagedQuantity(currentPurchaseOrderDamagedQty+a);
-            damagedProducts1.setToReturnQuantity(currentPurchaseOrderDamagedQty+qty+currentCustomerReturnQty);
+            damagedProducts1.setPurchaseOrderDamagedQuantity(currentPurchaseOrderDamagedQty + a);
+            damagedProducts1.setToReturnQuantity(currentPurchaseOrderDamagedQty + qty + currentCustomerReturnQty);
             damagedProductsRepository.save(damagedProducts1);
         }
         message.setMessage("New item added to the list");
@@ -109,7 +109,7 @@ public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDama
 
     @Override
     public Optional<PurchaseOrderDamagedProduct> fetchPurchaseOrderDamagedProductsId(Long purchaseOrderDamagedProductsId) throws NotFoundException {
-        if (!purchaseOrderDamagedProductRepository.existsById(purchaseOrderDamagedProductsId)){
+        if (!purchaseOrderDamagedProductRepository.existsById(purchaseOrderDamagedProductsId)) {
             throw new NotFoundException("Not found with this Id");
         }
 

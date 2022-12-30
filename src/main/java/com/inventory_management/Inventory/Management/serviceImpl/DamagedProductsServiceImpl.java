@@ -27,7 +27,7 @@ public class DamagedProductsServiceImpl implements DamagedProductsService {
     @Override
     public Optional<DamagedProducts> fetchDamagedProductById(Long damagedProductsId) throws NotFoundException {
 
-        if (!damagedProductsRepository.existsById(damagedProductsId)){
+        if (!damagedProductsRepository.existsById(damagedProductsId)) {
             throw new NotFoundException("Damaged Product with this Id does not exists");
         }
         return damagedProductsRepository.findById(damagedProductsId);

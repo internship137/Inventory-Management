@@ -14,9 +14,9 @@ public class ReturnRequestEmail {
     public void sendRequestEmail(
             String toEmail,
             String body,
-            String subject){
+            String subject) {
 
-        SimpleMailMessage message=new SimpleMailMessage();
+        SimpleMailMessage message = new SimpleMailMessage();
 
         message.setFrom("gokuldas.sayonetech@gmail.com");
         message.setTo(toEmail);

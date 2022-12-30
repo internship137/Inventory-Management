@@ -35,27 +35,29 @@ public class Product {
     private String productName;
 
 
-
     @NotNull(message = "Product buying price should not be empty")
     @Pattern(regexp = "^[0-9]{1,7}$", message = "Please provide a valid Product Buying Price")
-    @Min(1)@Max(9999999)
+    @Min(1)
+    @Max(9999999)
     @Column(name = "product_buying_price")
     private String productBuyingPrice;
 
     @NotNull(message = "Product MRP should not be empty")
     @Pattern(regexp = "^[0-9]{1,7}$", message = "Please provide a valid MRP")
-    @Min(1)@Max(9999999)
+    @Min(1)
+    @Max(9999999)
     @Column(name = "maximum_retail_price")
     private String maximumRetailPrice;
 
     @NotBlank(message = "Product manufacturer should not be empty")
-    @Pattern(regexp = "^[a-zA-Z0-9 ]{1,70}$",message = "Please provide a valid Product manufacturer")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]{1,70}$", message = "Please provide a valid Product manufacturer")
     @Column(name = "product_manufacturer")
     private String productManufacturer;
 
     @NotNull(message = "Stock Quantity should not be empty")
     @Pattern(regexp = "^[0-9]{1,8}$", message = "Stock Quantity should not be less than zero")
-    @Min(1)@Max(9999999)
+    @Min(1)
+    @Max(9999999)
     @Column(name = "stock_quantity")
     private String stockQuantity;
 
@@ -64,7 +66,8 @@ public class Product {
 
     @NotNull(message = "Pricing discount percentage should not be empty")
     @Pattern(regexp = "^[0-9]{1,3}$", message = "Pricing discount percentage should be 0-100 percentage")
-    @Min(1)@Max(100)
+    @Min(1)
+    @Max(100)
     @Column(name = "pricing_discount_percentage")
     private String pricingDiscountPercentage;
 

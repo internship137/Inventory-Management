@@ -7,8 +7,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 public class InventoryManagementApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(InventoryManagementApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(InventoryManagementApplication.class, args);
+    }
 
 }

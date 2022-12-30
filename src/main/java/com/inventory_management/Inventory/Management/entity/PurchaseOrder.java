@@ -29,8 +29,7 @@ public class PurchaseOrder {
     private Date requestPlacedDateTime;
 
 
-
-//    @NotBlank(message = "Product cannot be empty")
+    //    @NotBlank(message = "Product cannot be empty")
     @Column(name = "product_name")
     private String productName;
 
@@ -38,14 +37,14 @@ public class PurchaseOrder {
 //    @Column(name = "product_category")
 //    private String productCategory;
 
-//    @NotBlank(message = "Product code should not be empty")
+    //    @NotBlank(message = "Product code should not be empty")
 //    @Pattern(regexp = "^[a-zA-Z0-9]{1,70}$", message = "Please provide a valid Product Code")
     @Column(name = "product_code")
     private String productCode;
 
 
     @NotNull(message = "Product cannot be empty")
-    @Min(value = 1,message = "Quantity must be greater than or equal to 1")
+    @Min(value = 1, message = "Quantity must be greater than or equal to 1")
     @Column(name = "product_quantity")
     private Long productQuantity;
 

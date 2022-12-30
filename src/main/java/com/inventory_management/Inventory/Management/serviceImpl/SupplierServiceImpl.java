@@ -38,7 +38,7 @@ public class SupplierServiceImpl implements SupplierService {
             message.setMessage("Cannot add new supplier because supplier with this Email already exists");
             return message;
         }
-        if (supplierRepository.existsBySupplierContactIgnoreCase(supplier.getSupplierContact())){
+        if (supplierRepository.existsBySupplierContactIgnoreCase(supplier.getSupplierContact())) {
             Message message = new Message();
             message.setMessage("Cannot add new supplier because supplier with this contact already exists");
             return message;
@@ -53,10 +53,9 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public List<Supplier> fetchSupplierList(int pageNo) {
-        Pageable pageable= PageRequest.of(pageNo,3);
+        Pageable pageable = PageRequest.of(pageNo, 3);
         return supplierRepository.findAll(pageable).get().toList();
     }
-
 
 
     @Override

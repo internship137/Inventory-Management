@@ -36,7 +36,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 //        if (!supplierRepository.existsById(supplierId)) {
 //            throw new NotFoundException("Not found");
 //        }
-        if (!productRepository.existsByProductCodeIgnoreCase(purchaseOrder.getProductCode())){
+        if (!productRepository.existsByProductCodeIgnoreCase(purchaseOrder.getProductCode())) {
             throw new NotFoundException("Not found");
         }
 
@@ -57,8 +57,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 //            return purchaseOrderRepository.save(purchaseOrder);
 //
 //        }
-
-
 
 
         purchaseOrder.setProductName(product.getProductName());

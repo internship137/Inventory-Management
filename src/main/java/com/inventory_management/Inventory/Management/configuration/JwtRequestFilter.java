@@ -32,40 +32,39 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        final String header=request.getHeader("Authorization");
+        final String header = request.getHeader("Authorization");
 
-        String jwtToken=null;
-        String userName=null;
+        String jwtToken = null;
+        String userName = null;
 
-        if(header!=null && header.startsWith("Bearer")){
+        if (header != null && header.startsWith("Bearer")) {
 
-            jwtToken=header.substring(7);
+            jwtToken = header.substring(7);
 
-            try{
+            try {
 
-                userName=jwtUtil.getUserNameFromToken(jwtToken);
+                userName = jwtUtil.getUserNameFromToken(jwtToken);
 
 
-            }catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
 
                 System.out.println("Unable to get JWT token");
-            }catch (ExpiredJwtException e){
+            } catch (ExpiredJwtException e) {
 
                 System.out.println("JWT token is expired");
             }
 
-        }
-        else {
+        } else {
             System.out.println("JWT token does not start with the bearer");
         }
 
-        if (userName!=null && SecurityContextHolder.getContext().getAuthentication()==null){
+        if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails=jwtService.loadUserByUsername(userName);
+            UserDetails userDetails = jwtService.loadUserByUsername(userName);
 
-            if(jwtUtil.validateToken(jwtToken,userDetails)){
+            if (jwtUtil.validateToken(jwtToken, userDetails)) {
 
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken=
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                         new UsernamePasswordAuthenticationToken(userDetails,
                                 null,
                                 userDetails.getAuthorities());
@@ -74,12 +73,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource()
                         .buildDetails(request));
 
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken );
+                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
 
 
         }
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
 
     }
 }

@@ -9,15 +9,15 @@ import org.springframework.stereotype.Service;
 public class BillInvoiceEmail {
 
 
-        @Autowired
-        private JavaMailSender mailSender;
+    @Autowired
+    private JavaMailSender mailSender;
 
-        public void sendBillInvoiceEmail(
+    public void sendBillInvoiceEmail(
             String toEmail,
             String body,
-            String subject){
+            String subject) {
 
-        SimpleMailMessage message=new SimpleMailMessage();
+        SimpleMailMessage message = new SimpleMailMessage();
 
         message.setFrom("anson.sayonetech@gmail.com");
         message.setTo(toEmail);

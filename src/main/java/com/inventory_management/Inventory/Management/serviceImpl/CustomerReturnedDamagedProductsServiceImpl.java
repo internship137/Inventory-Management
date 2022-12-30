@@ -122,7 +122,7 @@ public class CustomerReturnedDamagedProductsServiceImpl implements CustomerRetur
     @Override
     public Optional<CustomerReturnedDamagedProducts> fetchCustomerReturnProductFromInvoiceById(Long customerReturnProductsId) throws NotFoundException {
 
-        if (!customerReturnedDamagedProductsRepository.existsById(customerReturnProductsId)){
+        if (!customerReturnedDamagedProductsRepository.existsById(customerReturnProductsId)) {
             throw new NotFoundException("Customer Return products does not exists with this ID");
         }
 

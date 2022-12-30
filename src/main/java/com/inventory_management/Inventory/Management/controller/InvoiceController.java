@@ -21,16 +21,15 @@ public class InvoiceController {
     @PostMapping("/product/{productId}/invoice")
     public Message saveInvoice(@RequestBody Invoice invoice,
                                @PathVariable Long productId) throws NotFoundException {
-        return invoiceService.saveInvoice(invoice,productId);
+        return invoiceService.saveInvoice(invoice, productId);
     }
 
     // Get All invoice
 
     @GetMapping("/allInvoice")
-    public List<InvoiceStocksDTO> fetchAllInvoice(){
+    public List<InvoiceStocksDTO> fetchAllInvoice() {
         return invoiceService.fetchAllInvoice();
     }
-
 
 
     // Get invoice by Id
@@ -44,8 +43,8 @@ public class InvoiceController {
 
     @PutMapping("/invoice/{invoiceId}")
     private String updateInvoice(@PathVariable Long invoiceId,
-                               @RequestBody Invoice invoice) throws NotFoundException {
-        invoiceService.updateInvoice(invoiceId,invoice);
+                                 @RequestBody Invoice invoice) throws NotFoundException {
+        invoiceService.updateInvoice(invoiceId, invoice);
         return "Updated Successfully";
     }
 

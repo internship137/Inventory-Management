@@ -24,10 +24,10 @@ public class EmployeeDetails {
     private String employeeName;
 
     @NotBlank(message = "Employee code is mandatory")
-    @Column(name = "employee_code",unique = true)
+    @Column(name = "employee_code", unique = true)
     private String employeeCode;
 
-    @Pattern(regexp = "^\\d{10}$",message = "invalid mobile number entered ")
+    @Pattern(regexp = "^\\d{10}$", message = "invalid mobile number entered ")
     @Column(name = "employee_contact")
     private String employeeContact;
 

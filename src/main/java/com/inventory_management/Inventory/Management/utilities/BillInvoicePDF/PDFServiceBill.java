@@ -31,7 +31,7 @@ public class PDFServiceBill {
     private List<InvoiceStocksDTO> invoiceStocksDTOList;
 
 
-    public void export(HttpServletResponse response) throws IOException , DocumentException {
+    public void export(HttpServletResponse response) throws IOException, DocumentException {
         Document document = new Document(PageSize.A4);
         PdfWriter.getInstance(document, response.getOutputStream());
         document.open();
@@ -48,13 +48,13 @@ public class PDFServiceBill {
 
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
-        Paragraph paragraph1 = new Paragraph("Date of Issue : " + currentDateTime );
+        Paragraph paragraph1 = new Paragraph("Date of Issue : " + currentDateTime);
         paragraph1.setAlignment(Paragraph.ALIGN_LEFT);
         paragraph1.setSpacingBefore(20);
 
 
         Paragraph paragraph2 = new Paragraph("Company Name \n Company Address " +
-                "\n Phone : 123456789 \n Email : company@gmail.com " );
+                "\n Phone : 123456789 \n Email : company@gmail.com ");
         paragraph2.setAlignment(Paragraph.ALIGN_LEFT);
         paragraph2.setSpacingBefore(30);
 
@@ -89,26 +89,26 @@ public class PDFServiceBill {
 
         Font font = FontFactory.getFont(FontFactory.HELVETICA);
 
-        cell.setPhrase(new Phrase("customer_name" ,font));
+        cell.setPhrase(new Phrase("customer_name", font));
         table.addCell(cell);
 
-        cell.setPhrase(new Phrase("email" ,font));
+        cell.setPhrase(new Phrase("email", font));
         table.addCell(cell);
 
-        cell.setPhrase(new Phrase("product_name" , font));
+        cell.setPhrase(new Phrase("product_name", font));
         table.addCell(cell);
 
         cell.setPhrase(new Phrase("product_price", font));
         table.addCell(cell);
 
-        cell.setPhrase(new Phrase("selling_quantity" , font));
+        cell.setPhrase(new Phrase("selling_quantity", font));
         table.addCell(cell);
 
     }
 
 
     private void writeTableData(PdfPTable table) {
-        for (InvoiceStocksDTO invoiceStocksDTO : invoiceStocksDTOList){
+        for (InvoiceStocksDTO invoiceStocksDTO : invoiceStocksDTOList) {
             table.addCell(invoiceStocksDTO.getCustomerName());
             table.addCell(invoiceStocksDTO.getCustomerEmail());
             table.addCell(invoiceStocksDTO.getProductName());

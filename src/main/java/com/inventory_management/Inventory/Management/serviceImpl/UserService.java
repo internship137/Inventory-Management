@@ -99,17 +99,18 @@ public class UserService {
     public String validateVerificationToken(String token) {
         VerificationToken verificationToken = verificatioTokenRepository.findByToken(token);
         if (verificationToken == null) {
-            return "invalid";}
-
-            User user = verificationToken.getUser();
-            Calendar cal = Calendar.getInstance();
-            if ((verificationToken.getExpirationTime().getTime()
-                    - cal.getTime().getTime()) <= 0) {
-                verificatioTokenRepository.delete(verificationToken);
-                return "expired";
-            }
-            return "valid";
+            return "invalid";
         }
+
+        User user = verificationToken.getUser();
+        Calendar cal = Calendar.getInstance();
+        if ((verificationToken.getExpirationTime().getTime()
+                - cal.getTime().getTime()) <= 0) {
+            verificatioTokenRepository.delete(verificationToken);
+            return "expired";
+        }
+        return "valid";
+    }
 
 
     public User findUserByEmail(String email) {
@@ -119,14 +120,15 @@ public class UserService {
 
     public void createPasswordRestTokenForUser(User user, String token) {
 
-        PasswordResetToken passwordResetToken=new PasswordResetToken(user,token);
+        PasswordResetToken passwordResetToken = new PasswordResetToken(user, token);
         passwordResetTokenRepository.save(passwordResetToken);
     }
 
     public String validatePasswordResetToken(String token) {
         PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
         if (passwordResetToken == null) {
-            return "invalid";}
+            return "invalid";
+        }
 
         User user = passwordResetToken.getUser();
         Calendar cal = Calendar.getInstance();
@@ -150,5 +152,6 @@ public class UserService {
     }
 
     public boolean checkIfValidOldPassword(User user, String oldPassword) {
-        return passwordEncoder.matches(oldPassword, user.getUserPassword());}
+        return passwordEncoder.matches(oldPassword, user.getUserPassword());
+    }
 }

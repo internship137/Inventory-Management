@@ -14,9 +14,9 @@ public class RegistrationCompleteEvent extends ApplicationEvent {
     private String applicationUrl;
 
 
-    public RegistrationCompleteEvent(User user,String applicationUrl) {
+    public RegistrationCompleteEvent(User user, String applicationUrl) {
         super(user);
-        this.user=user;
-        this.applicationUrl=applicationUrl;
+        this.user = user;
+        this.applicationUrl = applicationUrl;
     }
 }

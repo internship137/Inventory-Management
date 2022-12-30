@@ -13,11 +13,12 @@ public class PurchaseOrderEvent extends ApplicationEvent {
     private PurchaseOrder purchaseOrder;
     private String applicationUrl1;
     private String applicationUrl2;
+
     public PurchaseOrderEvent(PurchaseOrder purchaseOrder, String applicationUrl1, String applicationUrl2) {
         super(purchaseOrder);
         this.purchaseOrder = purchaseOrder;
-        this.applicationUrl1=applicationUrl1;
-        this.applicationUrl2=applicationUrl2;
+        this.applicationUrl1 = applicationUrl1;
+        this.applicationUrl2 = applicationUrl2;
 
     }
 }

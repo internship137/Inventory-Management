@@ -29,7 +29,7 @@ public class EmployeeDetailsServiceImpl implements EmployeeDetailsService {
             return message;
         }
 
-        if (employeeDetailsRepository.existsByEmployeeContactIgnoreCase(employeeDetails.getEmployeeContact())){
+        if (employeeDetailsRepository.existsByEmployeeContactIgnoreCase(employeeDetails.getEmployeeContact())) {
             message.setMessage("number exists");
             return message;
         }

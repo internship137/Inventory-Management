@@ -13,7 +13,7 @@ import java.util.Date;
 public class PurchaseOrderVerificationToken {
 
 
-    private static final int EXPIRATION_TIME=2880;
+    private static final int EXPIRATION_TIME = 2880;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -29,25 +29,26 @@ public class PurchaseOrderVerificationToken {
             foreignKey = @ForeignKey(name = "FK_TOKEN"))
     private PurchaseOrder purchaseOrder;
 
-    public PurchaseOrderVerificationToken(PurchaseOrder purchaseOrder, String token, String reject){
+    public PurchaseOrderVerificationToken(PurchaseOrder purchaseOrder, String token, String reject) {
         super();
         this.purchaseOrder = purchaseOrder;
-        this.token=token;
-        this.reject=reject;
-        this.expirationTime=calculateExpirationDate(EXPIRATION_TIME);
+        this.token = token;
+        this.reject = reject;
+        this.expirationTime = calculateExpirationDate(EXPIRATION_TIME);
     }
 
-    public PurchaseOrderVerificationToken(String token, String reject){
+    public PurchaseOrderVerificationToken(String token, String reject) {
         super();
-        this.token=token;
-        this.reject=reject;
-        this.expirationTime=calculateExpirationDate(EXPIRATION_TIME);
+        this.token = token;
+        this.reject = reject;
+        this.expirationTime = calculateExpirationDate(EXPIRATION_TIME);
     }
 
     private Date calculateExpirationDate(int expirationTime) {
-        Calendar calendar=Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(new Date().getTime());
-        calendar.add(Calendar.MINUTE,expirationTime);
+        calendar.add(Calendar.MINUTE, expirationTime);
         return new Date(calendar.getTime().getTime());
 
-    }}
+    }
+}

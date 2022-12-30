@@ -12,7 +12,7 @@ public class EmailService {
     @Autowired
     JavaMailSender javaMailSender;
 
-    public void sendEmail(SimpleMailMessage simpleMailMessage){
+    public void sendEmail(SimpleMailMessage simpleMailMessage) {
         javaMailSender.send(simpleMailMessage);
     }
 }

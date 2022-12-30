@@ -25,14 +25,13 @@ public class ProductController {
     // Add Products to Category
 
     @PostMapping("/product/category/{categoryId}/supplierId/{supplierId}/addProduct")
-    public Message saveProduct(@Valid @RequestBody  Product product,
+    public Message saveProduct(@Valid @RequestBody Product product,
                                @PathVariable Long categoryId,
-                               @PathVariable Long supplierId) throws NotFoundException{
-        return productService.saveProduct(product, categoryId , supplierId);
+                               @PathVariable Long supplierId) throws NotFoundException {
+        return productService.saveProduct(product, categoryId, supplierId);
     }
 
     // Pagination and Sorting
-
 
 
     // Get all products with categories (Pagination and Sorting)
@@ -40,9 +39,8 @@ public class ProductController {
     @GetMapping("/product/paginationAndSorting/{pageNo}/{recordCount}")
     public List<ProductDTO> fetchProductList(@PathVariable int pageNo,
                                              @PathVariable int recordCount) {
-        return productService.fetchProductList(pageNo,recordCount);
+        return productService.fetchProductList(pageNo, recordCount);
     }
-
 
 
     // Get products from a specific category
@@ -51,7 +49,7 @@ public class ProductController {
     public List<ProductDTO> fetchProductsByCategoryId(@PathVariable Long categoryId,
                                                       @PathVariable int pageNo,
                                                       @PathVariable int recordCount) throws NotFoundException {
-        return productService.fetchProductsByCategoryId(categoryId,pageNo,recordCount);
+        return productService.fetchProductsByCategoryId(categoryId, pageNo, recordCount);
     }
 
     // Get a specific product from a specific category
@@ -88,7 +86,7 @@ public class ProductController {
     @PutMapping("/category/{categoryId}/updateProduct/{productId}")
     public Message updateProduct(@PathVariable Long categoryId,
                                  @PathVariable Long productId,
-                                 @RequestBody @Valid Product product) throws NotFoundException{
+                                 @RequestBody @Valid Product product) throws NotFoundException {
         return productService.updateProduct(categoryId, productId, product);
     }
 

@@ -14,15 +14,14 @@ import java.io.IOException;
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response,
+                         AuthenticationException authException) throws IOException, ServletException {
 
-        @Override
-        public void commence(HttpServletRequest request, HttpServletResponse response,
-                             AuthenticationException authException) throws IOException, ServletException {
-
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Unauthorized");
-            response.setContentType(MediaType.ALL_VALUE);
-            response.getWriter().write("You're not authorized to perform this transaction.");
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+        response.setContentType(MediaType.ALL_VALUE);
+        response.getWriter().write("You're not authorized to perform this transaction.");
 
 
-        }
+    }
 }

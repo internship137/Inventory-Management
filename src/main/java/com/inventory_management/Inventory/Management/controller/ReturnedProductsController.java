@@ -18,12 +18,12 @@ public class ReturnedProductsController {
     private ReturnedProductsService returnedProductsService;
 
     @PostMapping("damagedProducts/{damagedProductsId}/return")
-    public Message returnDamagedProducts(@PathVariable("damagedProductsId") Long damagedProductsId,@Valid @RequestBody ReturnedProducts returnedProducts) throws NotFoundException {
-        return returnedProductsService.returnDamagedProducts(damagedProductsId,returnedProducts);
+    public Message returnDamagedProducts(@PathVariable("damagedProductsId") Long damagedProductsId, @Valid @RequestBody ReturnedProducts returnedProducts) throws NotFoundException {
+        return returnedProductsService.returnDamagedProducts(damagedProductsId, returnedProducts);
     }
 
     @GetMapping("returnRequest/page/{pageNo}")
-    public List<ReturnedProducts> fetchAllReturnRequests(@PathVariable int pageNo){
+    public List<ReturnedProducts> fetchAllReturnRequests(@PathVariable int pageNo) {
         return returnedProductsService.fetchAllReturnRequests(pageNo);
     }
 

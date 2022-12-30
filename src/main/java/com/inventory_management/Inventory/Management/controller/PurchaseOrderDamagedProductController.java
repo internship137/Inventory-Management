@@ -21,7 +21,7 @@ public class PurchaseOrderDamagedProductController {
     @PostMapping("purchaseOrder/{purchaseOrderId}/addDamagedProduct")
     public Message addPurchaseOrderDamagedProduct(@Valid @RequestBody PurchaseOrderDamagedProduct purchaseOrderDamagedProduct,
                                                   @PathVariable("purchaseOrderId") Long purchaseOrderId) throws NotFoundException {
-        return purchaseOrderDamagedProductService.addPurchaseOrderDamagedProduct(purchaseOrderDamagedProduct,purchaseOrderId);
+        return purchaseOrderDamagedProductService.addPurchaseOrderDamagedProduct(purchaseOrderDamagedProduct, purchaseOrderId);
     }
 
 

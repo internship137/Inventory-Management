@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PurchaseOrderDamagedProductRepository extends JpaRepository<PurchaseOrderDamagedProduct,Long> {
+public interface PurchaseOrderDamagedProductRepository extends JpaRepository<PurchaseOrderDamagedProduct, Long> {
     boolean existsByProductCodeIgnoreCaseAndPurchaseOrderId(String productCode, Long purchaseOrderId);
 
 

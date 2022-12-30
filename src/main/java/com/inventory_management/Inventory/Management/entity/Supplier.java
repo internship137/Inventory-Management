@@ -34,11 +34,11 @@ public class Supplier {
     private String supplierCompany;
 
     @NotBlank(message = "Supplier contact cannot be null or blank")
-    @Pattern(regexp = "^\\d{10}$",message = "invalid mobile number entered ")
+    @Pattern(regexp = "^\\d{10}$", message = "invalid mobile number entered ")
     @Column(name = "supplier_contact", unique = true)
     private String supplierContact;
-    
-    @Email(message = "invalid email address",regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
+
+    @Email(message = "invalid email address", regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
             flags = Pattern.Flag.CASE_INSENSITIVE)
     @Column(name = "supplier_email")
     private String supplierEmail;

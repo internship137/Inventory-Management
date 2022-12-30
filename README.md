@@ -1,20 +1,18 @@
 # Inventory-Management
 
+Maintain a systematic record of inventory: This System can be used to store the details of the inventory such as
+category, products , supplier and Invoices.
+Stock maintenance: Stock is maintained up-to-date by calculating the remaining stocks
 
+Proper and timely order fulfillment and updating the inventory based on the sales details. Ensuring sufficient stock: An
+email alert is implemented to maintain the availability of stocks whenever and wherever required in enough quantity.
 
-Maintain a systematic record of inventory: This System can be used to store the details of the inventory such as category, products , supplier and Invoices.
-Stock maintenance: Stock is maintained up-to-date by calculating  the remaining stocks
-
-Proper and timely order fulfillment and updating the inventory based on the sales details. Ensuring sufficient stock: An email alert is implemented to maintain the availability of stocks whenever and wherever required in enough quantity.
-
-Inventory Accuracy: This inventory management system helps organize and streamline inventory placing and acquisition of stocks for better fulfillment.
+Inventory Accuracy: This inventory management system helps organize and streamline inventory placing and acquisition of
+stocks for better fulfillment.
 
 Better user services: All of the above help boost user service practices
 
-
-
-
-Functionalities - 
+Functionalities -
 Register.
 Login using the Jwt token.
 The Selling Price of the products are generated based on the discount percentage we give to the Maximum Retail Price.

@@ -61,14 +61,14 @@ public class PurchaseOrderCompleteEventListener implements ApplicationListener<P
         try {
             // set mediaType
             MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
-            String expectedDate= String.valueOf(purchaseOrder.getExpectedDeliveryDate());
+            String expectedDate = String.valueOf(purchaseOrder.getExpectedDeliveryDate());
 
             model.put("supplierName", purchaseOrder.getSupplierName());
             model.put("productName", purchaseOrder.getProductName());
             model.put("qty", purchaseOrder.getProductQuantity());
-            model.put("expectedDate",expectedDate);
-            model.put("url1",url1);
-            model.put("url2",url2);
+            model.put("expectedDate", expectedDate);
+            model.put("url1", url1);
+            model.put("url2", url2);
 
 
             Template t = config.getTemplate("purchase_req.html");
@@ -76,7 +76,7 @@ public class PurchaseOrderCompleteEventListener implements ApplicationListener<P
 
             helper.setTo(purchaseOrder.getSupplierEmail());
             helper.setText(html, true);
-            helper.setSubject("New Order Request for "+ purchaseOrder.getProductName());
+            helper.setSubject("New Order Request for " + purchaseOrder.getProductName());
             helper.setFrom("gokuldas.sayonetech@gmail.com");
             sender.send(message);
 

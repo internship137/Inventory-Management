@@ -18,7 +18,7 @@ public class SupplierController {
     private SupplierService supplierService;
 
     @PostMapping("/supplier")
-    public Message addSupplier(@RequestBody @Valid Supplier supplier){
+    public Message addSupplier(@RequestBody @Valid Supplier supplier) {
         return supplierService.addSupplier(supplier);
     }
 
@@ -39,8 +39,8 @@ public class SupplierController {
     // update supplier
 
     @PutMapping("/supplier/updateSupplier/{supplierId}")
-    public Message updateSupplier(@PathVariable("supplierId")Long supplierId, @RequestBody Supplier supplier) throws NotFoundException{
-        return supplierService.updateSupplier(supplierId , supplier);
+    public Message updateSupplier(@PathVariable("supplierId") Long supplierId, @RequestBody Supplier supplier) throws NotFoundException {
+        return supplierService.updateSupplier(supplierId, supplier);
     }
 
     @DeleteMapping("/supplier/{supplierId}")

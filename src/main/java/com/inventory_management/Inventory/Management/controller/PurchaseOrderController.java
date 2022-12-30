@@ -27,8 +27,8 @@ public class PurchaseOrderController {
     public Message saveOrder(@Valid @RequestBody PurchaseOrder purchaseOrder,
                              final HttpServletRequest request) throws NotFoundException {
         PurchaseOrder purchaseOrder1 = purchaseOrderService.saveOrder(purchaseOrder);
-        publisher.publishEvent(new PurchaseOrderEvent(purchaseOrder1,applicationUrl1(request),applicationUrl2(request)));
-        Message message=new Message();
+        publisher.publishEvent(new PurchaseOrderEvent(purchaseOrder1, applicationUrl1(request), applicationUrl2(request)));
+        Message message = new Message();
         message.setMessage("Request placed successfully");
         return message;
     }
@@ -61,7 +61,7 @@ public class PurchaseOrderController {
 
 
     @GetMapping("/purchaseRequests/page/{pageNo}")
-    public List<PurchaseOrder> fetchAllRequest(@PathVariable int pageNo){
+    public List<PurchaseOrder> fetchAllRequest(@PathVariable int pageNo) {
         return purchaseOrderService.fetchAllRequest(pageNo);
     }
 

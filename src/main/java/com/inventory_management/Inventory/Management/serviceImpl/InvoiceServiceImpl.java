@@ -38,7 +38,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public Message saveInvoice(Invoice invoice, Long productId) throws NotFoundException {
-        if (!productRepository.existsById(productId)){
+        if (!productRepository.existsById(productId)) {
             throw new NotFoundException("Product with this ID does not exist");
         }
 
@@ -51,9 +51,9 @@ public class InvoiceServiceImpl implements InvoiceService {
         Long stockQty = Long.valueOf(product.getStockQuantity());
         Long sellingQty = invoice.getSellingQuantity();
 
-        if ( sellingQty > stockQty ){
+        if (sellingQty > stockQty) {
 
-            Message message=new Message();
+            Message message = new Message();
             message.setMessage(" Stock quantity is less than Selling Quantity");
             return message;
 
@@ -71,11 +71,10 @@ public class InvoiceServiceImpl implements InvoiceService {
         productRepository.save(product);
 
 
-
-        if (stockQty<50){
+        if (stockQty < 50) {
             quantityLowEmailAlert.sendOrderSuccessfulEmail(
                     "anson.joseph05@gmail.com",
-                    "Product with Id "+product.getProductId()+" is low below 50 units",
+                    "Product with Id " + product.getProductId() + " is low below 50 units",
                     "Alert"
             );
         }
@@ -84,23 +83,23 @@ public class InvoiceServiceImpl implements InvoiceService {
         String currentDateTime = dateFormatter.format(new Date());
 
 
-        billInvoiceEmail.sendBillInvoiceEmail(""+invoice.getCustomerEmail(),
-                "Dear " +invoice.getCustomerName()+ ",\n"+ "The details of your purchase from Company_Name on "+currentDateTime+" are \n"+
-                "Product Name : " +invoice.getProductName()+ "\n" +
-                "Product Price : " +invoice.getProductPrice()+ "\n" +
-                "Product Quantity : " +invoice.getSellingQuantity(),
+        billInvoiceEmail.sendBillInvoiceEmail("" + invoice.getCustomerEmail(),
+                "Dear " + invoice.getCustomerName() + ",\n" + "The details of your purchase from Company_Name on " + currentDateTime + " are \n" +
+                        "Product Name : " + invoice.getProductName() + "\n" +
+                        "Product Price : " + invoice.getProductPrice() + "\n" +
+                        "Product Quantity : " + invoice.getSellingQuantity(),
                 "Bill Invoice"
         );
 
 
-        Message message=new Message();
+        Message message = new Message();
         message.setMessage("Invoice Generated");
         return message;
     }
 
     @Override
     public List<InvoiceStocksDTO> fetchByInvoiceId(Long invoiceId) throws NotFoundException {
-        if (!invoiceRepository.existsById(invoiceId)){
+        if (!invoiceRepository.existsById(invoiceId)) {
             throw new NotFoundException("Invoice with this id does not exist");
         }
         return invoiceRepository.findById(invoiceId)
@@ -121,27 +120,27 @@ public class InvoiceServiceImpl implements InvoiceService {
     public Message updateInvoice(Long invoiceId, Invoice invoice) throws NotFoundException {
         Invoice invoiceDB = invoiceRepository.findById(invoiceId).get();
 
-        if (!invoiceRepository.existsById(invoiceId)){
+        if (!invoiceRepository.existsById(invoiceId)) {
             throw new NotFoundException("Invoice with this id does not exist");
         }
 
-        if(Objects.nonNull(invoice.getSellingQuantity())&&
-                !"".equalsIgnoreCase(String.valueOf(invoice.getSellingQuantity()))){
+        if (Objects.nonNull(invoice.getSellingQuantity()) &&
+                !"".equalsIgnoreCase(String.valueOf(invoice.getSellingQuantity()))) {
             invoiceDB.setSellingQuantity(invoice.getSellingQuantity());
         }
         invoiceRepository.save(invoiceDB);
-        Message message=new Message();
+        Message message = new Message();
         message.setMessage("successfully updated");
         return message;
     }
 
     @Override
     public Message deleteInvoice(Long invoiceId) throws NotFoundException {
-        if (!invoiceRepository.existsById(invoiceId)){
+        if (!invoiceRepository.existsById(invoiceId)) {
             throw new NotFoundException("Invoice with this id does not exist");
         }
         invoiceRepository.deleteById(invoiceId);
-        Message message=new Message();
+        Message message = new Message();
         message.setMessage("deleted successfully");
         return message;
     }

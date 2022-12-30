@@ -18,7 +18,7 @@ public class DamagedProductsController {
     private DamagedProductsService damagedProductsService;
 
     @GetMapping("/allDamagedProducts/page/{pageNo}")
-    public List<DamagedProducts> fetchAllDamagedProducts(@PathVariable int pageNo){
+    public List<DamagedProducts> fetchAllDamagedProducts(@PathVariable int pageNo) {
         return damagedProductsService.fetchAllDamagedProducts(pageNo);
     }
 

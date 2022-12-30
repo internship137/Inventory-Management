@@ -1,6 +1,6 @@
 package com.inventory_management.Inventory.Management.error;
 
-public class NotFoundException extends Exception{
+public class NotFoundException extends Exception {
     public NotFoundException() {
         super();
     }
