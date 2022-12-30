@@ -82,17 +82,8 @@ public class ProductServiceImpl implements ProductService {
         product.setSupplierCompany(supplier.getSupplierCompany());
 
         supplierRepository.save(supplier);
-//        productRepository.save(product);
 
-        // selling price logic
 
-        float mrp = Float.parseFloat(product.getMaximumRetailPrice());
-        float discountPercentage = Float.parseFloat(product.getPricingDiscountPercentage());
-
-        float sellngPrice = product.getSellingPrice();
-
-        sellngPrice = ((mrp) - ((discountPercentage / 100) * mrp));
-        product.setSellingPrice((long) sellngPrice);
 
 
         Category category = categoryRepository.findById(categoryId).get();
@@ -215,15 +206,6 @@ public class ProductServiceImpl implements ProductService {
             proDB.setProductName(product.getProductName());
         }
 
-        if (Objects.nonNull(product.getProductBuyingPrice()) &&
-                !"".equalsIgnoreCase(String.valueOf(product.getProductBuyingPrice()))) {
-            proDB.setProductBuyingPrice(product.getProductBuyingPrice());
-        }
-
-        if (Objects.nonNull(product.getMaximumRetailPrice()) &&
-                !"".equalsIgnoreCase(String.valueOf(product.getMaximumRetailPrice()))) {
-            proDB.setMaximumRetailPrice(product.getMaximumRetailPrice());
-        }
 
         if (Objects.nonNull(product.getProductManufacturer()) &&
                 !"".equalsIgnoreCase(product.getProductManufacturer())) {
@@ -235,25 +217,6 @@ public class ProductServiceImpl implements ProductService {
             proDB.setStockQuantity(product.getStockQuantity());
         }
 
-//       selling price update
-
-//        if (Objects.nonNull(product.getSellingPrice()) &&
-//                !"".equalsIgnoreCase(String.valueOf(product.getSellingPrice()))) {
-//            proDB.setSellingPrice(product.getSellingPrice());
-//        }
-
-//      pricingDiscountPercentage
-
-        if (Objects.nonNull(product.getPricingDiscountPercentage()) &&
-                !"".equalsIgnoreCase(String.valueOf(product.getPricingDiscountPercentage()))) {
-            proDB.setPricingDiscountPercentage(product.getPricingDiscountPercentage());
-        }
-
-
-        if (Objects.nonNull(product.getPricingExpireDate()) &&
-                !"".equalsIgnoreCase(String.valueOf(product.getPricingExpireDate()))) {
-            proDB.setPricingExpireDate(product.getPricingExpireDate());
-        }
 
 
         productRepository.save(proDB);
@@ -290,18 +253,13 @@ public class ProductServiceImpl implements ProductService {
         categoryProductPricingDTO.setProductId(product.getProductId());
         categoryProductPricingDTO.setProductName(product.getProductName());
         categoryProductPricingDTO.setProductCode(product.getProductCode());
-        categoryProductPricingDTO.setProductBuyingPrice(Long.valueOf(product.getProductBuyingPrice()));
-        categoryProductPricingDTO.setMaximumRetailPrice(Long.valueOf(product.getMaximumRetailPrice()));
-        categoryProductPricingDTO.setProductSellingPrice(product.getSellingPrice());
         categoryProductPricingDTO.setStockQuantity(Long.valueOf(product.getStockQuantity()));
         categoryProductPricingDTO.setProductManufacturer(product.getProductManufacturer());
         categoryProductPricingDTO.setProductCreatedDateTime(product.getProductCreatedDateTime());
         categoryProductPricingDTO.setCategory(product.getCategory().getCategoryName());
         categoryProductPricingDTO.setSupplierName(product.getSupplierName());
         categoryProductPricingDTO.setSupplierCompany(product.getSupplierCompany());
-        //////////
-        categoryProductPricingDTO.setPricingDiscountPercentage(Long.valueOf(product.getPricingDiscountPercentage()));
-        categoryProductPricingDTO.setPricingExpireDate(product.getPricingExpireDate());
+
 
 
         return categoryProductPricingDTO;
