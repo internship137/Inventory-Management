@@ -46,7 +46,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         String productName = product.getProductName();
         String productCategory = product.getCategory().getCategoryName();
-        Long productPrice = product.getSellingPrice();
+        Long productPrice = product.getProductPricing().getProductSellingPrice();
 
         Long stockQty = Long.valueOf(product.getStockQuantity());
         Long sellingQty = invoice.getSellingQuantity();
