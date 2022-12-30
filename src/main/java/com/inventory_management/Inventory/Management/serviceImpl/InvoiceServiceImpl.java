@@ -1,6 +1,6 @@
 package com.inventory_management.Inventory.Management.serviceImpl;
 
-import com.inventory_management.Inventory.Management.dto.InvoiceStocksDTO;
+import com.inventory_management.Inventory.Management.dto.InvoiceDTO;
 import com.inventory_management.Inventory.Management.entity.Invoice;
 import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.entity.Product;
@@ -98,7 +98,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public List<InvoiceStocksDTO> fetchByInvoiceId(Long invoiceId) throws NotFoundException {
+    public List<InvoiceDTO> fetchByInvoiceId(Long invoiceId) throws NotFoundException {
         if (!invoiceRepository.existsById(invoiceId)) {
             throw new NotFoundException("Invoice with this id does not exist");
         }
@@ -109,7 +109,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public List<InvoiceStocksDTO> fetchAllInvoice() {
+    public List<InvoiceDTO> fetchAllInvoice() {
         return invoiceRepository.findAll()
                 .stream()
                 .map(this::convertEntityToDto)
@@ -146,26 +146,26 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public List<InvoiceStocksDTO> getByInvoiceId(Long invoiceId) {
+    public List<InvoiceDTO> getByInvoiceId(Long invoiceId) {
         return invoiceRepository.findById(invoiceId)
                 .stream()
                 .map(this::convertEntityToDto)
                 .collect(Collectors.toList());
     }
 
-    private InvoiceStocksDTO convertEntityToDto(Invoice invoice) {
-        InvoiceStocksDTO invoiceStocksDTO =
-                new InvoiceStocksDTO();
+    private InvoiceDTO convertEntityToDto(Invoice invoice) {
+        InvoiceDTO invoiceDTO =
+                new InvoiceDTO();
 
 
-        invoiceStocksDTO.setInvoiceId(invoice.getInvoiceId());
-        invoiceStocksDTO.setProductName(invoice.getProductName());
-        invoiceStocksDTO.setCategoryName(invoice.getCategoryName());
-        invoiceStocksDTO.setProductPrice(invoice.getProductPrice());
-        invoiceStocksDTO.setSellingQuantity(invoice.getSellingQuantity());
-        invoiceStocksDTO.setCustomerEmail(invoice.getCustomerEmail());
-        invoiceStocksDTO.setCustomerName(invoice.getCustomerName());
+        invoiceDTO.setInvoiceId(invoice.getInvoiceId());
+        invoiceDTO.setProductName(invoice.getProductName());
+        invoiceDTO.setCategoryName(invoice.getCategoryName());
+        invoiceDTO.setProductPrice(invoice.getProductPrice());
+        invoiceDTO.setSellingQuantity(invoice.getSellingQuantity());
+        invoiceDTO.setCustomerEmail(invoice.getCustomerEmail());
+        invoiceDTO.setCustomerName(invoice.getCustomerName());
 
-        return invoiceStocksDTO;
+        return invoiceDTO;
     }
 }

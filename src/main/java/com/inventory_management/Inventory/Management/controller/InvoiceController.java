@@ -1,6 +1,6 @@
 package com.inventory_management.Inventory.Management.controller;
 
-import com.inventory_management.Inventory.Management.dto.InvoiceStocksDTO;
+import com.inventory_management.Inventory.Management.dto.InvoiceDTO;
 import com.inventory_management.Inventory.Management.entity.Invoice;
 import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
@@ -27,7 +27,7 @@ public class InvoiceController {
     // Get All invoice
 
     @GetMapping("/allInvoice")
-    public List<InvoiceStocksDTO> fetchAllInvoice() {
+    public List<InvoiceDTO> fetchAllInvoice() {
         return invoiceService.fetchAllInvoice();
     }
 
@@ -35,7 +35,7 @@ public class InvoiceController {
     // Get invoice by Id
 
     @GetMapping("/invoice/product/{invoiceId}")
-    public List<InvoiceStocksDTO> fetchByInvoiceId(@PathVariable Long invoiceId) throws NotFoundException {
+    public List<InvoiceDTO> fetchByInvoiceId(@PathVariable Long invoiceId) throws NotFoundException {
         return invoiceService.fetchByInvoiceId(invoiceId);
     }
 

@@ -1,7 +1,7 @@
 package com.inventory_management.Inventory.Management.utilities.BillInvoicePDF;
 
 
-import com.inventory_management.Inventory.Management.dto.InvoiceStocksDTO;
+import com.inventory_management.Inventory.Management.dto.InvoiceDTO;
 import com.lowagie.text.*;
 import com.lowagie.text.Font;
 import com.lowagie.text.pdf.PdfPCell;
@@ -28,7 +28,7 @@ import java.util.List;
 
 public class PDFServiceBill {
 
-    private List<InvoiceStocksDTO> invoiceStocksDTOList;
+    private List<InvoiceDTO> invoiceStocksDTOList;
 
 
     public void export(HttpServletResponse response) throws IOException, DocumentException {
@@ -108,12 +108,12 @@ public class PDFServiceBill {
 
 
     private void writeTableData(PdfPTable table) {
-        for (InvoiceStocksDTO invoiceStocksDTO : invoiceStocksDTOList) {
-            table.addCell(invoiceStocksDTO.getCustomerName());
-            table.addCell(invoiceStocksDTO.getCustomerEmail());
-            table.addCell(invoiceStocksDTO.getProductName());
-            table.addCell(String.valueOf(invoiceStocksDTO.getProductPrice()));
-            table.addCell(String.valueOf(invoiceStocksDTO.getSellingQuantity()));
+        for (InvoiceDTO invoiceDTO : invoiceStocksDTOList) {
+            table.addCell(invoiceDTO.getCustomerName());
+            table.addCell(invoiceDTO.getCustomerEmail());
+            table.addCell(invoiceDTO.getProductName());
+            table.addCell(String.valueOf(invoiceDTO.getProductPrice()));
+            table.addCell(String.valueOf(invoiceDTO.getSellingQuantity()));
         }
 
     }

@@ -247,22 +247,22 @@ public class ProductServiceImpl implements ProductService {
 
 
     private ProductDTO convertEntityToDto(Product product) {
-        ProductDTO categoryProductPricingDTO =
+        ProductDTO productDTO =
                 new ProductDTO();
 
-        categoryProductPricingDTO.setProductId(product.getProductId());
-        categoryProductPricingDTO.setProductName(product.getProductName());
-        categoryProductPricingDTO.setProductCode(product.getProductCode());
-        categoryProductPricingDTO.setStockQuantity(Long.valueOf(product.getStockQuantity()));
-        categoryProductPricingDTO.setProductManufacturer(product.getProductManufacturer());
-        categoryProductPricingDTO.setProductCreatedDateTime(product.getProductCreatedDateTime());
-        categoryProductPricingDTO.setCategory(product.getCategory().getCategoryName());
-        categoryProductPricingDTO.setSupplierName(product.getSupplierName());
-        categoryProductPricingDTO.setSupplierCompany(product.getSupplierCompany());
+        productDTO.setProductId(product.getProductId());
+        productDTO.setProductName(product.getProductName());
+        productDTO.setProductCode(product.getProductCode());
+        productDTO.setStockQuantity(Long.valueOf(product.getStockQuantity()));
+        productDTO.setProductManufacturer(product.getProductManufacturer());
+        productDTO.setProductCreatedDateTime(product.getProductCreatedDateTime());
+        productDTO.setCategory(product.getCategory().getCategoryName());
+        productDTO.setSupplierName(product.getSupplierName());
+        productDTO.setSupplierCompany(product.getSupplierCompany());
 
 
 
-        return categoryProductPricingDTO;
+        return productDTO;
     }
 
 }
