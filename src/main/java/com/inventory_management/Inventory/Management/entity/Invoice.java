@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
 import java.sql.Date;
 
 @Entity
@@ -29,13 +27,11 @@ public class Invoice {
     @Column(name = "selling_quantity")
     private Long sellingQuantity;
 
-
     @Column(name = "customer_email")
     private String customerEmail;
 
     @Column(name = "customer_name")
     private String customerName;
-
 
     @Column(name = "product_name")
     private String productName;
@@ -46,5 +42,9 @@ public class Invoice {
     @Column(name = "product_price")
     private Long productPrice;
 
+    @Column(name = "product_code")
     private String productCode;
+
+    @Column(name = "gst")
+    private String gstSlab;
 }

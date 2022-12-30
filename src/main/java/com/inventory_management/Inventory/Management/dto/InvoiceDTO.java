@@ -13,5 +13,7 @@ public class InvoiceDTO {
     private Long sellingQuantity;
     private String customerEmail;
     private String customerName;
+    private String gstSlab;
+
 
 }

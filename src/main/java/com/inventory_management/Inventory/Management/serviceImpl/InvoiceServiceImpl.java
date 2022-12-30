@@ -47,6 +47,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         String productName = product.getProductName();
         String productCategory = product.getCategory().getCategoryName();
         Long productPrice = product.getProductPricing().getProductSellingPrice();
+        String gst = product.getProductPricing().getGstSlab();
 
         Long stockQty = Long.valueOf(product.getStockQuantity());
         Long sellingQty = invoice.getSellingQuantity();
@@ -62,6 +63,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoice.setProductName(productName);
         invoice.setCategoryName(productCategory);
         invoice.setProductPrice(productPrice);
+//        invoice.setProductPrice(productPrice);
+        invoice.setGstSlab(product.getProductPricing().getGstSlab());
 
         invoice.setProductCode(product.getProductCode());
 
@@ -165,6 +168,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceDTO.setSellingQuantity(invoice.getSellingQuantity());
         invoiceDTO.setCustomerEmail(invoice.getCustomerEmail());
         invoiceDTO.setCustomerName(invoice.getCustomerName());
+        invoiceDTO.setGstSlab(invoice.getGstSlab());
 
         return invoiceDTO;
     }
