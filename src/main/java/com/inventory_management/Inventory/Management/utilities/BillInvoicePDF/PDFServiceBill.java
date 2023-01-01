@@ -35,52 +35,75 @@ public class PDFServiceBill {
         document.open();
 
         Font fontTile1 = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
-        fontTile1.setSize(20);
+        fontTile1.setSize(30);
 
         Font fontTile2 = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+        fontTile2.setSize(12);
+
+        Font fontTile3 = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
         fontTile2.setSize(18);
+
+        Font fontTile4 = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+        fontTile1.setSize(20);
 
         Paragraph paragraph = new Paragraph("INVOICE", fontTile1);
         paragraph.setAlignment(Paragraph.ALIGN_CENTER);
 
         Paragraph paragraph1 = new Paragraph("Company Name , \n Company Address , " +
-                "\n Phone : 123456789 , Email : company@gmail.com ,\n  GSTIN : XXXXXXXXXXXXXX");
+                "\n Phone : 123456789 , Email : company@gmail.com ,\n  GSTIN : XXXXXXXXXXXXXX",fontTile4);
         paragraph1.setAlignment(Paragraph.ALIGN_CENTER);
         paragraph1.setSpacingBefore(30);
 
 
-        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
+        DateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
         String currentDateTime = dateFormatter.format(new Date());
-        Paragraph paragraph2 = new Paragraph("Date of Issue : " + currentDateTime);
+        Paragraph paragraph2 = new Paragraph("Date of Issue : " + currentDateTime,fontTile3);
         paragraph2.setAlignment(Paragraph.ALIGN_LEFT);
         paragraph2.setSpacingBefore(20);
 
-//        Product product = productRepository.findById(productId)
+        PdfPTable table1 = new PdfPTable(2);
+        table1.setWidthPercentage(100);
+        table1.setSpacingBefore(20);
 
-        Paragraph paragraph3 = new Paragraph("Invoice Details ");
-        paragraph3.setAlignment(Paragraph.ALIGN_CENTER);
+
+        Paragraph paragraph3 = new Paragraph("Purchase Details",fontTile3);
+        paragraph3.setAlignment(Paragraph.ALIGN_LEFT);
         paragraph3.setSpacingBefore(20);
 
-        PdfPTable table = new PdfPTable(6);
-        table.setWidthPercentage(100);
-        table.setSpacingBefore(20);
+        PdfPTable table2 = new PdfPTable(4);
+        table2.setWidthPercentage(100);
+        table2.setSpacingBefore(20);
 
-        Paragraph paragraph4 = new Paragraph("Authoried Signatory" );
+        PdfPTable table3 = new PdfPTable(1);
+        table3.setWidthPercentage(50);
+        table3.setSpacingBefore(20);
+        table3.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+        Paragraph paragraph4 = new Paragraph("Authorised Signatory");
         paragraph4.setAlignment(Paragraph.ALIGN_RIGHT);
-        paragraph4.setSpacingBefore(20);
+        paragraph4.setSpacingBefore(180);
 
         Paragraph paragraph5 = new Paragraph("Thank you for shopping with us.", fontTile2);
-        paragraph5.setAlignment(Paragraph.ALIGN_BOTTOM);
-        paragraph5.setSpacingBefore(200);
+        paragraph5.setAlignment(Paragraph.ALIGN_CENTER);
+        paragraph5.setSpacingBefore(50);
 
-        writeTableHeader(table);
-        writeTableData(table);
+        writeTableHeader(table1);
+        writeTableData(table1);
+
+        writeTableHeader2(table2);
+        writeTableData2(table2);
+
+        writeTableHeader3(table3);
+        writeTableData3(table3);
+
 
         document.add(paragraph);
         document.add(paragraph1);
         document.add(paragraph2);
+        document.add(table1);
         document.add(paragraph3);
-        document.add(table);
+        document.add(table2);
+        document.add(table3);
         document.add(paragraph4);
         document.add(paragraph5);
 
@@ -88,43 +111,74 @@ public class PDFServiceBill {
 
     }
 
-    private void writeTableHeader(PdfPTable table) {
+    private void writeTableData3(PdfPTable table3) {
+        for (InvoiceDTO invoiceDTO : invoiceStocksDTOList) {
+            table3.addCell(String.valueOf(invoiceDTO.getGrandTotal()));
+        }
+    }
+
+    private void writeTableHeader3(PdfPTable table3) {
+        {
+            PdfPCell cell = new PdfPCell();
+            cell.setPadding(3);
+
+            Font font = FontFactory.getFont(FontFactory.HELVETICA);
+
+            cell.setPhrase(new Phrase("Grand Total", font));
+            table3.addCell(cell);
+
+        }
+    }
+
+    private void writeTableData(PdfPTable table1) {
+        for (InvoiceDTO invoiceDTO : invoiceStocksDTOList) {
+            table1.addCell(String.valueOf(invoiceDTO.getInvoiceId()));
+            table1.addCell(invoiceDTO.getCustomerName());
+        }
+    }
+
+    private void writeTableHeader(PdfPTable table1) {
         PdfPCell cell = new PdfPCell();
         cell.setPadding(3);
 
         Font font = FontFactory.getFont(FontFactory.HELVETICA);
 
         cell.setPhrase(new Phrase("Invoice No:", font));
-        table.addCell(cell);
+        table1.addCell(cell);
 
         cell.setPhrase(new Phrase("Shipped To", font));
-        table.addCell(cell);
+        table1.addCell(cell);
+    }
+
+
+    private void writeTableHeader2(PdfPTable table2) {
+        PdfPCell cell = new PdfPCell();
+        cell.setPadding(3);
+
+        Font font = FontFactory.getFont(FontFactory.HELVETICA);
 
 
         cell.setPhrase(new Phrase("Product Description", font));
-        table.addCell(cell);
+        table2.addCell(cell);
 
         cell.setPhrase(new Phrase("Quantity", font));
-        table.addCell(cell);
+        table2.addCell(cell);
 
         cell.setPhrase(new Phrase("GST %", font));
-        table.addCell(cell);
+        table2.addCell(cell);
 
         cell.setPhrase(new Phrase("Price", font));
-        table.addCell(cell);
+        table2.addCell(cell);
 
     }
 
 
-
-    private void writeTableData(PdfPTable table) {
+    private void writeTableData2(PdfPTable table2) {
         for (InvoiceDTO invoiceDTO : invoiceStocksDTOList) {
-            table.addCell(String.valueOf(invoiceDTO.getInvoiceId()));
-            table.addCell(invoiceDTO.getCustomerName());
-            table.addCell(invoiceDTO.getProductName());
-            table.addCell(String.valueOf(invoiceDTO.getSellingQuantity()));
-            table.addCell(invoiceDTO.getGstSlab());
-            table.addCell(String.valueOf(invoiceDTO.getProductPrice()));
+            table2.addCell(invoiceDTO.getProductName());
+            table2.addCell(String.valueOf(invoiceDTO.getSellingQuantity()));
+            table2.addCell(invoiceDTO.getGstSlab());
+            table2.addCell(String.valueOf(invoiceDTO.getProductPrice()));
 
         }
 

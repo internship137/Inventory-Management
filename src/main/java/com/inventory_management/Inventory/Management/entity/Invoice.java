@@ -47,4 +47,7 @@ public class Invoice {
 
     @Column(name = "gst")
     private String gstSlab;
+
+    @Column(name = "grand_total")
+    private Long grandTotal;
 }

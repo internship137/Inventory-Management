@@ -48,9 +48,9 @@ public class InvoiceServiceImpl implements InvoiceService {
         String productCategory = product.getCategory().getCategoryName();
         Long productPrice = product.getProductPricing().getProductSellingPrice();
         String gst = product.getProductPricing().getGstSlab();
-
         Long stockQty = Long.valueOf(product.getStockQuantity());
         Long sellingQty = invoice.getSellingQuantity();
+        Long grndTotal = invoice.getGrandTotal();
 
         if (sellingQty > stockQty) {
 
@@ -60,11 +60,14 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         }
 
+        grndTotal = sellingQty * productPrice;
+
+        invoice.setGrandTotal(grndTotal);
         invoice.setProductName(productName);
         invoice.setCategoryName(productCategory);
         invoice.setProductPrice(productPrice);
-//        invoice.setProductPrice(productPrice);
-        invoice.setGstSlab(product.getProductPricing().getGstSlab());
+        invoice.setGstSlab(gst);
+
 
         invoice.setProductCode(product.getProductCode());
 
@@ -77,8 +80,10 @@ public class InvoiceServiceImpl implements InvoiceService {
         if (stockQty < 50) {
             quantityLowEmailAlert.sendOrderSuccessfulEmail(
                     "anson.joseph05@gmail.com",
-                    "Product with Id " + product.getProductId() + " is low below 50 units",
-                    "Alert"
+                    "Hello,\n You receive this Alert because one of your product's current stock quantity" +
+                            "is low below the threshold you have set \n Product with product code " + product.getProductCode() +
+                            " is low below 50 units",
+                    ":Low Quantity Stock Alert"
             );
         }
 
@@ -87,16 +92,23 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 
         billInvoiceEmail.sendBillInvoiceEmail("" + invoice.getCustomerEmail(),
-                "Dear " + invoice.getCustomerName() + ",\n" + "The details of your purchase from Company_Name on " + currentDateTime + " are \n" +
-                        "Product Name : " + invoice.getProductName() + "\n" +
-                        "Product Price : " + invoice.getProductPrice() + "\n" +
-                        "Product Quantity : " + invoice.getSellingQuantity(),
+                "Dear " + invoice.getCustomerName() + ",\n Thank you for choosing us !\n"+"With Company_name " +
+                        "you can always find what you need. \n"+"And we make sure in delivering services according " +
+                        "to your preferences.\n\n"
+                        + "The details of your purchase from Company_Name on " + currentDateTime + " are \n " +
+                        "Invoice No. : " +invoice.getInvoiceId()+
+                        "\n Product Name : " + invoice.getProductName() + "\n" +
+                        "Product Price : ₹" + invoice.getProductPrice() + "/-\n" +
+                        "Product Quantity : " + invoice.getSellingQuantity()+" Nos. \n" +
+                        "We hope that the shopping experience was pleasant for you.\n" +
+                        "We expect you next time \n" +
+                        "Have a nice day.",
                 "Bill Invoice"
         );
 
 
         Message message = new Message();
-        message.setMessage("Invoice Generated");
+        message.setMessage("Invoice Generated Successfully");
         return message;
     }
 
@@ -133,7 +145,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
         invoiceRepository.save(invoiceDB);
         Message message = new Message();
-        message.setMessage("successfully updated");
+        message.setMessage("Successfully Updated");
         return message;
     }
 
@@ -144,7 +156,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
         invoiceRepository.deleteById(invoiceId);
         Message message = new Message();
-        message.setMessage("deleted successfully");
+        message.setMessage("Deleted Successfully");
         return message;
     }
 
@@ -169,6 +181,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceDTO.setCustomerEmail(invoice.getCustomerEmail());
         invoiceDTO.setCustomerName(invoice.getCustomerName());
         invoiceDTO.setGstSlab(invoice.getGstSlab());
+        invoiceDTO.setGrandTotal(invoice.getGrandTotal());
 
         return invoiceDTO;
     }

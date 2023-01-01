@@ -72,18 +72,10 @@ public class ProductServiceImpl implements ProductService {
 
         Supplier supplier = supplierRepository.findById(supplierId).get();
 
-//        String supplierName = supplier.getSupplierName();
-//        String supplierCompany = supplier.getSupplierCompany();
-
-//        supplier.setSupplierName(supplierName);
-//        supplier.setSupplierCompany(supplierCompany);
-
         product.setSupplierName(supplier.getSupplierName());
         product.setSupplierCompany(supplier.getSupplierCompany());
 
         supplierRepository.save(supplier);
-
-
 
 
         Category category = categoryRepository.findById(categoryId).get();
@@ -91,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
 
         Message message = new Message();
-        message.setMessage("Product Added");
+        message.setMessage("Product Added Successfully");
         return message;
 
     }
@@ -221,7 +213,7 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.save(proDB);
         Message message = new Message();
-        message.setMessage("Updated Successfully");
+        message.setMessage("Product Updated Successfully");
         return message;
     }
 

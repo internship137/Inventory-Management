@@ -44,7 +44,7 @@ public class PDFExportControllerBill {
             String currentDateTime = dateFormatter.format(new Date());
 
             String headerKey = "Content-Disposition";
-            String headerValue = "attachment; filename=Bill_Invoice_" + currentDateTime + ".pdf";
+            String headerValue = "attachment; filename=Invoice_" + currentDateTime + ".pdf";
 
 
             response.setHeader(headerKey, headerValue);

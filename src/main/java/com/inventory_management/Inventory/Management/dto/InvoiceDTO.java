@@ -14,6 +14,8 @@ public class InvoiceDTO {
     private String customerEmail;
     private String customerName;
     private String gstSlab;
+    private Long grandTotal;
+
 
 
 }
