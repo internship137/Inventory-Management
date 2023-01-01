@@ -36,6 +36,8 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Autowired
     private BillInvoiceEmail billInvoiceEmail;
 
+    // Create Invoice
+
     @Override
     public Message saveInvoice(Invoice invoice, Long productId) throws NotFoundException {
         if (!productRepository.existsById(productId)) {
@@ -92,16 +94,16 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 
         billInvoiceEmail.sendBillInvoiceEmail("" + invoice.getCustomerEmail(),
-                "Dear " + invoice.getCustomerName() + ",\n Thank you for choosing us !\n"+"With Company_name " +
+                "Dear " + invoice.getCustomerName() + ",\nThank you for choosing us !\n"+"With Company_name " +
                         "you can always find what you need. \n"+"And we make sure in delivering services according " +
                         "to your preferences.\n\n"
-                        + "The details of your purchase from Company_Name on " + currentDateTime + " are \n " +
+                        + "The details of your purchase from Company_Name on " + currentDateTime + " are \n" +
                         "Invoice No. : " +invoice.getInvoiceId()+
-                        "\n Product Name : " + invoice.getProductName() + "\n" +
+                        "\nProduct Name : " + invoice.getProductName() + "\n" +
                         "Product Price : ₹" + invoice.getProductPrice() + "/-\n" +
-                        "Product Quantity : " + invoice.getSellingQuantity()+" Nos. \n" +
-                        "We hope that the shopping experience was pleasant for you.\n" +
-                        "We expect you next time \n" +
+                        "Product Quantity : " + invoice.getSellingQuantity()+" Nos. " +
+                        "\n \nWe hope that the shopping experience was pleasant for you.\n" +
+                        "We expect you next time.\n" +
                         "Have a nice day.",
                 "Bill Invoice"
         );
@@ -111,6 +113,18 @@ public class InvoiceServiceImpl implements InvoiceService {
         message.setMessage("Invoice Generated Successfully");
         return message;
     }
+
+    // Get All Invoice
+
+    @Override
+    public List<InvoiceDTO> fetchAllInvoice() {
+        return invoiceRepository.findAll()
+                .stream()
+                .map(this::convertEntityToDto)
+                .collect(Collectors.toList());
+    }
+
+    // Get Invoice By Id
 
     @Override
     public List<InvoiceDTO> fetchByInvoiceId(Long invoiceId) throws NotFoundException {
@@ -123,13 +137,8 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<InvoiceDTO> fetchAllInvoice() {
-        return invoiceRepository.findAll()
-                .stream()
-                .map(this::convertEntityToDto)
-                .collect(Collectors.toList());
-    }
+
+    // Update Invoice
 
     @Override
     public Message updateInvoice(Long invoiceId, Invoice invoice) throws NotFoundException {
@@ -149,6 +158,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         return message;
     }
 
+    // Delete Invoice
+
     @Override
     public Message deleteInvoice(Long invoiceId) throws NotFoundException {
         if (!invoiceRepository.existsById(invoiceId)) {
@@ -160,6 +171,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         return message;
     }
 
+
+
     @Override
     public List<InvoiceDTO> getByInvoiceId(Long invoiceId) {
         return invoiceRepository.findById(invoiceId)
@@ -168,9 +181,10 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .collect(Collectors.toList());
     }
 
+    // DTO
+
     private InvoiceDTO convertEntityToDto(Invoice invoice) {
-        InvoiceDTO invoiceDTO =
-                new InvoiceDTO();
+        InvoiceDTO invoiceDTO = new InvoiceDTO();
 
 
         invoiceDTO.setInvoiceId(invoice.getInvoiceId());

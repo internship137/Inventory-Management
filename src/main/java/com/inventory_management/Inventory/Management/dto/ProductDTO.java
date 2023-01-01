@@ -23,13 +23,13 @@ public class ProductDTO {
 
     private Long productSellingPrice;
 
+    private Long landingPrice;
+
+    private String gstSlab;
+
     private Long stockQuantity;
 
     private String productManufacturer;
-
-    private Long pricingDiscountPercentage;
-
-    private Date pricingExpireDate;
 
     private Date productCreatedDateTime;
 

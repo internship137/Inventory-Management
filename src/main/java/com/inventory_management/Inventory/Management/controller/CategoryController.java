@@ -12,7 +12,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-//@RequestMapping("/category")
 public class CategoryController {
 
     @Autowired
@@ -51,7 +50,9 @@ public class CategoryController {
     // updateCategory
 
     @PutMapping("/category/{categoryId}")
-    public Message updateCategory(@PathVariable("categoryId") Long categoryId, @RequestBody @Valid Category product) throws NotFoundException {
+    public Message updateCategory(@PathVariable("categoryId") Long categoryId,
+                                  @RequestBody
+                                  @Valid Category product) throws NotFoundException {
         return categoryService.updateCategory(categoryId, product);
     }
 

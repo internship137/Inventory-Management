@@ -17,7 +17,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-//@Transactional
 public class ProductPricingServiceImpl implements ProductPricingService {
 
     @Autowired
@@ -49,8 +48,6 @@ public class ProductPricingServiceImpl implements ProductPricingService {
         Long sllngPrice = (lndingPrice + profitMrgn);
 
 
-//        productPricing.setProductBuyingPrice(String.valueOf(byngPrice));
-//        productPricing.setProfitMargin(String.valueOf(profitMrgn));
         productPricing.setProductCode(prdctCode);
         productPricing.setLandingPrice(lndingPrice);
         productPricing.setGstSlab(String.valueOf((long) gst));
@@ -72,7 +69,6 @@ public class ProductPricingServiceImpl implements ProductPricingService {
             return message;
         }
 
-//        product.setProductPricing(productPricing);
         product.setProductPricing(productPricing);
         productPricingRepository.save(productPricing);
 
@@ -142,6 +138,5 @@ public class ProductPricingServiceImpl implements ProductPricingService {
         message.setMessage("Product Pricing Updated Successfully");
         return message;
     }
-
 
 }

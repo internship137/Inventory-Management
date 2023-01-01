@@ -8,6 +8,7 @@ import com.inventory_management.Inventory.Management.entity.Product;
 import com.inventory_management.Inventory.Management.entity.Supplier;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.repository.CategoryRepository;
+import com.inventory_management.Inventory.Management.repository.ProductPricingRepository;
 import com.inventory_management.Inventory.Management.repository.ProductRepository;
 import com.inventory_management.Inventory.Management.repository.SupplierRepository;
 import com.inventory_management.Inventory.Management.service.ProductService;
@@ -39,6 +40,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private SupplierRepository supplierRepository;
+    @Autowired
+    private ProductPricingRepository productPricingRepository;
 
 
     // Add Products to Category
@@ -218,23 +221,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    //Delete a product
-
-
-    @Override
-    public Message deleteProduct(Long productId) throws NotFoundException {
-
-        if (!categoryRepository.existsById(productId)) {
-            throw new NotFoundException("Product Id does not exist");
-        }
-        productRepository.deleteById(productId);
-        Message message = new Message();
-        message.setMessage("Deleted Successfully");
-        return message;
-
-    }
-
-
     // DTO
 
 
@@ -251,8 +237,11 @@ public class ProductServiceImpl implements ProductService {
         productDTO.setCategory(product.getCategory().getCategoryName());
         productDTO.setSupplierName(product.getSupplierName());
         productDTO.setSupplierCompany(product.getSupplierCompany());
-
-
+        productDTO.setProductBuyingPrice(Long.valueOf(product.getProductPricing().getProductBuyingPrice()));
+        productDTO.setProductSellingPrice(product.getProductPricing().getProductSellingPrice());
+        productDTO.setMaximumRetailPrice(Long.valueOf(product.getProductPricing().getMaximumRetailPrice()));
+        productDTO.setLandingPrice(product.getProductPricing().getLandingPrice());
+        productDTO.setGstSlab(product.getProductPricing().getGstSlab());
 
         return productDTO;
     }

@@ -11,7 +11,9 @@ public interface ProductPricingService {
 
     List<ProductPricing> fetchPricingList(int pageNo, int recordCount);
 
+    ProductPricing fetchProductPricingById(Long pricingId) throws NotFoundException;
+
     Message updatePricing(Long pricingId, ProductPricing productPricing) throws NotFoundException;
 
-    ProductPricing fetchProductPricingById(Long pricingId) throws NotFoundException;
+
 }
