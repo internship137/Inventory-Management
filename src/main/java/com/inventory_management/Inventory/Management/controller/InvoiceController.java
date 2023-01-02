@@ -8,6 +8,7 @@ import com.inventory_management.Inventory.Management.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,17 +20,19 @@ public class InvoiceController {
     // Save Invoice
 
     @PostMapping("/product/{productId}/invoice")
-    public Message saveInvoice(@RequestBody Invoice invoice,
+    public Message saveInvoice(@RequestBody @Valid Invoice invoice,
                                @PathVariable Long productId) throws NotFoundException {
         return invoiceService.saveInvoice(invoice, productId);
     }
 
-    // Get All invoice
+    // Get All invoice (Pagination and Sorting)
 
-    @GetMapping("/allInvoice")
-    public List<InvoiceDTO> fetchAllInvoice() {
-        return invoiceService.fetchAllInvoice();
+    @GetMapping("/allInvoice/{pageNo}/{recordCount}")
+    public List<InvoiceDTO> fetchAllInvoice(@PathVariable int pageNo,
+                                            @PathVariable int recordCount) {
+        return invoiceService.fetchAllInvoice(pageNo,recordCount);
     }
+
 
 
     // Get invoice by Id
@@ -43,7 +46,7 @@ public class InvoiceController {
 
     @PutMapping("/invoice/{invoiceId}")
     private String updateInvoice(@PathVariable Long invoiceId,
-                                 @RequestBody Invoice invoice) throws NotFoundException {
+                                 @RequestBody @Valid Invoice invoice) throws NotFoundException {
         invoiceService.updateInvoice(invoiceId, invoice);
         return "Updated Successfully";
     }

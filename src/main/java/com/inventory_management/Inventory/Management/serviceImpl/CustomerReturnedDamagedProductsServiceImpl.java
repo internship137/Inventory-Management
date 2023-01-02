@@ -62,7 +62,7 @@ public class CustomerReturnedDamagedProductsServiceImpl implements CustomerRetur
             return message;
         }
 
-        Long a = invoice.getSellingQuantity();
+        Long a = Long.valueOf(invoice.getSellingQuantity());
         Long b = Long.valueOf(customerReturnedDamagedProducts.getCustomerReturnQuantity());
 
         if (b > a) {

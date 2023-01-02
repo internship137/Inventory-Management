@@ -12,7 +12,7 @@ public interface InvoiceService {
 
     public List<InvoiceDTO> fetchByInvoiceId(Long invoiceId) throws NotFoundException;
 
-    public List<InvoiceDTO> fetchAllInvoice();
+    public List<InvoiceDTO> fetchAllInvoice(int pageNo, int recordCount);
 
     public Message updateInvoice(Long invoiceId, Invoice invoice) throws NotFoundException;
 

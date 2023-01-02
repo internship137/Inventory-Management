@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
@@ -34,7 +33,7 @@ public class Supplier {
     private String supplierCompany;
 
     @NotBlank(message = "Supplier contact cannot be null or blank")
-    @Pattern(regexp = "^\\d{10}$", message = "invalid mobile number entered ")
+    @Pattern(regexp = "^\\d{10}$", message = "Invalid mobile number entered ")
     @Column(name = "supplier_contact", unique = true)
     private String supplierContact;
 

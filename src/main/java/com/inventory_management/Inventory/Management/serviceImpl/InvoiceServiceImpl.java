@@ -11,6 +11,8 @@ import com.inventory_management.Inventory.Management.service.InvoiceService;
 import com.inventory_management.Inventory.Management.utilities.BillInvoiceEmail;
 import com.inventory_management.Inventory.Management.utilities.QuantityLowEmailAlert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -51,13 +53,13 @@ public class InvoiceServiceImpl implements InvoiceService {
         Long productPrice = product.getProductPricing().getProductSellingPrice();
         String gst = product.getProductPricing().getGstSlab();
         Long stockQty = Long.valueOf(product.getStockQuantity());
-        Long sellingQty = invoice.getSellingQuantity();
+        Long sellingQty = Long.valueOf(invoice.getSellingQuantity());
         Long grndTotal = invoice.getGrandTotal();
 
         if (sellingQty > stockQty) {
 
             Message message = new Message();
-            message.setMessage(" Stock quantity is less than Selling Quantity");
+            message.setMessage("Stock quantity is less than Selling Quantity");
             return message;
 
         }
@@ -117,12 +119,15 @@ public class InvoiceServiceImpl implements InvoiceService {
     // Get All Invoice
 
     @Override
-    public List<InvoiceDTO> fetchAllInvoice() {
-        return invoiceRepository.findAll()
+    public List<InvoiceDTO> fetchAllInvoice(int pageNo, int recordCount) {
+        PageRequest pageable = PageRequest.of(pageNo, recordCount,
+                Sort.by("InvoiceId"));
+        return invoiceRepository.findAll(pageable)
                 .stream()
                 .map(this::convertEntityToDto)
                 .collect(Collectors.toList());
     }
+
 
     // Get Invoice By Id
 
@@ -154,7 +159,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
         invoiceRepository.save(invoiceDB);
         Message message = new Message();
-        message.setMessage("Successfully Updated");
+        message.setMessage("Invoice Successfully Updated");
         return message;
     }
 
@@ -167,10 +172,9 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
         invoiceRepository.deleteById(invoiceId);
         Message message = new Message();
-        message.setMessage("Deleted Successfully");
+        message.setMessage("Invoice Deleted Successfully");
         return message;
     }
-
 
 
     @Override
@@ -191,7 +195,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceDTO.setProductName(invoice.getProductName());
         invoiceDTO.setCategoryName(invoice.getCategoryName());
         invoiceDTO.setProductPrice(invoice.getProductPrice());
-        invoiceDTO.setSellingQuantity(invoice.getSellingQuantity());
+        invoiceDTO.setSellingQuantity(Long.valueOf(invoice.getSellingQuantity()));
         invoiceDTO.setCustomerEmail(invoice.getCustomerEmail());
         invoiceDTO.setCustomerName(invoice.getCustomerName());
         invoiceDTO.setGstSlab(invoice.getGstSlab());
