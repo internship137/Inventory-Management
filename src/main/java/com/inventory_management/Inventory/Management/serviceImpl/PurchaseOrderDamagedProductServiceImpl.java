@@ -58,10 +58,10 @@ public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDama
             return message;
         }
 
-        if (b == 0) {
-            message.setMessage("cannot be ZERO ");
-            return message;
-        }
+//        if (b == 0) {
+//            message.setMessage("cannot be ZERO ");
+//            return message;
+//        }
 
         if (!productRepository.existsByProductNameIgnoreCase(purchaseOrder.getProductName())) {
             message.setMessage("Add the product to products lists before adding damaged product");

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 
 
 @Entity
@@ -34,5 +36,8 @@ public class CustomerReturnedDamagedProducts {
     @Column(name = "product_code")
     private String productCode;
 
+    @Pattern(regexp = "^[0-9]{1,8}$", message = "enter a valid quantity")
+    @Min(value = 1,message = "damaged quantity cannot be ZERO")
+    @Column(name = "customer_return_quantity")
     private String customerReturnQuantity;
 }

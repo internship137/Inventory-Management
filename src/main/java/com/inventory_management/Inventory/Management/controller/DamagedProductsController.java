@@ -26,4 +26,9 @@ public class DamagedProductsController {
     public Optional<DamagedProducts> fetchDamagedProductById(@PathVariable Long damagedProductsId) throws NotFoundException {
         return damagedProductsService.fetchDamagedProductById(damagedProductsId);
     }
+
+    @GetMapping("/toReturnProducts")
+    public Object fetchAllDamagedProductsToReturn(){
+        return damagedProductsService.fetchAllDamagedProductsToReturn();
+    }
 }

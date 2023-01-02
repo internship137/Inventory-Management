@@ -10,4 +10,6 @@ public interface DamagedProductsService {
     List<DamagedProducts> fetchAllDamagedProducts(int pageNo);
 
     Optional<DamagedProducts> fetchDamagedProductById(Long damagedProductsId) throws NotFoundException;
+
+    Object fetchAllDamagedProductsToReturn();
 }

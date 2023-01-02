@@ -34,7 +34,7 @@ public class CustomerReturnedDamagedProductsServiceImpl implements CustomerRetur
     @Override
     public Message customerReturnProductFromInvoice(CustomerReturnedDamagedProducts customerReturnedDamagedProducts, Long invoiceId) throws NotFoundException {
         if (!invoiceRepository.existsById(invoiceId)) {
-            throw new NotFoundException("Not found");
+            throw new NotFoundException("Not found by invoiceId");
         }
         Invoice invoice = invoiceRepository.findById(invoiceId).get();
 
@@ -42,7 +42,7 @@ public class CustomerReturnedDamagedProductsServiceImpl implements CustomerRetur
 
 
         if (!productRepository.existsByProductCodeIgnoreCase(code)) {
-            throw new NotFoundException("Not found");
+            throw new NotFoundException("Not found by Product Code");
         }
 
         Product product = productRepository.findByProductCodeIgnoreCase(code);
@@ -58,7 +58,7 @@ public class CustomerReturnedDamagedProductsServiceImpl implements CustomerRetur
         Message message = new Message();
 
         if (customerReturnedDamagedProductsRepository.existsByProductCodeIgnoreCaseAndInvoiceId(code, invoiceId)) {
-            message.setMessage("exists");
+            message.setMessage("Exists By Product Code And InvoiceId");
             return message;
         }
 
@@ -70,10 +70,10 @@ public class CustomerReturnedDamagedProductsServiceImpl implements CustomerRetur
             return message;
         }
 
-        if (b == 0) {
-            message.setMessage("Damaged quantity cannot be ZERO ");
-            return message;
-        }
+//        if (b == 0) {
+//            message.setMessage("Damaged quantity cannot be ZERO ");
+//            return message;
+//        }
         customerReturnedDamagedProductsRepository.save(customerReturnedDamagedProducts);
 
         DamagedProducts damagedProducts = new DamagedProducts();
