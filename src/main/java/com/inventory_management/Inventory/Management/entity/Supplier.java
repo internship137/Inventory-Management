@@ -6,9 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
@@ -34,12 +32,12 @@ public class Supplier {
     private String supplierCompany;
 
     @NotBlank(message = "Supplier contact cannot be null or blank")
-    @Pattern(regexp = "^\\d{10}$", message = "invalid mobile number entered ")
+    @Pattern(regexp = "^\\d{10}$", message = "Invalid mobile number entered ")
     @Column(name = "supplier_contact", unique = true)
     private String supplierContact;
 
-    @Email(message = "invalid email address", regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
-            flags = Pattern.Flag.CASE_INSENSITIVE)
+    @NotBlank(message = "Supplier Email Address should not be empty")
+    @Pattern(regexp = "[a-zA_Z0-9_\\-\\.]+[@][a-z]+[\\.][a-z]{2,3}",message = "Please enter a valid Email Address")
     @Column(name = "supplier_email")
     private String supplierEmail;
 

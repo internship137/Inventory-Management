@@ -3,10 +3,8 @@ package com.inventory_management.Inventory.Management.dto;
 
 import lombok.Data;
 
-import java.sql.Date;
-
 @Data
-public class InvoiceStocksDTO {
+public class InvoiceDTO {
 
     private Long invoiceId;
     private String productName;
@@ -15,5 +13,9 @@ public class InvoiceStocksDTO {
     private Long sellingQuantity;
     private String customerEmail;
     private String customerName;
+    private String gstSlab;
+    private Long grandTotal;
+
+
 
 }

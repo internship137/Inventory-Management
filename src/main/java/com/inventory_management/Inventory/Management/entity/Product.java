@@ -33,7 +33,6 @@ public class Product {
     private String productName;
 
 
-
     @NotBlank(message = "Product manufacturer should not be empty")
     @Pattern(regexp = "^[a-zA-Z0-9 ]{1,70}$", message = "Please provide a valid Product manufacturer")
     @Column(name = "product_manufacturer")

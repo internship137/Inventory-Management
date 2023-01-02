@@ -21,6 +21,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    // Add Category
+
     @Override
     public Message saveCategory(Category category) {
 
@@ -32,14 +34,11 @@ public class CategoryServiceImpl implements CategoryService {
         }
         categoryRepository.save(category);
         Message message = new Message();
-        message.setMessage("Category Added");
+        message.setMessage("Category Added Successfully");
         return message;
     }
 
-    @Override
-    public List<Category> fetchCategoryList() {
-        return null;
-    }
+
 
     // Get all Category (Pagination and Sorting)
 
@@ -98,9 +97,8 @@ public class CategoryServiceImpl implements CategoryService {
 
         categoryRepository.save(catDB);
         Message message = new Message();
-        message.setMessage("Updated Successfully");
+        message.setMessage("Category Updated Successfully");
         return message;
     }
-
 
 }

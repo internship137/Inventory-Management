@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.sql.Date;
 
@@ -26,16 +27,20 @@ public class Invoice {
     @Column(name = "date_of_issue")
     private Date dateOfIssue;
 
+    @NotNull(message = "Selling Quantity should not be empty")
+    @Pattern(regexp = "^[0-9]{1,8}$", message = "Selling Quantity should not be less than zero")
     @Column(name = "selling_quantity")
-    private Long sellingQuantity;
+    private String sellingQuantity;
 
-
+    @NotBlank(message = "Customer Email Address should not be empty")
+    @Pattern(regexp = "[a-zA_Z0-9_\\-\\.]+[@][a-z]+[\\.][a-z]{2,3}",message = "Please enter a valid Email Address")
     @Column(name = "customer_email")
     private String customerEmail;
 
+    @NotBlank(message = "Customer name should not be empty")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]{1,70}$", message = "Please provide a valid Customer Name")
     @Column(name = "customer_name")
     private String customerName;
-
 
     @Column(name = "product_name")
     private String productName;
@@ -46,5 +51,12 @@ public class Invoice {
     @Column(name = "product_price")
     private Long productPrice;
 
+    @Column(name = "product_code")
     private String productCode;
+
+    @Column(name = "gst")
+    private String gstSlab;
+
+    @Column(name = "grand_total")
+    private Long grandTotal;
 }

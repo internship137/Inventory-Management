@@ -9,16 +9,12 @@ import java.util.List;
 
 public interface CategoryService {
     public Message saveCategory(Category category);
-
-    public List<Category> fetchCategoryList();
+    List<Category> fetchCategoryList(int pageNo, int recordCount);
 
     public Category fetchCategoryById(Long categoryId) throws NotFoundException;
 
     public Category fetchCategoryByName(String categoryName) throws NotFoundException;
 
-
     public Message updateCategory(Long categoryId, Category product) throws NotFoundException;
 
-
-    List<Category> fetchCategoryList(int pageNo, int recordCount);
 }

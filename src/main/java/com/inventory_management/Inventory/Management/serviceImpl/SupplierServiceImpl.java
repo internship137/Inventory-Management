@@ -21,6 +21,8 @@ public class SupplierServiceImpl implements SupplierService {
     @Autowired
     private SupplierRepository supplierRepository;
 
+    // Add Supplier
+
     @Override
     public Message addSupplier(Supplier supplier) {
 //        Supplier supplier1=supplierRepository.findBySupplierName(supplier.getSupplierName()).orElse(null);
@@ -46,17 +48,20 @@ public class SupplierServiceImpl implements SupplierService {
 
         supplierRepository.save(supplier);
         Message message = new Message();
-        message.setMessage("Supplier Added");
+        message.setMessage("Supplier Added Successfully");
         return message;
 
     }
 
+    // Get All Supplier (Pagination and Sorting)
+
     @Override
-    public List<Supplier> fetchSupplierList(int pageNo) {
-        Pageable pageable = PageRequest.of(pageNo, 3);
+    public List<Supplier> fetchSupplierList(int pageNo,int recordCount) {
+        Pageable pageable = PageRequest.of(pageNo, recordCount);
         return supplierRepository.findAll(pageable).get().toList();
     }
 
+    // Get Supplier By Id
 
     @Override
     public Optional<Supplier> fetchSupplierById(Long supplierId) throws NotFoundException {
@@ -67,6 +72,8 @@ public class SupplierServiceImpl implements SupplierService {
         }
         return supplierRepository.findById(supplierId);
     }
+
+    // Update Supplier
 
     @Override
     public Message updateSupplier(Long supplierId, Supplier supplier) throws NotFoundException {
@@ -92,9 +99,11 @@ public class SupplierServiceImpl implements SupplierService {
 
         supplierRepository.save(supDB);
         Message message = new Message();
-        message.setMessage("Updated Successfully");
+        message.setMessage("Supplier Updated Successfully");
         return message;
     }
+
+    // Delete Supplier
 
 
     @Override
@@ -105,7 +114,7 @@ public class SupplierServiceImpl implements SupplierService {
         }
         supplierRepository.deleteById(supplierId);
         Message message = new Message();
-        message.setMessage("Deleted Successfully");
+        message.setMessage("Supplier Deleted Successfully");
         return message;
 
     }

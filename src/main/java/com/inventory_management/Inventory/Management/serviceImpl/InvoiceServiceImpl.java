@@ -1,6 +1,6 @@
 package com.inventory_management.Inventory.Management.serviceImpl;
 
-import com.inventory_management.Inventory.Management.dto.InvoiceStocksDTO;
+import com.inventory_management.Inventory.Management.dto.InvoiceDTO;
 import com.inventory_management.Inventory.Management.entity.Invoice;
 import com.inventory_management.Inventory.Management.entity.Message;
 import com.inventory_management.Inventory.Management.entity.Product;
@@ -11,6 +11,8 @@ import com.inventory_management.Inventory.Management.service.InvoiceService;
 import com.inventory_management.Inventory.Management.utilities.BillInvoiceEmail;
 import com.inventory_management.Inventory.Management.utilities.QuantityLowEmailAlert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -36,6 +38,8 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Autowired
     private BillInvoiceEmail billInvoiceEmail;
 
+    // Create Invoice
+
     @Override
     public Message saveInvoice(Invoice invoice, Long productId) throws NotFoundException {
         if (!productRepository.existsById(productId)) {
@@ -47,21 +51,27 @@ public class InvoiceServiceImpl implements InvoiceService {
         String productName = product.getProductName();
         String productCategory = product.getCategory().getCategoryName();
         Long productPrice = product.getProductPricing().getProductSellingPrice();
-
+        String gst = product.getProductPricing().getGstSlab();
         Long stockQty = Long.valueOf(product.getStockQuantity());
-        Long sellingQty = invoice.getSellingQuantity();
+        Long sellingQty = Long.valueOf(invoice.getSellingQuantity());
+        Long grndTotal = invoice.getGrandTotal();
 
         if (sellingQty > stockQty) {
 
             Message message = new Message();
-            message.setMessage(" Stock quantity is less than Selling Quantity");
+            message.setMessage("Stock quantity is less than Selling Quantity");
             return message;
 
         }
 
+        grndTotal = sellingQty * productPrice;
+
+        invoice.setGrandTotal(grndTotal);
         invoice.setProductName(productName);
         invoice.setCategoryName(productCategory);
         invoice.setProductPrice(productPrice);
+        invoice.setGstSlab(gst);
+
 
         invoice.setProductCode(product.getProductCode());
 
@@ -74,8 +84,10 @@ public class InvoiceServiceImpl implements InvoiceService {
         if (stockQty < 50) {
             quantityLowEmailAlert.sendOrderSuccessfulEmail(
                     "anson.joseph05@gmail.com",
-                    "Product with Id " + product.getProductId() + " is low below 50 units",
-                    "Alert"
+                    "Hello,\n You receive this Alert because one of your product's current stock quantity" +
+                            "is low below the threshold you have set \n Product with product code " + product.getProductCode() +
+                            " is low below 50 units",
+                    ":Low Quantity Stock Alert"
             );
         }
 
@@ -84,21 +96,43 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 
         billInvoiceEmail.sendBillInvoiceEmail("" + invoice.getCustomerEmail(),
-                "Dear " + invoice.getCustomerName() + ",\n" + "The details of your purchase from Company_Name on " + currentDateTime + " are \n" +
-                        "Product Name : " + invoice.getProductName() + "\n" +
-                        "Product Price : " + invoice.getProductPrice() + "\n" +
-                        "Product Quantity : " + invoice.getSellingQuantity(),
+                "Dear " + invoice.getCustomerName() + ",\nThank you for choosing us !\n"+"With Company_name " +
+                        "you can always find what you need. \n"+"And we make sure in delivering services according " +
+                        "to your preferences.\n\n"
+                        + "The details of your purchase from Company_Name on " + currentDateTime + " are \n" +
+                        "Invoice No. : " +invoice.getInvoiceId()+
+                        "\nProduct Name : " + invoice.getProductName() + "\n" +
+                        "Product Price : ₹" + invoice.getProductPrice() + "/-\n" +
+                        "Product Quantity : " + invoice.getSellingQuantity()+" Nos. " +
+                        "\n \nWe hope that the shopping experience was pleasant for you.\n" +
+                        "We expect you next time.\n" +
+                        "Have a nice day.",
                 "Bill Invoice"
         );
 
 
         Message message = new Message();
-        message.setMessage("Invoice Generated");
+        message.setMessage("Invoice Generated Successfully");
         return message;
     }
 
+    // Get All Invoice
+
     @Override
-    public List<InvoiceStocksDTO> fetchByInvoiceId(Long invoiceId) throws NotFoundException {
+    public List<InvoiceDTO> fetchAllInvoice(int pageNo, int recordCount) {
+        PageRequest pageable = PageRequest.of(pageNo, recordCount,
+                Sort.by("InvoiceId"));
+        return invoiceRepository.findAll(pageable)
+                .stream()
+                .map(this::convertEntityToDto)
+                .collect(Collectors.toList());
+    }
+
+
+    // Get Invoice By Id
+
+    @Override
+    public List<InvoiceDTO> fetchByInvoiceId(Long invoiceId) throws NotFoundException {
         if (!invoiceRepository.existsById(invoiceId)) {
             throw new NotFoundException("Invoice with this id does not exist");
         }
@@ -108,13 +142,8 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<InvoiceStocksDTO> fetchAllInvoice() {
-        return invoiceRepository.findAll()
-                .stream()
-                .map(this::convertEntityToDto)
-                .collect(Collectors.toList());
-    }
+
+    // Update Invoice
 
     @Override
     public Message updateInvoice(Long invoiceId, Invoice invoice) throws NotFoundException {
@@ -130,9 +159,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
         invoiceRepository.save(invoiceDB);
         Message message = new Message();
-        message.setMessage("successfully updated");
+        message.setMessage("Invoice Successfully Updated");
         return message;
     }
+
+    // Delete Invoice
 
     @Override
     public Message deleteInvoice(Long invoiceId) throws NotFoundException {
@@ -141,31 +172,35 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
         invoiceRepository.deleteById(invoiceId);
         Message message = new Message();
-        message.setMessage("deleted successfully");
+        message.setMessage("Invoice Deleted Successfully");
         return message;
     }
 
+
     @Override
-    public List<InvoiceStocksDTO> getByInvoiceId(Long invoiceId) {
+    public List<InvoiceDTO> getByInvoiceId(Long invoiceId) {
         return invoiceRepository.findById(invoiceId)
                 .stream()
                 .map(this::convertEntityToDto)
                 .collect(Collectors.toList());
     }
 
-    private InvoiceStocksDTO convertEntityToDto(Invoice invoice) {
-        InvoiceStocksDTO invoiceStocksDTO =
-                new InvoiceStocksDTO();
+    // DTO
+
+    private InvoiceDTO convertEntityToDto(Invoice invoice) {
+        InvoiceDTO invoiceDTO = new InvoiceDTO();
 
 
-        invoiceStocksDTO.setInvoiceId(invoice.getInvoiceId());
-        invoiceStocksDTO.setProductName(invoice.getProductName());
-        invoiceStocksDTO.setCategoryName(invoice.getCategoryName());
-        invoiceStocksDTO.setProductPrice(invoice.getProductPrice());
-        invoiceStocksDTO.setSellingQuantity(invoice.getSellingQuantity());
-        invoiceStocksDTO.setCustomerEmail(invoice.getCustomerEmail());
-        invoiceStocksDTO.setCustomerName(invoice.getCustomerName());
+        invoiceDTO.setInvoiceId(invoice.getInvoiceId());
+        invoiceDTO.setProductName(invoice.getProductName());
+        invoiceDTO.setCategoryName(invoice.getCategoryName());
+        invoiceDTO.setProductPrice(invoice.getProductPrice());
+        invoiceDTO.setSellingQuantity(Long.valueOf(invoice.getSellingQuantity()));
+        invoiceDTO.setCustomerEmail(invoice.getCustomerEmail());
+        invoiceDTO.setCustomerName(invoice.getCustomerName());
+        invoiceDTO.setGstSlab(invoice.getGstSlab());
+        invoiceDTO.setGrandTotal(invoice.getGrandTotal());
 
-        return invoiceStocksDTO;
+        return invoiceDTO;
     }
 }

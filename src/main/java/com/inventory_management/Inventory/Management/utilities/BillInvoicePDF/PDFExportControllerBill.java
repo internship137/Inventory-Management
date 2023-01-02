@@ -1,6 +1,6 @@
 package com.inventory_management.Inventory.Management.utilities.BillInvoicePDF;
 
-import com.inventory_management.Inventory.Management.dto.InvoiceStocksDTO;
+import com.inventory_management.Inventory.Management.dto.InvoiceDTO;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.repository.InvoiceRepository;
 import com.inventory_management.Inventory.Management.service.InvoiceService;
@@ -44,15 +44,15 @@ public class PDFExportControllerBill {
             String currentDateTime = dateFormatter.format(new Date());
 
             String headerKey = "Content-Disposition";
-            String headerValue = "attachment; filename=Bill_Invoice_" + currentDateTime + ".pdf";
+            String headerValue = "attachment; filename=Invoice_" + currentDateTime + ".pdf";
 
 
             response.setHeader(headerKey, headerValue);
 
 
-            List<InvoiceStocksDTO> invoiceStocksDTOList = invoiceService.getByInvoiceId(invoiceId);
+            List<InvoiceDTO> invoiceDTOList = invoiceService.getByInvoiceId(invoiceId);
 
-            PDFServiceBill exporter = new PDFServiceBill(invoiceStocksDTOList);
+            PDFServiceBill exporter = new PDFServiceBill(invoiceDTOList);
             exporter.export(response);
 
         }

@@ -8,6 +8,7 @@ import com.inventory_management.Inventory.Management.entity.Product;
 import com.inventory_management.Inventory.Management.entity.Supplier;
 import com.inventory_management.Inventory.Management.error.NotFoundException;
 import com.inventory_management.Inventory.Management.repository.CategoryRepository;
+import com.inventory_management.Inventory.Management.repository.ProductPricingRepository;
 import com.inventory_management.Inventory.Management.repository.ProductRepository;
 import com.inventory_management.Inventory.Management.repository.SupplierRepository;
 import com.inventory_management.Inventory.Management.service.ProductService;
@@ -39,6 +40,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private SupplierRepository supplierRepository;
+    @Autowired
+    private ProductPricingRepository productPricingRepository;
 
 
     // Add Products to Category
@@ -72,18 +75,10 @@ public class ProductServiceImpl implements ProductService {
 
         Supplier supplier = supplierRepository.findById(supplierId).get();
 
-//        String supplierName = supplier.getSupplierName();
-//        String supplierCompany = supplier.getSupplierCompany();
-
-//        supplier.setSupplierName(supplierName);
-//        supplier.setSupplierCompany(supplierCompany);
-
         product.setSupplierName(supplier.getSupplierName());
         product.setSupplierCompany(supplier.getSupplierCompany());
 
         supplierRepository.save(supplier);
-
-
 
 
         Category category = categoryRepository.findById(categoryId).get();
@@ -91,7 +86,7 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
 
         Message message = new Message();
-        message.setMessage("Product Added");
+        message.setMessage("Product Added Successfully");
         return message;
 
     }
@@ -221,25 +216,8 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.save(proDB);
         Message message = new Message();
-        message.setMessage("Updated Successfully");
+        message.setMessage("Product Updated Successfully");
         return message;
-    }
-
-
-    //Delete a product
-
-
-    @Override
-    public Message deleteProduct(Long productId) throws NotFoundException {
-
-        if (!categoryRepository.existsById(productId)) {
-            throw new NotFoundException("Product Id does not exist");
-        }
-        productRepository.deleteById(productId);
-        Message message = new Message();
-        message.setMessage("Deleted Successfully");
-        return message;
-
     }
 
 
@@ -247,22 +225,25 @@ public class ProductServiceImpl implements ProductService {
 
 
     private ProductDTO convertEntityToDto(Product product) {
-        ProductDTO categoryProductPricingDTO =
+        ProductDTO productDTO =
                 new ProductDTO();
 
-        categoryProductPricingDTO.setProductId(product.getProductId());
-        categoryProductPricingDTO.setProductName(product.getProductName());
-        categoryProductPricingDTO.setProductCode(product.getProductCode());
-        categoryProductPricingDTO.setStockQuantity(Long.valueOf(product.getStockQuantity()));
-        categoryProductPricingDTO.setProductManufacturer(product.getProductManufacturer());
-        categoryProductPricingDTO.setProductCreatedDateTime(product.getProductCreatedDateTime());
-        categoryProductPricingDTO.setCategory(product.getCategory().getCategoryName());
-        categoryProductPricingDTO.setSupplierName(product.getSupplierName());
-        categoryProductPricingDTO.setSupplierCompany(product.getSupplierCompany());
+        productDTO.setProductId(product.getProductId());
+        productDTO.setProductName(product.getProductName());
+        productDTO.setProductCode(product.getProductCode());
+        productDTO.setStockQuantity(Long.valueOf(product.getStockQuantity()));
+        productDTO.setProductManufacturer(product.getProductManufacturer());
+        productDTO.setProductCreatedDateTime(product.getProductCreatedDateTime());
+        productDTO.setCategory(product.getCategory().getCategoryName());
+        productDTO.setSupplierName(product.getSupplierName());
+        productDTO.setSupplierCompany(product.getSupplierCompany());
+        productDTO.setProductBuyingPrice(Long.valueOf(product.getProductPricing().getProductBuyingPrice()));
+        productDTO.setProductSellingPrice(product.getProductPricing().getProductSellingPrice());
+        productDTO.setMaximumRetailPrice(Long.valueOf(product.getProductPricing().getMaximumRetailPrice()));
+        productDTO.setLandingPrice(product.getProductPricing().getLandingPrice());
+        productDTO.setGstSlab(product.getProductPricing().getGstSlab());
 
-
-
-        return categoryProductPricingDTO;
+        return productDTO;
     }
 
 }

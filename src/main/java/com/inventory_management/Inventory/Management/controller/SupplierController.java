@@ -17,6 +17,8 @@ public class SupplierController {
     @Autowired
     private SupplierService supplierService;
 
+    // Add Supplier
+
     @PostMapping("/supplier")
     public Message addSupplier(@RequestBody @Valid Supplier supplier) {
         return supplierService.addSupplier(supplier);
@@ -24,9 +26,9 @@ public class SupplierController {
 
     // Get all suppliers
 
-    @GetMapping("/supplier/page/{pageNo}")
-    public List<Supplier> fetchSupplierList(@PathVariable int pageNo) {
-        return supplierService.fetchSupplierList(pageNo);
+    @GetMapping("/supplier/{pageNo}/{recordCount}")
+    public List<Supplier> fetchSupplierList(@PathVariable int pageNo,@PathVariable int recordCount) {
+        return supplierService.fetchSupplierList(pageNo, recordCount);
     }
 
     // Get supplier By Id
@@ -43,7 +45,9 @@ public class SupplierController {
         return supplierService.updateSupplier(supplierId, supplier);
     }
 
-    @DeleteMapping("/supplier/{supplierId}")
+    // Delete Supplier
+
+    @DeleteMapping("/supplier/delete/{supplierId}")
     public Message deleteSupplierById(@PathVariable("supplierId") Long supplierId) throws NotFoundException {
         return supplierService.deleteSupplierById(supplierId);
     }

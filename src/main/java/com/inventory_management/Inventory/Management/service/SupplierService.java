@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SupplierService {
-    public List<Supplier> fetchSupplierList(int pageNo);
-
+    Message addSupplier(Supplier supplier);
+    public List<Supplier> fetchSupplierList(int pageNo,int recordCount);
 
     public Optional<Supplier> fetchSupplierById(Long supplierId) throws NotFoundException;
 
@@ -17,5 +17,4 @@ public interface SupplierService {
 
     public Message deleteSupplierById(Long supplierId) throws NotFoundException;
 
-    Message addSupplier(Supplier supplier);
 }

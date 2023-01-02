@@ -31,8 +31,6 @@ public class ProductController {
         return productService.saveProduct(product, categoryId, supplierId);
     }
 
-    // Pagination and Sorting
-
 
     // Get all products with categories (Pagination and Sorting)
 
@@ -90,14 +88,5 @@ public class ProductController {
         return productService.updateProduct(categoryId, productId, product);
     }
 
-
-    // Delete a product
-
-
-    @DeleteMapping("/delete/{productId}")
-    public String deleteProductById(@PathVariable Long productId) throws NotFoundException {
-        productService.deleteProduct(productId);
-        return "Product Deleted !";
-    }
 }
 

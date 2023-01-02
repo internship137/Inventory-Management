@@ -40,12 +40,13 @@ public class ProductPricingController{
         return productPricingService.fetchProductPricingById(pricingId);
     }
 
-    // update Pricing
+    // Update Pricing
 
     @PutMapping("/product/updatePricing/{pricingId}")
     public Message updatePricing(@PathVariable Long pricingId,
                                  @RequestBody @Valid ProductPricing productPricing) throws NotFoundException{
         return productPricingService.updatePricing(pricingId , productPricing);
     }
+
 
 }

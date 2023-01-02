@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Product findByProductNameIgnoreCase(String productName);
 
 
     boolean existsByProductNameIgnoreCase(String productName);
@@ -42,7 +41,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     public Product findProductIdUsingCategoryId(Long categoryId, Long productId);
 
-    Product findByProductCode(String code);
 
     Product findByProductCodeIgnoreCase(String code);
 }
