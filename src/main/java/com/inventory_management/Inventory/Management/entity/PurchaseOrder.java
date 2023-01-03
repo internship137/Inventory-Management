@@ -24,8 +24,8 @@ public class PurchaseOrder {
     private Long purchaseOrderId;
 
     @CreationTimestamp
+    @JsonFormat(pattern = "dd/MM/yyyy",shape = JsonFormat.Shape.STRING)
     @Column(name = "request_placed_date_time")
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date requestPlacedDateTime;
 
 
@@ -37,8 +37,8 @@ public class PurchaseOrder {
 //    @Column(name = "product_category")
 //    private String productCategory;
 
-    //    @NotBlank(message = "Product code should not be empty")
-//    @Pattern(regexp = "^[a-zA-Z0-9]{1,70}$", message = "Please provide a valid Product Code")
+    @NotBlank(message = "Product code should not be empty")
+    @Pattern(regexp = "^[a-zA-Z0-9]{1,70}$", message = "Please provide a valid Product Code")
     @Column(name = "product_code")
     private String productCode;
 
@@ -63,11 +63,13 @@ public class PurchaseOrder {
     @Column(name = "supplier_name")
     private String supplierName;
 
+    @Column(name = "supplier_company")
     private String supplierCompany;
 
     @Column(name = "supplier_email")
     private String supplierEmail;
 
+    @JsonFormat(pattern = "dd/MM/yyyy",shape = JsonFormat.Shape.STRING)
     @Column(name = "supplier_status_date")
     private String supplierStatusDate;
 }

@@ -66,7 +66,10 @@ public class ReturnedProductsServiceImpl implements ReturnedProductsService {
 
 
         returnRequestEmail.sendRequestEmail(supplier.getSupplierEmail(),
-                "A new return request for " + returnedProducts.getReturnProductName(),
+                "A new return request : \n" +
+                        "Product Name: " + returnedProducts.getReturnProductName() + "\n"
+                        + "\n" +
+                "Return Quantity: "+returnedProducts.getReturnQuantity()+" Nos",
                 "Return request");
         returnedProductsRepository.save(returnedProducts);
 

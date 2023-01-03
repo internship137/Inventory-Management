@@ -20,4 +20,6 @@ public interface PurchaseOrderService {
 
 
     Optional<PurchaseOrder> fetchRequestsById(Long purchaseRequestId) throws NotFoundException;
+
+    Message changeStatus(Long purchaseRequestId) throws NotFoundException;
 }

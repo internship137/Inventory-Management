@@ -145,9 +145,25 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     @Override
     public Optional<PurchaseOrder> fetchRequestsById(Long purchaseRequestId) throws NotFoundException {
         if (!purchaseOrderRepository.existsById(purchaseRequestId)) {
-            throw new NotFoundException("Not request found with this Id");
+            throw new NotFoundException("No purchase order exists with this Id");
         }
         return purchaseOrderRepository.findById(purchaseRequestId);
     }
+
+    @Override
+    public Message changeStatus(Long purchaseRequestId) throws NotFoundException {
+        if (!purchaseOrderRepository.existsById(purchaseRequestId)) {
+            throw new NotFoundException("No purchase order exists with this Id");
+        }
+
+        PurchaseOrder purchaseOrder= purchaseOrderRepository.findById(purchaseRequestId).get();
+
+        purchaseOrder.setRequestStatus("delivered");
+        purchaseOrderRepository.save(purchaseOrder);
+        Message message=new Message();
+        message.setMessage("Status changed");
+        return message;
+    }
+
 
 }

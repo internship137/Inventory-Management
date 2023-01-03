@@ -29,8 +29,8 @@ public class DamagedProducts {
     @Column(name = "product_code")
     private String productCode;
 
-    @Column(name = "product_category")
-    private String productCategory;
+//    @Column(name = "product_category")
+//    private String productCategory;
 
     @Column(name = "supplier_name")
     private String supplierName;

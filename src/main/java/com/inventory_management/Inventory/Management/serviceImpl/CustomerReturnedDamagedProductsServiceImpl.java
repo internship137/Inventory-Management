@@ -34,7 +34,7 @@ public class CustomerReturnedDamagedProductsServiceImpl implements CustomerRetur
     @Override
     public Message customerReturnProductFromInvoice(CustomerReturnedDamagedProducts customerReturnedDamagedProducts, Long invoiceId) throws NotFoundException {
         if (!invoiceRepository.existsById(invoiceId)) {
-            throw new NotFoundException("Not found by invoiceId");
+            throw new NotFoundException("Not found by invoice Id");
         }
         Invoice invoice = invoiceRepository.findById(invoiceId).get();
 
@@ -58,7 +58,7 @@ public class CustomerReturnedDamagedProductsServiceImpl implements CustomerRetur
         Message message = new Message();
 
         if (customerReturnedDamagedProductsRepository.existsByProductCodeIgnoreCaseAndInvoiceId(code, invoiceId)) {
-            message.setMessage("Exists By Product Code And InvoiceId");
+            message.setMessage("Exists By Product Code And Invoice Id");
             return message;
         }
 
@@ -81,7 +81,6 @@ public class CustomerReturnedDamagedProductsServiceImpl implements CustomerRetur
         if (!damagedProductsRepository.existsByProductCodeIgnoreCase(code)) {
             damagedProducts.setProductName(invoice.getProductName());
             damagedProducts.setProductCode(invoice.getProductCode());
-            damagedProducts.setProductCategory(product.getCategory().getCategoryName());
             damagedProducts.setSupplierName(product.getSupplierName());
             damagedProducts.setSupplierCompany(product.getSupplierCompany());
 
@@ -123,7 +122,7 @@ public class CustomerReturnedDamagedProductsServiceImpl implements CustomerRetur
     public Optional<CustomerReturnedDamagedProducts> fetchCustomerReturnProductFromInvoiceById(Long customerReturnProductsId) throws NotFoundException {
 
         if (!customerReturnedDamagedProductsRepository.existsById(customerReturnProductsId)) {
-            throw new NotFoundException("Customer Return products does not exists with this ID");
+            throw new NotFoundException("Customer Returned products does not exists with this ID");
         }
 
         return customerReturnedDamagedProductsRepository.findById(customerReturnProductsId);

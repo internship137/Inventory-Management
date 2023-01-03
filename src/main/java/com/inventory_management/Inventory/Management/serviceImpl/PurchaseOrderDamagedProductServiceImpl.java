@@ -33,12 +33,14 @@ public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDama
     public Message addPurchaseOrderDamagedProduct(PurchaseOrderDamagedProduct purchaseOrderDamagedProduct, Long purchaseOrderId) throws NotFoundException {
 
         if (!purchaseOrderRepository.existsById(purchaseOrderId)) {
-            throw new NotFoundException("Not found");
+            throw new NotFoundException("Purchase request available for products existing in inventory ");
         }
 
         Message message = new Message();
 
         PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(purchaseOrderId).get();
+
+
 
         purchaseOrderDamagedProduct.setPurchaseOrderId(purchaseOrderId);
         purchaseOrderDamagedProduct.setProductName(purchaseOrder.getProductName());
@@ -58,6 +60,11 @@ public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDama
             return message;
         }
 
+        if (!purchaseOrder.getRequestStatus().equals("delivered")){
+            message.setMessage("cannot add damaged products, because the order is not yet delivered");
+            return message;
+        }
+
 //        if (b == 0) {
 //            message.setMessage("cannot be ZERO ");
 //            return message;
@@ -67,6 +74,8 @@ public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDama
             message.setMessage("Add the product to products lists before adding damaged product");
             return message;
         }
+
+
 
         purchaseOrderDamagedProductRepository.save(purchaseOrderDamagedProduct);
 
@@ -82,6 +91,8 @@ public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDama
             damagedProducts.setPurchaseOrderDamagedQuantity(damagedProducts.getPurchaseOrderDamagedQuantity());
 
             damagedProductsRepository.save(damagedProducts);
+            message.setMessage("New item added to damaged product list");
+            return message;
         }
 
         if (damagedProductsRepository.existsByProductCodeIgnoreCase(code)) {
@@ -97,7 +108,7 @@ public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDama
             damagedProducts1.setToReturnQuantity(currentPurchaseOrderDamagedQty + qty + currentCustomerReturnQty);
             damagedProductsRepository.save(damagedProducts1);
         }
-        message.setMessage("New item added to the list");
+        message.setMessage("Damaged quantity updated ");
         return message;
     }
 
@@ -110,7 +121,7 @@ public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDama
     @Override
     public Optional<PurchaseOrderDamagedProduct> fetchPurchaseOrderDamagedProductsId(Long purchaseOrderDamagedProductsId) throws NotFoundException {
         if (!purchaseOrderDamagedProductRepository.existsById(purchaseOrderDamagedProductsId)) {
-            throw new NotFoundException("Not found with this Id");
+            throw new NotFoundException("Purchase order damaged products not found with this Id");
         }
 
         return purchaseOrderDamagedProductRepository.findById(purchaseOrderDamagedProductsId);

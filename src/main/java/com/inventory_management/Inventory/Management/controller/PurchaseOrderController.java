@@ -60,14 +60,18 @@ public class PurchaseOrderController {
     }
 
 
-    @GetMapping("/purchaseRequests/page/{pageNo}")
+    @GetMapping("/purchaseOrder/page/{pageNo}")
     public List<PurchaseOrder> fetchAllRequest(@PathVariable int pageNo) {
         return purchaseOrderService.fetchAllRequest(pageNo);
     }
 
-    @GetMapping("/purchaseRequests/{purchaseRequestId}")
+    @GetMapping("/purchaseOrder/{purchaseRequestId}")
     public Optional<PurchaseOrder> fetchRequestsById(@PathVariable("purchaseRequestId") Long purchaseRequestId) throws NotFoundException {
         return purchaseOrderService.fetchRequestsById(purchaseRequestId);
     }
 
+    @GetMapping("/purchaseOrder/changeStatus/{purchaseRequestId}")
+    public Message changeStatus(@PathVariable("purchaseRequestId") Long purchaseRequestId) throws NotFoundException {
+        return purchaseOrderService.changeStatus(purchaseRequestId);
+    }
 }
