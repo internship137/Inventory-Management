@@ -38,8 +38,10 @@ public class DamagedProducts {
     @Column(name = "supplier_company")
     private String supplierCompany;
 
+    @Column(name = "customer_return_quantity")
     private Long customerReturnQuantity = Long.valueOf(0);
 
+    @Column(name = "purchase_order_damaged_quantity")
     private Long purchaseOrderDamagedQuantity = Long.valueOf(0);
 
 

@@ -34,10 +34,10 @@ public class ReturnedProducts {
     private String returnQuantity;
 
 
-    @Column(name = "supplierName")
+    @Column(name = "supplier_name")
     private String supplierName;
 
-    @Column(name = "supplierCompany")
+    @Column(name = "supplier_company")
     private String supplierCompany;
 
     @Column(name = "return_status")

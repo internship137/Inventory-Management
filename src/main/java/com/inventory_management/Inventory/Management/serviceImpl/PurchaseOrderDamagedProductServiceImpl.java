@@ -61,7 +61,7 @@ public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDama
         }
 
         if (!purchaseOrder.getRequestStatus().equals("delivered")){
-            message.setMessage("cannot add damaged products, because the order is not yet delivered");
+            message.setMessage("cannot add damaged products, because the order is not yet delivered or Rejected by supplier");
             return message;
         }
 
@@ -88,8 +88,9 @@ public class PurchaseOrderDamagedProductServiceImpl implements PurchaseOrderDama
             damagedProducts.setSupplierName(purchaseOrder.getSupplierName());
             damagedProducts.setSupplierCompany(purchaseOrder.getSupplierCompany());
 
-            damagedProducts.setPurchaseOrderDamagedQuantity(damagedProducts.getPurchaseOrderDamagedQuantity());
+            damagedProducts.setPurchaseOrderDamagedQuantity(Long.valueOf(purchaseOrderDamagedProduct.getPurchaseOrderDamagedQuantity()));
 
+            damagedProducts.setToReturnQuantity(Long.valueOf(purchaseOrderDamagedProduct.getPurchaseOrderDamagedQuantity()));
             damagedProductsRepository.save(damagedProducts);
             message.setMessage("New item added to damaged product list");
             return message;

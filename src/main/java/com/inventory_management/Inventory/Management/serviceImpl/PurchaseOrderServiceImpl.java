@@ -37,7 +37,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 //            throw new NotFoundException("Not found");
 //        }
         if (!productRepository.existsByProductCodeIgnoreCase(purchaseOrder.getProductCode())) {
-            throw new NotFoundException("Not found");
+            throw new NotFoundException("Product code does not exist");
         }
 
         Product product = productRepository.findByProductCodeIgnoreCase(purchaseOrder.getProductCode());
@@ -156,14 +156,28 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             throw new NotFoundException("No purchase order exists with this Id");
         }
 
-        PurchaseOrder purchaseOrder= purchaseOrderRepository.findById(purchaseRequestId).get();
+        PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(purchaseRequestId).get();
 
-        purchaseOrder.setRequestStatus("delivered");
-        purchaseOrderRepository.save(purchaseOrder);
-        Message message=new Message();
-        message.setMessage("Status changed");
+        if (purchaseOrder.getRequestStatus().equals("Approved by supplier")) {
+
+            purchaseOrder.setRequestStatus("delivered");
+            purchaseOrderRepository.save(purchaseOrder);
+            Message message = new Message();
+            message.setMessage("Status changed");
+            return message;
+        }
+
+        if (purchaseOrder.getRequestStatus().equals("Requested")) {
+            Message message = new Message();
+            message.setMessage("not yet approved or rejected by supplier");
+            return message;
+        }
+        Message message = new Message();
+        message.setMessage("cannot change status because order was rejected by supplier");
         return message;
+
     }
-
-
 }
+
+
+
