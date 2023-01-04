@@ -14,8 +14,6 @@ public interface InvoiceService {
 
     public List<InvoiceDTO> fetchAllInvoice(int pageNo, int recordCount);
 
-    public Message updateInvoice(Long invoiceId, Invoice invoice) throws NotFoundException;
-
     public Message deleteInvoice(Long invoiceId) throws NotFoundException;
 
     public List<InvoiceDTO> getByInvoiceId(Long invoiceId) throws NotFoundException;

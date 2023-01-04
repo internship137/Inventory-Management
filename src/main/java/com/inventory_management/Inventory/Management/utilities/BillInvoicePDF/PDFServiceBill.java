@@ -70,18 +70,19 @@ public class PDFServiceBill {
         paragraph3.setAlignment(Paragraph.ALIGN_LEFT);
         paragraph3.setSpacingBefore(20);
 
-        PdfPTable table2 = new PdfPTable(4);
+        PdfPTable table2 = new PdfPTable(7);
         table2.setWidthPercentage(100);
         table2.setSpacingBefore(20);
 
         PdfPTable table3 = new PdfPTable(1);
         table3.setWidthPercentage(50);
-        table3.setSpacingBefore(20);
+        table3.setSpacingBefore(170);
         table3.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
 
         Paragraph paragraph4 = new Paragraph("Authorised Signatory");
         paragraph4.setAlignment(Paragraph.ALIGN_RIGHT);
-        paragraph4.setSpacingBefore(180);
+        paragraph4.setSpacingBefore(30);
 
         Paragraph paragraph5 = new Paragraph("Thank you for shopping with us.", fontTile2);
         paragraph5.setAlignment(Paragraph.ALIGN_CENTER);
@@ -120,7 +121,7 @@ public class PDFServiceBill {
     private void writeTableHeader3(PdfPTable table3) {
         {
             PdfPCell cell = new PdfPCell();
-            cell.setPadding(3);
+            cell.setPadding(4);
 
             Font font = FontFactory.getFont(FontFactory.HELVETICA);
 
@@ -157,17 +158,25 @@ public class PDFServiceBill {
 
         Font font = FontFactory.getFont(FontFactory.HELVETICA);
 
+        cell.setPhrase(new Phrase("Sl No.", font));
+        table2.addCell(cell);
 
         cell.setPhrase(new Phrase("Product Description", font));
+        table2.addCell(cell);
+
+        cell.setPhrase(new Phrase("Product Code", font));
         table2.addCell(cell);
 
         cell.setPhrase(new Phrase("Quantity", font));
         table2.addCell(cell);
 
-        cell.setPhrase(new Phrase("GST %", font));
+        cell.setPhrase(new Phrase("Rate", font));
         table2.addCell(cell);
 
-        cell.setPhrase(new Phrase("Price", font));
+        cell.setPhrase(new Phrase("SGST %", font));
+        table2.addCell(cell);
+
+        cell.setPhrase(new Phrase("CGST %", font));
         table2.addCell(cell);
 
     }
@@ -175,10 +184,13 @@ public class PDFServiceBill {
 
     private void writeTableData2(PdfPTable table2) {
         for (InvoiceDTO invoiceDTO : invoiceStocksDTOList) {
+            table2.addCell("1");
             table2.addCell(invoiceDTO.getProductName());
+            table2.addCell(invoiceDTO.getProductCode());
             table2.addCell(String.valueOf(invoiceDTO.getSellingQuantity()));
-            table2.addCell(invoiceDTO.getGstSlab());
             table2.addCell(String.valueOf(invoiceDTO.getProductPrice()));
+            table2.addCell(String.valueOf(invoiceDTO.getSgst()));
+            table2.addCell(String.valueOf(invoiceDTO.getCgst()));
 
         }
 

@@ -19,7 +19,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,14 +54,17 @@ public class InvoiceServiceImpl implements InvoiceService {
         Long stockQty = Long.valueOf(product.getStockQuantity());
         Long sellingQty = Long.valueOf(invoice.getSellingQuantity());
         Long grndTotal = invoice.getGrandTotal();
+        Long cgst = product.getProductPricing().getCgst();
+        Long sgst = product.getProductPricing().getSgst();
 
         if (sellingQty > stockQty) {
 
             Message message = new Message();
-            message.setMessage("Stock quantity is less than Selling Quantity");
+            message.setMessage("Cannot create Invoice since the entered selling quantity is greater" +
+                    " than the product's current stock quantity or the product maybe out of Stock");
             return message;
-
         }
+
 
         grndTotal = sellingQty * productPrice;
 
@@ -71,8 +73,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoice.setCategoryName(productCategory);
         invoice.setProductPrice(productPrice);
         invoice.setGstSlab(gst);
-
-
+        invoice.setCgst(cgst);
+        invoice.setSgst(sgst);
         invoice.setProductCode(product.getProductCode());
 
         invoiceRepository.save(invoice);
@@ -85,11 +87,18 @@ public class InvoiceServiceImpl implements InvoiceService {
             quantityLowEmailAlert.sendOrderSuccessfulEmail(
                     "anson.joseph05@gmail.com",
                     "Hello,\n You receive this Alert because one of your product's current stock quantity" +
-                            "is low below the threshold you have set \n Product with product code " + product.getProductCode() +
+                            " is low below the threshold you have set. \n Product with product code " + product.getProductCode() +
                             " is low below 50 units",
-                    ":Low Quantity Stock Alert"
+                    "Low Quantity Stock Alert !"
             );
+
+            Message message = new Message();
+            message.setMessage("Invoice Generated Successfully, " +
+                    "Alert : Stock Quantity is low below the threshold value.");
+            return message;
         }
+
+
 
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
@@ -107,21 +116,21 @@ public class InvoiceServiceImpl implements InvoiceService {
                         "\n \nWe hope that the shopping experience was pleasant for you.\n" +
                         "We expect you next time.\n" +
                         "Have a nice day.",
-                "Bill Invoice"
+                "Invoice"
         );
 
 
-        Message message = new Message();
-        message.setMessage("Invoice Generated Successfully");
-        return message;
+        Message message2 = new Message();
+        message2.setMessage("Invoice Generated Successfully");
+        return message2;
     }
 
-    // Get All Invoice
+    // Get All Invoice (pagination and sorting)
 
     @Override
     public List<InvoiceDTO> fetchAllInvoice(int pageNo, int recordCount) {
         PageRequest pageable = PageRequest.of(pageNo, recordCount,
-                Sort.by("InvoiceId"));
+                Sort.by("invoiceId"));
         return invoiceRepository.findAll(pageable)
                 .stream()
                 .map(this::convertEntityToDto)
@@ -142,26 +151,6 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .collect(Collectors.toList());
     }
 
-
-    // Update Invoice
-
-    @Override
-    public Message updateInvoice(Long invoiceId, Invoice invoice) throws NotFoundException {
-        Invoice invoiceDB = invoiceRepository.findById(invoiceId).get();
-
-        if (!invoiceRepository.existsById(invoiceId)) {
-            throw new NotFoundException("Invoice with this id does not exist");
-        }
-
-        if (Objects.nonNull(invoice.getSellingQuantity()) &&
-                !"".equalsIgnoreCase(String.valueOf(invoice.getSellingQuantity()))) {
-            invoiceDB.setSellingQuantity(invoice.getSellingQuantity());
-        }
-        invoiceRepository.save(invoiceDB);
-        Message message = new Message();
-        message.setMessage("Invoice Successfully Updated");
-        return message;
-    }
 
     // Delete Invoice
 
@@ -200,6 +189,9 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceDTO.setCustomerName(invoice.getCustomerName());
         invoiceDTO.setGstSlab(invoice.getGstSlab());
         invoiceDTO.setGrandTotal(invoice.getGrandTotal());
+        invoiceDTO.setProductCode(invoice.getProductCode());
+        invoiceDTO.setSgst(invoice.getSgst());
+        invoiceDTO.setCgst(invoice.getCgst());
 
         return invoiceDTO;
     }

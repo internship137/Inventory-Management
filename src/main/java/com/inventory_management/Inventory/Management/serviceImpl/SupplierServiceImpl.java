@@ -9,6 +9,7 @@ import com.inventory_management.Inventory.Management.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,7 +58,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public List<Supplier> fetchSupplierList(int pageNo,int recordCount) {
-        Pageable pageable = PageRequest.of(pageNo, recordCount);
+        Pageable pageable = PageRequest.of(pageNo, recordCount, Sort.by("supplierId"));
         return supplierRepository.findAll(pageable).get().toList();
     }
 

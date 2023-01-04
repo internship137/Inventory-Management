@@ -71,6 +71,16 @@ public class ProductServiceImpl implements ProductService {
             return message;
         }
 
+
+//        Long pricingId = product.getProductPricing().getProductPricingId();
+////
+//        int pricingId = 1 ;
+////
+//        product.getProductPricing().setProductPricingId((long) pricingId);
+////
+//        productRepository.save(product);
+
+
         // supplier
 
         Supplier supplier = supplierRepository.findById(supplierId).get();
@@ -161,7 +171,6 @@ public class ProductServiceImpl implements ProductService {
 
     // Get a product by productId
 
-
     @Override
     public List<ProductDTO> fetchByProductId(Long productId) throws NotFoundException {
 
@@ -225,8 +234,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     private ProductDTO convertEntityToDto(Product product) {
-        ProductDTO productDTO =
-                new ProductDTO();
+        ProductDTO productDTO = new ProductDTO();
 
         productDTO.setProductId(product.getProductId());
         productDTO.setProductName(product.getProductName());

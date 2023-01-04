@@ -16,6 +16,7 @@ public interface ProductService {
 
     public List<ProductDTO> fetchProductsByCategoryId(Long categoryId, int pageNo, int recordCount) throws NotFoundException;
 
+
     public List<ProductDTO> fetchProductIdByCategoryId(Long categoryId, Long productId) throws NotFoundException;
 
     public List<ProductDTO> fetchByProductId(Long productId) throws NotFoundException;

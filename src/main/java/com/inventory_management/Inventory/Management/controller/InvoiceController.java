@@ -42,14 +42,6 @@ public class InvoiceController {
         return invoiceService.fetchByInvoiceId(invoiceId);
     }
 
-    // Update Invoice
-
-    @PutMapping("/invoice/{invoiceId}")
-    private String updateInvoice(@PathVariable Long invoiceId,
-                                 @RequestBody @Valid Invoice invoice) throws NotFoundException {
-        invoiceService.updateInvoice(invoiceId, invoice);
-        return "Updated Successfully";
-    }
 
     // Delete Invoice
 
