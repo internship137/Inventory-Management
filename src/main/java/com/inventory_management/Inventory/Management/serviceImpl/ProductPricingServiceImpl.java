@@ -43,11 +43,15 @@ public class ProductPricingServiceImpl implements ProductPricingService {
         Long mrp = Long.valueOf(productPricing.getMaximumRetailPrice());
         String prdctCode = product.getProductCode();
 
-        Long lndingPrice = (long) (byngPrice + ((byngPrice / 100) * gst));
 
+        Long lndingPrice = (long) (byngPrice + ((byngPrice / 100) * gst));
+        Long cgst = (long) (gst / 2);
+        Long sgst = (long) (gst / 2);
         Long sllngPrice = (lndingPrice + profitMrgn);
 
 
+        productPricing.setCgst(cgst);
+        productPricing.setSgst(sgst);
         productPricing.setProductCode(prdctCode);
         productPricing.setLandingPrice(lndingPrice);
         productPricing.setGstSlab(String.valueOf((long) gst));
@@ -55,10 +59,9 @@ public class ProductPricingServiceImpl implements ProductPricingService {
         productPricing.setMaximumRetailPrice(String.valueOf(mrp));
 
 
-
         if (sllngPrice > mrp) {
             Message message = new Message();
-            message.setMessage("Selling price should not be greater than MRP");
+            message.setMessage("Selling price should not be greater than MRP, check Profit Margin or buying Price");
             return message;
         }
 
@@ -92,7 +95,7 @@ public class ProductPricingServiceImpl implements ProductPricingService {
     // Get Pricing By Pricing Id
 
     @Override
-    public ProductPricing fetchProductPricingById(Long pricingId) throws NotFoundException{
+    public ProductPricing fetchProductPricingById(Long pricingId) throws NotFoundException {
         Optional<ProductPricing> productPricing = productPricingRepository.findById(pricingId);
 
         if (!productPricing.isPresent()) {
@@ -105,17 +108,39 @@ public class ProductPricingServiceImpl implements ProductPricingService {
     // Update pricing
 
     @Override
-    public Message updatePricing(Long pricingId, ProductPricing productPricing)throws NotFoundException {
+    public Message updatePricing(Long pricingId, ProductPricing productPricing) throws NotFoundException {
 
-        if (!productPricingRepository.existsById(pricingId)){
+        if (!productPricingRepository.existsById(pricingId)) {
             throw new NotFoundException("Pricing with this Id does not exist");
         }
 
         ProductPricing pricingDB = productPricingRepository.findById(pricingId).get();
 
-        if (Objects.nonNull(productPricing.getMaximumRetailPrice()) &&
-                !"".equalsIgnoreCase(productPricing.getMaximumRetailPrice())) {
-            pricingDB.setMaximumRetailPrice(productPricing.getMaximumRetailPrice());
+
+        float byngPrice = Float.parseFloat(productPricing.getProductBuyingPrice());
+        float gst = Float.parseFloat(productPricing.getGstSlab());
+        Long profitMrgn = Long.valueOf(productPricing.getProfitMargin());
+        Long mrp = Long.valueOf(productPricing.getMaximumRetailPrice());
+
+
+        Long lndingPrice = (long) (byngPrice + ((byngPrice / 100) * gst));
+        Long cgst = (long) (gst / 2);
+        Long sgst = (long) (gst / 2);
+        Long sllngPrice = (lndingPrice + profitMrgn);
+
+        pricingDB.setProductBuyingPrice(String.valueOf(byngPrice));
+        pricingDB.setMaximumRetailPrice(String.valueOf(mrp));
+        pricingDB.setLandingPrice(lndingPrice);
+        pricingDB.setProfitMargin(String.valueOf(profitMrgn));
+        pricingDB.setProductSellingPrice(sllngPrice);
+        pricingDB.setGstSlab(String.valueOf(gst));
+        pricingDB.setSgst(sgst);
+        pricingDB.setCgst(cgst);
+
+
+        if (Objects.nonNull(productPricing.getProfitMargin()) &&
+                !"".equalsIgnoreCase(productPricing.getProfitMargin())) {
+            pricingDB.setProfitMargin(productPricing.getProfitMargin());
         }
 
         if (Objects.nonNull(productPricing.getProductBuyingPrice()) &&
@@ -123,20 +148,21 @@ public class ProductPricingServiceImpl implements ProductPricingService {
             pricingDB.setProductBuyingPrice(productPricing.getProductBuyingPrice());
         }
 
+        if (Objects.nonNull(productPricing.getMaximumRetailPrice()) &&
+                !"".equalsIgnoreCase(productPricing.getMaximumRetailPrice())) {
+            pricingDB.setMaximumRetailPrice(productPricing.getMaximumRetailPrice());
+        }
+
         if (Objects.nonNull(productPricing.getGstSlab()) &&
                 !"".equalsIgnoreCase(productPricing.getGstSlab())) {
             pricingDB.setGstSlab(productPricing.getGstSlab());
         }
 
-        if (Objects.nonNull(productPricing.getProfitMargin()) &&
-                !"".equalsIgnoreCase(productPricing.getProfitMargin())) {
-            pricingDB.setProfitMargin(productPricing.getProfitMargin());
-        }
 
         productPricingRepository.save(pricingDB);
+
         Message message = new Message();
         message.setMessage("Product Pricing Updated Successfully");
         return message;
     }
-
 }

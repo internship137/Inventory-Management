@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.sql.Date;
 
 @Entity
@@ -28,8 +26,10 @@ public class Invoice {
     private Date dateOfIssue;
 
     @NotNull(message = "Selling Quantity should not be empty")
-    @Pattern(regexp = "^[0-9]{1,8}$", message = "Selling Quantity should not be less than zero")
+    @Pattern(regexp = "^[0-9]{1,8}$", message = "Please enter a valid Selling Quantity")
     @Column(name = "selling_quantity")
+    @Min(0)
+    @Max(9999999)
     private String sellingQuantity;
 
     @NotBlank(message = "Customer Email Address should not be empty")
@@ -56,6 +56,12 @@ public class Invoice {
 
     @Column(name = "gst")
     private String gstSlab;
+
+    @Column(name="sgst")
+    private Long sgst;
+
+    @Column(name="cgst")
+    private Long cgst;
 
     @Column(name = "grand_total")
     private Long grandTotal;

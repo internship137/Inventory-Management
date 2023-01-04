@@ -40,7 +40,7 @@ public class ProductPricing {
 
     @NotNull(message = "Profit Margin should not be empty")
     @Pattern(regexp = "^[0-9]{1,7}$", message = "Please provide a valid Profit Margin")
-    @Min(1)@Max(1000000)
+    @Min(0)@Max(1000000)
     @Column(name = "profit_margin")
     private String profitMargin;
 
@@ -49,7 +49,6 @@ public class ProductPricing {
     @Min(1)@Max(1000000)
     @Column(name = "maximum_retail_price")
     private String maximumRetailPrice;
-
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "pricing_created_date_time")
@@ -60,5 +59,11 @@ public class ProductPricing {
 
     @Column(name = "product_code")
     private String productCode;
+
+    @Column(name="sgst")
+    private Long sgst;
+
+    @Column(name="cgst")
+    private Long cgst;
 
 }

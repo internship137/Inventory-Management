@@ -8,6 +8,7 @@ public class InvoiceDTO {
 
     private Long invoiceId;
     private String productName;
+    private String productCode;
     private String categoryName;
     private Long productPrice;
     private Long sellingQuantity;
@@ -15,7 +16,7 @@ public class InvoiceDTO {
     private String customerName;
     private String gstSlab;
     private Long grandTotal;
-
-
+    private Long sgst;
+    private Long cgst;
 
 }

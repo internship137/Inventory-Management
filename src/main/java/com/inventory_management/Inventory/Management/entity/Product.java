@@ -39,8 +39,8 @@ public class Product {
     private String productManufacturer;
 
     @NotNull(message = "Stock Quantity should not be empty")
-    @Pattern(regexp = "^[0-9]{1,8}$", message = "Stock Quantity should not be less than zero")
-    @Min(1)
+    @Pattern(regexp = "^[0-9]{1,8}$", message = "Please provide a valid stock quantity")
+    @Min(0)
     @Max(9999999)
     @Column(name = "stock_quantity")
     private String stockQuantity;
@@ -62,6 +62,5 @@ public class Product {
 
     @Column(name = "supplierCompany")
     private String supplierCompany;
-
 
 }
